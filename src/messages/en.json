@@ -1,0 +1,104 @@
+{
+    "metadata": {
+      "title": "Digitaz | Online Store",
+      "description": "Digitaz online store",
+      "keywords": [
+        "Online Store",
+        "Digitaz",
+        "Mobile",
+        "Computer",
+        "Digital Products"
+      ]
+    },
+  
+    "header": {
+      "shipping": "Free shipping worldwide. Orders over $200",
+  
+      "findStore": "Find a store",
+      "customerCare": "Customer care",
+      "store": "Store",
+  
+      "searchPlaceholder": "Search products...",
+      "allCategories": "All categories",
+      "categories": "Product categories",
+  
+      "products": "Store",
+      "pages": "Pages",
+      "blog": "Blog",
+      "contact": "Contact",
+      "specialOffer": "Special offer",
+  
+      "account": "My account",
+      "profile": "My profile",
+      "orders": "Order history",
+      "wishlist": "My wishlist",
+      "tracking": "Order tracking",
+      "cart": "Shopping cart",
+  
+      "company": "Company",
+      "about": "About us",
+      "careers": "Careers",
+      "marketing": "Marketing",
+      "contactUs": "Contact us",
+  
+      "usefulLinks": "Useful links",
+      "newProducts": "New products",
+      "bestSellers": "Best sellers",
+      "specialPackages": "Special packages",
+      "giftCard": "Online gift card",
+      "discount": "Discount",
+  
+      "shop": "Store",
+      "apple": "Apple",
+      "photoVideo": "Photo & Video",
+      "mobile": "Mobile",
+      "computer": "Computer",
+      "headphones": "Headphones",
+  
+      "quickOrder": "Quick order",
+      "contactInfo": "Contact information",
+      "address": "Iran - Tehran - Enqelab St - Valiasr St",
+      "email": "customer_support@example.com",
+      "nearestStore": "Find your nearest store and visit one of our stores",
+  
+      "phone": "013456789",
+  
+      "menu": "Menu",
+      "search": "Search",
+      "login": "Login",
+      "register": "Register",
+      "language": "Language",
+      "persian": "Persian",
+      "english": "English"
+    },
+  
+    "footer": {
+      "company": "Company",
+      "account": "My account",
+      "store": "Store",
+      "usefulLinks": "Useful links",
+  
+      "about": "About us",
+      "careers": "Careers",
+      "blog": "Blog",
+      "marketing": "Marketing",
+  
+      "profile": "My profile",
+      "orders": "Order history",
+      "wishlist": "Wishlist",
+      "cart": "Shopping cart",
+  
+      "newProducts": "New products",
+      "bestSellers": "Best sellers",
+      "giftCard": "Gift card",
+      "discount": "Discount",
+  
+      "paymentMethods": "Payment methods",
+      "followUs": "Follow us",
+      "scrollToTop": "Scroll to top",
+  
+      "copyright": "All rights reserved by Digitaz.",
+      "privacy": "Privacy policy",
+      "terms": "Terms & conditions"
+    }
+  }

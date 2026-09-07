@@ -1,0 +1,104 @@
+{
+    "metadata": {
+      "title": "دیجیتاز | فروشگاه اینترنتی",
+      "description": "فروشگاه اینترنتی دیجیتاز",
+      "keywords": [
+        "فروشگاه اینترنتی",
+        "دیجیتاز",
+        "موبایل",
+        "کامپیوتر",
+        "لوازم دیجیتال"
+      ]
+    },
+  
+    "header": {
+      "shipping": "ارسال رایگان به سراسر جهان. سفارش بالای ۲۰۰ تومان",
+  
+      "findStore": "یافتن فروشگاه",
+      "customerCare": "مراقبت از مشتری",
+      "store": "فروشگاه",
+  
+      "searchPlaceholder": "جستجوی محصولات...",
+      "allCategories": "همه دسته‌ها",
+      "categories": "دسته بندی محصولات",
+  
+      "products": "فروشگاه",
+      "pages": "برگه‌ها",
+      "blog": "بلاگ",
+      "contact": "تماس",
+      "specialOffer": "پیشنهاد ویژه",
+  
+      "account": "حساب کاربری",
+      "profile": "پروفایل من",
+      "orders": "تاریخچه سفارش من",
+      "wishlist": "علاقه مندی های من",
+      "tracking": "رهگیری سفارش",
+      "cart": "سبد خرید",
+  
+      "company": "شرکت",
+      "about": "درباره ما",
+      "careers": "فرصت های شغلی",
+      "marketing": "بازاریابی",
+      "contactUs": "تماس با ما",
+  
+      "usefulLinks": "لینک‌های مفید",
+      "newProducts": "محصولات جدید",
+      "bestSellers": "بهترین فروشندگان",
+      "specialPackages": "بسته های ویژه",
+      "giftCard": "کارت هدیه آنلاین",
+      "discount": "تخفیف",
+  
+      "shop": "فروشگاه",
+      "apple": "اپل",
+      "photoVideo": "عکس و فیلم",
+      "mobile": "تلفن همراه",
+      "computer": "کامپیوتر",
+      "headphones": "هدفون",
+  
+      "quickOrder": "سفارش سریع",
+      "contactInfo": "اطلاعات تماس",
+      "address": "ایران - تهران - خیابان انقلاب - خیابان ولیعصر",
+      "email": "customer_support@example.com",
+      "nearestStore": "نزدیکترین مکان را پیدا کنید و به فروشگاه های ما مراجعه کنید",
+  
+      "phone": "۰۱۳۴۵۶۷۸۹",
+  
+      "menu": "منو",
+      "search": "جستجو",
+      "login": "ورود",
+      "register": "ثبت نام",
+      "language": "زبان",
+      "persian": "فارسی",
+      "english": "انگلیسی"
+    },
+  
+    "footer": {
+      "company": "شرکت",
+      "account": "حساب کاربری",
+      "store": "فروشگاه",
+      "usefulLinks": "لینک‌های مفید",
+  
+      "about": "درباره ما",
+      "careers": "فرصت های شغلی",
+      "blog": "وبلاگ",
+      "marketing": "بازاریابی",
+  
+      "profile": "پروفایل من",
+      "orders": "تاریخچه سفارش",
+      "wishlist": "علاقه مندی ها",
+      "cart": "سبد خرید",
+  
+      "newProducts": "محصولات جدید",
+      "bestSellers": "بهترین فروشندگان",
+      "giftCard": "کارت هدیه",
+      "discount": "تخفیف",
+  
+      "paymentMethods": "روش‌های پرداخت",
+      "followUs": "ما را دنبال کنید",
+      "scrollToTop": "بازگشت به بالا",
+  
+      "copyright": "تمامی حقوق برای دیجیتاز محفوظ است.",
+      "privacy": "حریم خصوصی",
+      "terms": "قوانین و مقررات"
+    }
+  }
