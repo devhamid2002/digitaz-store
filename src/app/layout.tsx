@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
+import Header from "@/components/shared/header/Header";
+import Footer from "@/components/shared/footer/Footer";
 
 const vazirmatn = localFont({
   src: [
@@ -28,8 +30,9 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="fa" dir="rtl" className="h-full antialiased">
       <body className={`${vazirmatn.variable} ${vazirmatn.className} min-h-full flex flex-col`}>
-
+        <Header />
         {children}
+        <Footer />
       </body>
     </html>
   );
