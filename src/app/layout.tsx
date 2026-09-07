@@ -3,6 +3,7 @@ import localFont from "next/font/local";
 import "./globals.css";
 import Header from "@/components/shared/header/Header";
 import Footer from "@/components/shared/footer/Footer";
+import Providers from "@/components/providers/Providers";
 
 const vazirmatn = localFont({
   src: [
@@ -28,11 +29,13 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="fa" dir="rtl" className="h-full antialiased">
-      <body className={`${vazirmatn.variable} ${vazirmatn.className} min-h-full flex flex-col`}>
-        <Header />
-        {children}
-        <Footer />
+    <html lang="fa" dir="rtl" className="h-full antialiased" suppressHydrationWarning>
+      <body className={`${vazirmatn.variable} ${vazirmatn.className} min-h-full flex flex-col overflow-x-hidden`}>
+        <Providers>
+          <Header />
+          {children}
+          <Footer />
+        </Providers>
       </body>
     </html>
   );
