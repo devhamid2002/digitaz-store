@@ -29,12 +29,6 @@ interface Props {
     blog: string;
     marketing: string;
     contactUs: string;
-
-    quickOrder: string;
-    contactInfo: string;
-    address: string;
-    email: string;
-    nearestStore: string;
   };
 }
 
@@ -54,7 +48,7 @@ const Column = ({ title, items }: ColumnProps) => {
         {items.map((item) => (
           <li
             key={item}
-            className="cursor-pointer text-[13px] text-neutral-500 transition-colors hover:text-[#2161e8] dark:text-neutral-400"
+            className="cursor-pointer text-[13px] text-neutral-500 transition-colors hover:text-[#2161e8] dark:text-neutral-400 dark:hover:text-blue-400"
           >
             {item}
           </li>
@@ -116,47 +110,7 @@ export default function MegaMenu({ messages }: Props) {
           ]}
         />
 
-        {/* Quick Order */}
-        <div>
-          <h3 className="mb-5 text-[15px] font-bold text-neutral-900 dark:text-neutral-100">
-            {messages.quickOrder}
-          </h3>
-
-          <div className="flex items-center gap-4">
-            <PhoneCall
-              size={55}
-              strokeWidth={1.5}
-              className="text-[#2161e8]"
-            />
-
-            <div>
-              <div className="text-lg font-bold text-neutral-900 dark:text-neutral-100">
-                ۰۸۳۶-۱۳۴۴
-              </div>
-
-              <div className="text-lg font-bold text-neutral-900 dark:text-neutral-100">
-                ۸۴۵-۱۳۶۶
-              </div>
-            </div>
-          </div>
-
-          {/* Contact Information */}
-          <h4 className="mb-2 mt-5 text-sm font-bold text-neutral-900 dark:text-neutral-100">
-            {messages.contactInfo}
-          </h4>
-
-          <p className="text-xs leading-7 text-neutral-500 dark:text-neutral-400">
-            {messages.address}
-          </p>
-
-          <p className="text-xs text-neutral-500 dark:text-neutral-400">
-            {messages.email}
-          </p>
-
-          <p className="mt-4 text-xs leading-6 text-neutral-500 dark:text-neutral-400">
-            {messages.nearestStore}
-          </p>
-        </div>
+      
       </div>
     </div>
   );
