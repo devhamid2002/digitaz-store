@@ -1,6 +1,6 @@
 "use client";
 
-import { ArrowUp, CreditCard } from "lucide-react";
+import { ArrowUp, CreditCard, PhoneCall } from "lucide-react";
 
 import {
   FaInstagram,
@@ -13,6 +13,7 @@ import faMessages from "@/messages/fa.json";
 import enMessages from "@/messages/en.json";
 
 export type FooterMessages = typeof faMessages.footer;
+export type FooterHeaderMessages = typeof faMessages.header;
 
 interface FooterProps {
   locale?: "fa" | "en";
@@ -20,9 +21,12 @@ interface FooterProps {
 
 export default function Footer({ locale = "fa" }: FooterProps) {
   // Select messages based on the current locale.
-  const messages: FooterMessages = (
+  const footerMessages: FooterMessages = (
     locale === "fa" ? faMessages : enMessages
   ).footer;
+  const messages: FooterHeaderMessages = (
+    locale === "fa" ? faMessages : enMessages
+  ).header;
 
   return (
     <footer
@@ -31,60 +35,102 @@ export default function Footer({ locale = "fa" }: FooterProps) {
     >
       <div className="mx-auto max-w-7xl px-5">
         {/* Footer links */}
-        <div className="grid grid-cols-4 gap-16 py-12">
+        <div className="grid grid-cols-2 gap-10 py-12 md:grid-cols-5 md:gap-8 lg:gap-16">
+           {/* Quick Order */}
+        <div>
+          <h3 className="mb-5 text-[15px] font-bold text-neutral-900 dark:text-neutral-100">
+            {messages.quickOrder}
+          </h3>
+
+          <div className="flex items-center gap-4">
+            <PhoneCall
+              size={55}
+              strokeWidth={1.5}
+              className="text-[#2161e8]"
+            />
+
+            <div>
+              <div className="text-lg font-bold text-neutral-900 dark:text-neutral-100">
+                ۰۸۳۶-۱۳۴۴
+              </div>
+
+              <div className="text-lg font-bold text-neutral-900 dark:text-neutral-100">
+                ۸۴۵-۱۳۶۶
+              </div>
+            </div>
+          </div>
+
+          {/* Contact Information */}
+          <h4 className="mb-2 mt-5 text-sm font-bold text-neutral-900 dark:text-neutral-100">
+            {messages.contactInfo}
+          </h4>
+
+          <p className="text-xs leading-7 text-neutral-500 dark:text-neutral-400">
+            {messages.address}
+          </p>
+
+          <p className="text-xs text-neutral-500 dark:text-neutral-400">
+            {messages.email}
+          </p>
+
+          <p className="mt-4 text-xs leading-6 text-neutral-500 dark:text-neutral-400">
+            {messages.nearestStore}
+          </p>
+        </div>
+
           {/* Useful Links */}
           <div>
             <h3 className="mb-5 font-bold">
-              {messages.usefulLinks}
+              {footerMessages.usefulLinks}
             </h3>
 
             <ul className="space-y-3 text-sm text-neutral-500 dark:text-neutral-400">
-              <li>{messages.newProducts}</li>
-              <li>{messages.bestSellers}</li>
-              <li>{messages.giftCard}</li>
-              <li>{messages.discount}</li>
+              <li className="cursor-pointer transition-colors hover:text-[#2161e8] dark:hover:text-blue-400">{footerMessages.newProducts}</li>
+              <li className="cursor-pointer transition-colors hover:text-[#2161e8] dark:hover:text-blue-400">{footerMessages.bestSellers}</li>
+              <li className="cursor-pointer transition-colors hover:text-[#2161e8] dark:hover:text-blue-400">{footerMessages.giftCard}</li>
+              <li className="cursor-pointer transition-colors hover:text-[#2161e8] dark:hover:text-blue-400">{footerMessages.discount}</li>
             </ul>
           </div>
 
           {/* Store */}
           <div>
             <h3 className="mb-5 font-bold">
-              {messages.store}
+              {footerMessages.store}
             </h3>
 
             <ul className="space-y-3 text-sm text-neutral-500 dark:text-neutral-400">
-              <li>Apple</li>
-              <li>Photo & Video</li>
-              <li>Mobile</li>
-              <li>Computer</li>
+              <li className="cursor-pointer transition-colors hover:text-[#2161e8] dark:hover:text-blue-400">{messages.apple}</li>
+              <li className="cursor-pointer transition-colors hover:text-[#2161e8] dark:hover:text-blue-400">{messages.photoVideo}</li>
+              <li className="cursor-pointer transition-colors hover:text-[#2161e8] dark:hover:text-blue-400">{messages.mobile}</li>
+              <li className="cursor-pointer transition-colors hover:text-[#2161e8] dark:hover:text-blue-400">{messages.computer}</li>
             </ul>
           </div>
 
           {/* Account */}
           <div>
             <h3 className="mb-5 font-bold">
-              {messages.account}
+              {footerMessages.account}
             </h3>
 
             <ul className="space-y-3 text-sm text-neutral-500 dark:text-neutral-400">
-              <li>{messages.profile}</li>
-              <li>{messages.orders}</li>
-              <li>{messages.wishlist}</li>
-              <li>{messages.cart}</li>
+              <li className="cursor-pointer transition-colors hover:text-[#2161e8] dark:hover:text-blue-400">{footerMessages.profile}</li>
+              <li className="cursor-pointer transition-colors hover:text-[#2161e8] dark:hover:text-blue-400">{footerMessages.orders}</li>
+              <li className="cursor-pointer transition-colors hover:text-[#2161e8] dark:hover:text-blue-400">{footerMessages.wishlist}</li>
+              <li className="cursor-pointer transition-colors hover:text-[#2161e8] dark:hover:text-blue-400">{footerMessages.cart}</li>
             </ul>
           </div>
 
           {/* Company */}
           <div>
             <h3 className="mb-5 font-bold">
-              {messages.company}
+              {footerMessages.company}
             </h3>
 
             <ul className="space-y-3 text-sm text-neutral-500 dark:text-neutral-400">
-              <li>{messages.about}</li>
-              <li>{messages.careers}</li>
-              <li>{messages.blog}</li>
-              <li>{messages.marketing}</li>
+              <li className="cursor-pointer transition-colors hover:text-[#2161e8] dark:hover:text-blue-400">{footerMessages.about}</li>
+              <li className="cursor-pointer transition-colors hover:text-[#2161e8] dark:hover:text-blue-400">{footerMessages.careers}</li>
+              <li className="cursor-pointer transition-colors hover:text-[#2161e8] dark:hover:text-blue-400">{footerMessages.blog}</li>
+              <li className="cursor-pointer transition-colors hover:text-[#2161e8] dark:hover:text-blue-400">{footerMessages.marketing}</li>
             </ul>
           </div>
         </div>
@@ -115,29 +161,21 @@ export default function Footer({ locale = "fa" }: FooterProps) {
           </div>
 
           {/* Digitaz logo */}
-          <div className="flex items-center gap-2">
-            <div className="relative h-8 w-8">
-              <div className="absolute right-0 top-1 h-2.5 w-7 -rotate-45 rounded-full bg-[#4545d8]" />
-              <div className="absolute right-0 top-3 h-2.5 w-7 -rotate-45 rounded-full bg-[#ef426f]" />
-              <div className="absolute right-0 top-5 h-2.5 w-7 -rotate-45 rounded-full bg-[#315fdc]" />
-            </div>
-
-            <span className="text-2xl font-black italic">
-              digitaz
-            </span>
-          </div>
+          <span className="text-2xl font-black italic">
+            digitaz
+          </span>
 
           {/* Social media + copyright */}
           <div className="flex items-center gap-5">
             <div className="flex items-center gap-4 text-neutral-700 dark:text-neutral-300">
-              <FaPinterest size={16} />
-              <FaInstagram size={16} />
-              <FaTwitter size={16} />
-              <FaFacebook size={16} />
+              <FaPinterest size={16} className="cursor-pointer transition-colors hover:text-[#2161e8] dark:hover:text-blue-400" />
+              <FaInstagram size={16} className="cursor-pointer transition-colors hover:text-[#2161e8] dark:hover:text-blue-400" />
+              <FaTwitter size={16} className="cursor-pointer transition-colors hover:text-[#2161e8] dark:hover:text-blue-400" />
+              <FaFacebook size={16} className="cursor-pointer transition-colors hover:text-[#2161e8] dark:hover:text-blue-400" />
             </div>
 
             <span className="text-xs text-neutral-500 dark:text-neutral-400">
-              {messages.copyright}
+              {footerMessages.copyright}
             </span>
           </div>
         </div>
