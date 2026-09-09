@@ -48,9 +48,6 @@ export default function Header({ locale = "fa" }: HeaderProps) {
         open={megaMenuOpen}
         onToggle={() => setMegaMenuOpen((prev) => !prev)}
       />
-
-      {/* Render the mega menu only when it is open */}
-      {megaMenuOpen && <MegaMenu messages={messages} />}
     </header>
   );
 }
