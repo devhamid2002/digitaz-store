@@ -4,6 +4,7 @@ import {
   ChevronUp,
   Phone,
 } from "lucide-react";
+import MegaMenu from "./MegaMenu";
 
 interface Props {
   messages: {
@@ -28,22 +29,7 @@ export default function Navigation({
     <nav className="border-b border-neutral-100 dark:border-neutral-800">
       <div className="mx-auto flex min-h-[50px] max-w-[1280px] items-stretch px-5">
         {/* Categories button */}
-        <button
-          type="button"
-          onClick={onToggle}
-          className="flex min-w-[255px] items-center justify-between bg-[#2161e8] px-5 text-sm font-bold text-white transition-colors hover:bg-[#1854d1]"
-        >
-          <span className="flex items-center gap-3">
-            <Menu size={19} />
-            {messages.categories}
-          </span>
-
-          {open ? (
-            <ChevronUp size={17} />
-          ) : (
-            <ChevronDown size={17} />
-          )}
-        </button>
+        <MegaMenu />
 
         {/* Navigation links */}
         <div className="flex flex-1 items-center justify-center gap-6">
