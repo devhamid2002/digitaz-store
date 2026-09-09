@@ -24,7 +24,7 @@ export default function TopBar({ messages }: Props) {
 
           <span
             aria-hidden="true"
-            className="text-neutral-300 dark:text-neutral-400"
+            className="text-neutral-300 dark:text-neutral-700"
           >
             |
           </span>
@@ -39,7 +39,7 @@ export default function TopBar({ messages }: Props) {
 
           <span
             aria-hidden="true"
-            className="text-neutral-300 dark:text-neutral-400"
+            className="text-neutral-300 dark:text-neutral-700"
           >
             |
           </span>
