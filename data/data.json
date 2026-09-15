@@ -1,0 +1,94 @@
+{
+  "categories": [
+    {
+      "id": "1",
+      "slug": "mobile-phones",
+      "name": "Mobile Phones",
+      "icon": "Smartphone",
+      "description": "Latest smartphones from top brands",
+      "image": "/images/categories/mobile-phones.webp",
+      "productCount": 156
+    },
+    {
+      "id": "2",
+      "slug": "laptops",
+      "name": "Laptops",
+      "icon": "Laptop",
+      "description": "Laptops for work, gaming, and everyday use",
+      "image": "/images/categories/laptops.webp",
+      "productCount": 89
+    },
+    {
+      "id": "3",
+      "slug": "tablets",
+      "name": "Tablets",
+      "icon": "Tablet",
+      "description": "Tablets for entertainment and productivity",
+      "image": "/images/categories/tablets.webp",
+      "productCount": 64
+    },
+    {
+      "id": "4",
+      "slug": "headphones",
+      "name": "Headphones",
+      "icon": "Headphones",
+      "description": "Headphones and earbuds for every listener",
+      "image": "/images/categories/headphones.webp",
+      "productCount": 112
+    },
+    {
+      "id": "5",
+      "slug": "smart-watches",
+      "name": "Smart Watches",
+      "icon": "Watch",
+      "description": "Smart watches and fitness trackers",
+      "image": "/images/categories/smart-watches.webp",
+      "productCount": 73
+    },
+    {
+      "id": "6",
+      "slug": "cameras",
+      "name": "Cameras",
+      "icon": "Camera",
+      "description": "Digital cameras, lenses, and accessories",
+      "image": "/images/categories/cameras.webp",
+      "productCount": 45
+    },
+    {
+      "id": "7",
+      "slug": "gaming-consoles",
+      "name": "Gaming Consoles",
+      "icon": "Gamepad2",
+      "description": "Gaming consoles, controllers, and accessories",
+      "image": "/images/categories/gaming-consoles.webp",
+      "productCount": 38
+    },
+    {
+      "id": "8",
+      "slug": "computer-accessories",
+      "name": "Computer Accessories",
+      "icon": "Mouse",
+      "description": "Keyboards, mice, monitors, and more",
+      "image": "/images/categories/computer-accessories.webp",
+      "productCount": 198
+    },
+    {
+      "id": "9",
+      "slug": "audio-speakers",
+      "name": "Audio Speakers",
+      "icon": "Speaker",
+      "description": "Portable and home audio speakers",
+      "image": "/images/categories/audio-speakers.webp",
+      "productCount": 67
+    },
+    {
+      "id": "10",
+      "slug": "wearable-tech",
+      "name": "Wearable Tech",
+      "icon": "Glasses",
+      "description": "VR headsets, smart glasses, and wearable devices",
+      "image": "/images/categories/wearable-tech.webp",
+      "productCount": 29
+    }
+  ]
+}
