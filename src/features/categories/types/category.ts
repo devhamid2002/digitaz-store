@@ -6,6 +6,7 @@ export interface Category {
   description: string;
   image: string;
   productCount: number;
+  children?: Category[];
 }
 
 export interface CategoriesResponse {

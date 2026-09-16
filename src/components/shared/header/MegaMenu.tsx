@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 import Link from "next/link";
 import { ChevronLeft } from "lucide-react";
 import { RiMenu5Fill } from "react-icons/ri";
@@ -13,216 +14,18 @@ import {
   NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu";
 
-type Category = {
-  title: string;
-  href?: string;
-  children?: Category[];
-};
-
-const categories: Category[] = [
-  {
-    title: "لوازم جانبی موبایل",
-    children: [
-      {
-        title: "گجت های موبایل",
-      },
-      {
-        title: "کاور و محافظ موبایل",
-      },
-      {
-        title: "ساعت هوشمند",
-      },
-    ],
-  },
-
-  {
-    title: "لوازم جانبی رایانه",
-    children: [
-      {
-        title: "لوازم جانبی لپ تاپ",
-        children: [
-          { title: "کیف لپ تاپ", href: "/products/laptop-bags" },
-          { title: "کول پد", href: "/products/cooling-pads" },
-          { title: "ماوس", href: "/products/mouse" },
-          { title: "کیبورد", href: "/products/keyboards" },
-        ],
-      },
-      {
-        title: "تجهیزات کامپیوتر",
-        children: [
-          { title: "وب کم", href: "/products/webcams" },
-          { title: "میکروفون", href: "/products/microphones" },
-          { title: "اسپیکر", href: "/products/speakers" },
-          { title: "هاب USB", href: "/products/usb-hubs" },
-        ],
-      },
-    ],
-  },
-
-  {
-    title: "لوازم جانبی خودرو",
-    children: [
-      {
-        title: "لوازم داخل خودرو",
-        children: [
-          { title: "هولدر موبایل", href: "/products/car-holders" },
-          { title: "شارژر فندکی", href: "/products/car-chargers" },
-          { title: "دوربین خودرو", href: "/products/dash-cams" },
-        ],
-      },
-      {
-        title: "تجهیزات خودرو",
-        children: [
-          { title: "کمپرسور", href: "/products/compressors" },
-          { title: "جامپ استارتر", href: "/products/jump-starters" },
-        ],
-      },
-    ],
-  },
-
-  {
-    title: "صوتی و تصویری",
-    children: [
-      {
-        title: "لوازم صوتی",
-        children: [
-          { title: "اسپیکر", href: "/products/speakers" },
-          { title: "هدفون", href: "/products/headphones" },
-          { title: "میکروفون", href: "/products/microphones" },
-        ],
-      },
-      {
-        title: "لوازم تصویری",
-        children: [
-          { title: "پروژکتور", href: "/products/projectors" },
-          {
-            title: "تجهیزات تصویری",
-            href: "/products/video-accessories",
-          },
-        ],
-      },
-    ],
-  },
-
-  {
-    title: "خانه و آشپزخانه",
-    children: [
-      {
-        title: "لوازم آشپزخانه",
-        children: [
-          {
-            title: "لوازم برقی",
-            href: "/products/kitchen-appliances",
-          },
-          {
-            title: "ابزار آشپزی",
-            href: "/products/cooking-tools",
-          },
-          {
-            title: "ظروف",
-            href: "/products/dishes",
-          },
-        ],
-      },
-      {
-        title: "لوازم خانه",
-        children: [
-          {
-            title: "دکوراسیون",
-            href: "/products/decorations",
-          },
-          {
-            title: "نظافت",
-            href: "/products/cleaning",
-          },
-        ],
-      },
-    ],
-  },
-
-  {
-    title: "زیبایی و سلامت",
-    children: [
-      {
-        title: "مراقبت شخصی",
-        children: [
-          {
-            title: "لوازم اصلاح",
-            href: "/products/shaving",
-          },
-          {
-            title: "مراقبت پوست",
-            href: "/products/skincare",
-          },
-          {
-            title: "مراقبت مو",
-            href: "/products/hair-care",
-          },
-        ],
-      },
-    ],
-  },
-
-  {
-    title: "مد و پوشاک",
-    children: [
-      {
-        title: "پوشاک",
-        children: [
-          {
-            title: "لباس مردانه",
-            href: "/products/men-clothing",
-          },
-          {
-            title: "لباس زنانه",
-            href: "/products/women-clothing",
-          },
-          {
-            title: "اکسسوری",
-            href: "/products/accessories",
-          },
-        ],
-      },
-    ],
-  },
-
-  {
-    title: "ورزش و سفر",
-    children: [
-      {
-        title: "ورزش",
-        children: [
-          {
-            title: "لوازم ورزشی",
-            href: "/products/sports",
-          },
-          {
-            title: "فیتنس",
-            href: "/products/fitness",
-          },
-        ],
-      },
-      {
-        title: "سفر",
-        children: [
-          {
-            title: "کوله پشتی",
-            href: "/products/backpacks",
-          },
-          {
-            title: "لوازم سفر",
-            href: "/products/travel",
-          },
-        ],
-      },
-    ],
-  },
-];
+import { getCategories } from "@/features/categories/services/categoryService";
+import type { Category } from "@/features/categories/types/category";
 
 export default function MegaMenu() {
-  const [activeCategory, setActiveCategory] =
-    useState<Category | null>(categories[0]);
+  const { data: categories = [] } = useQuery({
+    queryKey: ["categories"],
+    queryFn: getCategories,
+  });
 
+  const [activeCategory, setActiveCategory] = useState<Category | null>(
+    categories[0] ?? null
+  );
   const [activeSubCategory, setActiveSubCategory] =
     useState<Category | null>(null);
 
@@ -266,7 +69,6 @@ export default function MegaMenu() {
               "
             >
               <div className="flex min-h-[400px]">
-
                 <div
                   className="
                     w-[30%]
@@ -290,11 +92,11 @@ export default function MegaMenu() {
                   <div className="space-y-1">
                     {categories.map((category) => {
                       const isActive =
-                        activeCategory?.title === category.title;
+                        activeCategory?.id === category.id;
 
                       return (
                         <button
-                          key={category.title}
+                          key={category.id}
                           type="button"
                           onMouseEnter={() =>
                             handleCategoryEnter(category)
@@ -319,9 +121,8 @@ export default function MegaMenu() {
                             }
                           `}
                         >
-                          <span>{category.title}</span>
+                          <span>{category.name}</span>
 
-                          {/* Arrow ONLY if category has children */}
                           {category.children?.length ? (
                             <ChevronLeft
                               size={16}
@@ -348,11 +149,11 @@ export default function MegaMenu() {
                     <>
                       <div className="mb-4 flex items-center justify-between gap-3">
                         <h3 className="text-sm font-bold">
-                          {activeCategory.title}
+                          {activeCategory.name}
                         </h3>
 
                         <Link
-                          href="/products"
+                          href={`/products`}
                           className="
                             whitespace-nowrap
                             text-xs
@@ -369,12 +170,12 @@ export default function MegaMenu() {
                         {activeCategory.children.map(
                           (subcategory) => {
                             const isActive =
-                              activeSubCategory?.title ===
-                              subcategory.title;
+                              activeSubCategory?.id ===
+                              subcategory.id;
 
                             return (
                               <button
-                                key={subcategory.title}
+                                key={subcategory.id}
                                 type="button"
                                 onMouseEnter={() =>
                                   handleSubCategoryEnter(
@@ -401,11 +202,9 @@ export default function MegaMenu() {
                                 `}
                               >
                                 <span>
-                                  {subcategory.title}
+                                  {subcategory.name}
                                 </span>
 
-                                {/* Arrow ONLY if this
-                                    subcategory has children */}
                                 {subcategory.children?.length ? (
                                   <ChevronLeft
                                     size={15}
@@ -431,15 +230,15 @@ export default function MegaMenu() {
                   <div className="flex-1 border-l p-5">
                     <div className="mb-4 flex items-center justify-between">
                       <h3 className="text-sm font-bold">
-                        {activeSubCategory.title}
+                        {activeSubCategory.name}
                       </h3>
                     </div>
 
                     <div className="grid grid-cols-2 gap-2">
                       {activeSubCategory.children.map((item) => (
                         <Link
-                          key={item.title}
-                          href={item.href ?? "#"}
+                          key={item.id}
+                          href={`/products/${item.slug}`}
                           className="
                             rounded-lg
                             px-3
@@ -451,7 +250,7 @@ export default function MegaMenu() {
                             hover:text-foreground
                           "
                         >
-                          {item.title}
+                          {item.name}
                         </Link>
                       ))}
                     </div>

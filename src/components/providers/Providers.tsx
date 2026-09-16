@@ -3,7 +3,6 @@
 import { useState } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { SessionProvider } from "next-auth/react";
-import { ThemeProvider } from "next-themes";
 import { NextIntlClientProvider } from "next-intl";
 
 type Props = {
@@ -12,6 +11,10 @@ type Props = {
   messages?: Record<string, unknown>;
 };
 
+/**
+ * Locale-aware providers: Session, Query, and Intl.
+ * ThemeProvider is separate (in root layout) to avoid re-rendering on locale change.
+ */
 export default function Providers({ children, locale, messages }: Props) {
   const [queryClient] = useState(
     () =>
@@ -29,14 +32,7 @@ export default function Providers({ children, locale, messages }: Props) {
     <SessionProvider>
       <QueryClientProvider client={queryClient}>
         <NextIntlClientProvider locale={locale} messages={messages}>
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="system"
-            enableSystem
-            disableTransitionOnChange
-          >
-            {children}
-          </ThemeProvider>
+          {children}
         </NextIntlClientProvider>
       </QueryClientProvider>
     </SessionProvider>

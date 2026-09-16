@@ -2,93 +2,695 @@
   "categories": [
     {
       "id": "1",
-      "slug": "mobile-phones",
-      "name": "Mobile Phones",
+      "slug": "mobile-accessories",
+      "name": "لوازم جانبی موبایل",
       "icon": "Smartphone",
-      "description": "Latest smartphones from top brands",
-      "image": "/images/categories/mobile-phones.webp",
-      "productCount": 156
+      "description": "انواع لوازم جانبی گوشی موبایل",
+      "image": "/images/categories/mobile-accessories.webp",
+      "productCount": 245,
+      "children": [
+        {
+          "id": "1-1",
+          "slug": "mobile-gadgets",
+          "name": "گجت‌های موبایل",
+          "icon": "Smartphone",
+          "description": "گجت‌های هوشمند موبایل",
+          "image": "/images/categories/mobile-gadgets.webp",
+          "productCount": 45,
+          "children": []
+        },
+        {
+          "id": "1-2",
+          "slug": "phone-cases",
+          "name": "کاور و محافظ موبایل",
+          "icon": "Shield",
+          "description": "کاور، گلس و محافظ صفحه نمایش",
+          "image": "/images/categories/phone-cases.webp",
+          "productCount": 120,
+          "children": []
+        },
+        {
+          "id": "1-3",
+          "slug": "smart-watches",
+          "name": "ساعت هوشمند",
+          "icon": "Watch",
+          "description": "ساعت‌های هوشمند و دستبند سلامتی",
+          "image": "/images/categories/smart-watches.webp",
+          "productCount": 80,
+          "children": []
+        }
+      ]
     },
     {
       "id": "2",
-      "slug": "laptops",
-      "name": "Laptops",
-      "icon": "Laptop",
-      "description": "Laptops for work, gaming, and everyday use",
-      "image": "/images/categories/laptops.webp",
-      "productCount": 89
+      "slug": "computer-accessories",
+      "name": "لوازم جانبی رایانه",
+      "icon": "Monitor",
+      "description": "لوازم جانبی کامپیوتر و لپ‌تاپ",
+      "image": "/images/categories/computer-accessories.webp",
+      "productCount": 310,
+      "children": [
+        {
+          "id": "2-1",
+          "slug": "laptop-accessories",
+          "name": "لوازم جانبی لپ‌تاپ",
+          "icon": "Laptop",
+          "description": "لوازم جانبی مخصوص لپ‌تاپ",
+          "image": "/images/categories/laptop-accessories.webp",
+          "productCount": 95,
+          "children": [
+            {
+              "id": "2-1-1",
+              "slug": "laptop-bags",
+              "name": "کیف لپ‌تاپ",
+              "icon": "Briefcase",
+              "description": "کیف و کوله لپ‌تاپ",
+              "image": "/images/categories/laptop-bags.webp",
+              "productCount": 30,
+              "children": []
+            },
+            {
+              "id": "2-1-2",
+              "slug": "cooling-pads",
+              "name": "کول پد",
+              "icon": "Wind",
+              "description": "خنک‌کننده لپ‌تاپ",
+              "image": "/images/categories/cooling-pads.webp",
+              "productCount": 15,
+              "children": []
+            },
+            {
+              "id": "2-1-3",
+              "slug": "mouse",
+              "name": "ماوس",
+              "icon": "Mouse",
+              "description": "ماوس سیمی و بی‌سیم",
+              "image": "/images/categories/mouse.webp",
+              "productCount": 25,
+              "children": []
+            },
+            {
+              "id": "2-1-4",
+              "slug": "keyboards",
+              "name": "کیبورد",
+              "icon": "Keyboard",
+              "description": "کیبورد مکانیکی و معمولی",
+              "image": "/images/categories/keyboards.webp",
+              "productCount": 25,
+              "children": []
+            }
+          ]
+        },
+        {
+          "id": "2-2",
+          "slug": "computer-equipment",
+          "name": "تجهیزات کامپیوتر",
+          "icon": "HardDrive",
+          "description": "تجهیزات جانبی کامپیوتر",
+          "image": "/images/categories/computer-equipment.webp",
+          "productCount": 115,
+          "children": [
+            {
+              "id": "2-2-1",
+              "slug": "webcams",
+              "name": "وب‌کم",
+              "icon": "Camera",
+              "description": "دوربین وب‌کم",
+              "image": "/images/categories/webcams.webp",
+              "productCount": 20,
+              "children": []
+            },
+            {
+              "id": "2-2-2",
+              "slug": "microphones",
+              "name": "میکروفون",
+              "icon": "Mic",
+              "description": "میکروفون استریم و ضبط",
+              "image": "/images/categories/microphones.webp",
+              "productCount": 18,
+              "children": []
+            },
+            {
+              "id": "2-2-3",
+              "slug": "speakers",
+              "name": "اسپیکر",
+              "icon": "Speaker",
+              "description": "اسپیکر کامپیوتر",
+              "image": "/images/categories/speakers.webp",
+              "productCount": 22,
+              "children": []
+            },
+            {
+              "id": "2-2-4",
+              "slug": "usb-hubs",
+              "name": "هاب USB",
+              "icon": "Usb",
+              "description": "هاب و مبدل USB",
+              "image": "/images/categories/usb-hubs.webp",
+              "productCount": 15,
+              "children": []
+            }
+          ]
+        }
+      ]
     },
     {
       "id": "3",
-      "slug": "tablets",
-      "name": "Tablets",
-      "icon": "Tablet",
-      "description": "Tablets for entertainment and productivity",
-      "image": "/images/categories/tablets.webp",
-      "productCount": 64
+      "slug": "car-accessories",
+      "name": "لوازم جانبی خودرو",
+      "icon": "Car",
+      "description": "لوازم جانبی و تجهیزات خودرو",
+      "image": "/images/categories/car-accessories.webp",
+      "productCount": 180,
+      "children": [
+        {
+          "id": "3-1",
+          "slug": "interior-car-accessories",
+          "name": "لوازم داخل خودرو",
+          "icon": "Car",
+          "description": "لوازم جانبی داخل خودرو",
+          "image": "/images/categories/interior-car-accessories.webp",
+          "productCount": 90,
+          "children": [
+            {
+              "id": "3-1-1",
+              "slug": "car-holders",
+              "name": "هولدر موبایل",
+              "icon": "Smartphone",
+              "description": "نگهدارنده گوشی خودرو",
+              "image": "/images/categories/car-holders.webp",
+              "productCount": 25,
+              "children": []
+            },
+            {
+              "id": "3-1-2",
+              "slug": "car-chargers",
+              "name": "شارژر فندکی",
+              "icon": "BatteryCharging",
+              "description": "شارژر فندکی خودرو",
+              "image": "/images/categories/car-chargers.webp",
+              "productCount": 20,
+              "children": []
+            },
+            {
+              "id": "3-1-3",
+              "slug": "dash-cams",
+              "name": "دوربین خودرو",
+              "icon": "Camera",
+              "description": "دوربین جلو و عقب خودرو",
+              "image": "/images/categories/dash-cams.webp",
+              "productCount": 15,
+              "children": []
+            }
+          ]
+        },
+        {
+          "id": "3-2",
+          "slug": "car-equipment",
+          "name": "تجهیزات خودرو",
+          "icon": "Wrench",
+          "description": "تجهیزات و ابزار خودرو",
+          "image": "/images/categories/car-equipment.webp",
+          "productCount": 90,
+          "children": [
+            {
+              "id": "3-2-1",
+              "slug": "compressors",
+              "name": "کمپرسور",
+              "icon": "Wind",
+              "description": "کمپرسور باد لاستیک",
+              "image": "/images/categories/compressors.webp",
+              "productCount": 12,
+              "children": []
+            },
+            {
+              "id": "3-2-2",
+              "slug": "jump-starters",
+              "name": "جامپ استارتر",
+              "icon": "Zap",
+              "description": "استارتر جامپ خودرو",
+              "image": "/images/categories/jump-starters.webp",
+              "productCount": 10,
+              "children": []
+            }
+          ]
+        }
+      ]
     },
     {
       "id": "4",
-      "slug": "headphones",
-      "name": "Headphones",
+      "slug": "audio-video",
+      "name": "صوتی و تصویری",
       "icon": "Headphones",
-      "description": "Headphones and earbuds for every listener",
-      "image": "/images/categories/headphones.webp",
-      "productCount": 112
+      "description": "تجهیزات صوتی و تصویری",
+      "image": "/images/categories/audio-video.webp",
+      "productCount": 200,
+      "children": [
+        {
+          "id": "4-1",
+          "slug": "audio-equipment",
+          "name": "لوازم صوتی",
+          "icon": "Headphones",
+          "description": "تجهیزات صوتی",
+          "image": "/images/categories/audio-equipment.webp",
+          "productCount": 100,
+          "children": [
+            {
+              "id": "4-1-1",
+              "slug": "headphones",
+              "name": "هدفون",
+              "icon": "Headphones",
+              "description": "هدفون بی‌سیم و سیمی",
+              "image": "/images/categories/headphones.webp",
+              "productCount": 40,
+              "children": []
+            },
+            {
+              "id": "4-1-2",
+              "slug": "earbuds",
+              "name": "ایرپاد",
+              "icon": "Headphones",
+              "description": "ایرپاد و هندزفری",
+              "image": "/images/categories/earbuds.webp",
+              "productCount": 35,
+              "children": []
+            },
+            {
+              "id": "4-1-3",
+              "slug": "audio-speakers",
+              "name": "اسپیکر صوتی",
+              "icon": "Speaker",
+              "description": "اسپیکر پرتابل و خانگی",
+              "image": "/images/categories/audio-speakers.webp",
+              "productCount": 25,
+              "children": []
+            }
+          ]
+        },
+        {
+          "id": "4-2",
+          "slug": "visual-equipment",
+          "name": "لوازم تصویری",
+          "icon": "Tv",
+          "description": "تجهیزات تصویری",
+          "image": "/images/categories/visual-equipment.webp",
+          "productCount": 100,
+          "children": [
+            {
+              "id": "4-2-1",
+              "slug": "projectors",
+              "name": "پروژکتور",
+              "icon": "Projector",
+              "description": "پروژکتور خانگی و اداری",
+              "image": "/images/categories/projectors.webp",
+              "productCount": 20,
+              "children": []
+            },
+            {
+              "id": "4-2-2",
+              "slug": "video-accessories",
+              "name": "تجهیزات تصویری",
+              "icon": "Film",
+              "description": "لوازم جانبی تصویری",
+              "image": "/images/categories/video-accessories.webp",
+              "productCount": 18,
+              "children": []
+            }
+          ]
+        }
+      ]
     },
     {
       "id": "5",
-      "slug": "smart-watches",
-      "name": "Smart Watches",
-      "icon": "Watch",
-      "description": "Smart watches and fitness trackers",
-      "image": "/images/categories/smart-watches.webp",
-      "productCount": 73
+      "slug": "home-kitchen",
+      "name": "خانه و آشپزخانه",
+      "icon": "Home",
+      "description": "لوازم خانه و آشپزخانه",
+      "image": "/images/categories/home-kitchen.webp",
+      "productCount": 260,
+      "children": [
+        {
+          "id": "5-1",
+          "slug": "kitchen-appliances",
+          "name": "لوازم آشپزخانه",
+          "icon": "CookingPot",
+          "description": "لوازم برقی و غیربرقی آشپزخانه",
+          "image": "/images/categories/kitchen-appliances.webp",
+          "productCount": 130,
+          "children": [
+            {
+              "id": "5-1-1",
+              "slug": "electrical-appliances",
+              "name": "لوازم برقی",
+              "icon": "Zap",
+              "description": "مخلوط‌کن، قهوه‌ساز و...",
+              "image": "/images/categories/electrical-appliances.webp",
+              "productCount": 50,
+              "children": []
+            },
+            {
+              "id": "5-1-2",
+              "slug": "cooking-tools",
+              "name": "ابزار آشپزی",
+              "icon": "Utensils",
+              "description": "قابلمه، تابه و ابزار آشپزی",
+              "image": "/images/categories/cooking-tools.webp",
+              "productCount": 45,
+              "children": []
+            },
+            {
+              "id": "5-1-3",
+              "slug": "dishes",
+              "name": "ظروف",
+              "icon": "UtensilsCrossed",
+              "description": "ظروف پذیرایی و سرو",
+              "image": "/images/categories/dishes.webp",
+              "productCount": 35,
+              "children": []
+            }
+          ]
+        },
+        {
+          "id": "5-2",
+          "slug": "home-items",
+          "name": "لوازم خانه",
+          "icon": "Lamp",
+          "description": "لوازم دکوراسیون و نظافت",
+          "image": "/images/categories/home-items.webp",
+          "productCount": 130,
+          "children": [
+            {
+              "id": "5-2-1",
+              "slug": "decorations",
+              "name": "دکوراسیون",
+              "icon": "Paintbrush",
+              "description": "لوازم تزئینی خانه",
+              "image": "/images/categories/decorations.webp",
+              "productCount": 60,
+              "children": []
+            },
+            {
+              "id": "5-2-2",
+              "slug": "cleaning",
+              "name": "نظافت",
+              "icon": "Sparkles",
+              "description": "لوازم نظافت خانه",
+              "image": "/images/categories/cleaning.webp",
+              "productCount": 40,
+              "children": []
+            }
+          ]
+        }
+      ]
     },
     {
       "id": "6",
-      "slug": "cameras",
-      "name": "Cameras",
-      "icon": "Camera",
-      "description": "Digital cameras, lenses, and accessories",
-      "image": "/images/categories/cameras.webp",
-      "productCount": 45
+      "slug": "beauty-health",
+      "name": "زیبایی و سلامت",
+      "icon": "Heart",
+      "description": "لوازم زیبایی و بهداشتی",
+      "image": "/images/categories/beauty-health.webp",
+      "productCount": 150,
+      "children": [
+        {
+          "id": "6-1",
+          "slug": "personal-care",
+          "name": "مراقبت شخصی",
+          "icon": "User",
+          "description": "لوازم مراقبت شخصی",
+          "image": "/images/categories/personal-care.webp",
+          "productCount": 150,
+          "children": [
+            {
+              "id": "6-1-1",
+              "slug": "shaving",
+              "name": "لوازم اصلاح",
+              "icon": "Scissors",
+              "description": "ماشین اصلاح و لوازم جانبی",
+              "image": "/images/categories/shaving.webp",
+              "productCount": 30,
+              "children": []
+            },
+            {
+              "id": "6-1-2",
+              "slug": "skincare",
+              "name": "مراقبت پوست",
+              "icon": "Droplets",
+              "description": "محصولات مراقبت از پوست",
+              "image": "/images/categories/skincare.webp",
+              "productCount": 45,
+              "children": []
+            },
+            {
+              "id": "6-1-3",
+              "slug": "hair-care",
+              "name": "مو",
+              "icon": "Scissors",
+              "description": "لوازم مراقبت از مو",
+              "image": "/images/categories/hair-care.webp",
+              "productCount": 35,
+              "children": []
+            }
+          ]
+        }
+      ]
     },
     {
       "id": "7",
-      "slug": "gaming-consoles",
-      "name": "Gaming Consoles",
-      "icon": "Gamepad2",
-      "description": "Gaming consoles, controllers, and accessories",
-      "image": "/images/categories/gaming-consoles.webp",
-      "productCount": 38
+      "slug": "fashion-clothing",
+      "name": "مد و پوشاک",
+      "icon": "Shirt",
+      "description": "پوشاک و اکسسوری",
+      "image": "/images/categories/fashion-clothing.webp",
+      "productCount": 190,
+      "children": [
+        {
+          "id": "7-1",
+          "slug": "clothing",
+          "name": "پوشاک",
+          "icon": "Shirt",
+          "description": "انواع پوشاک مردانه و زنانه",
+          "image": "/images/categories/clothing.webp",
+          "productCount": 190,
+          "children": [
+            {
+              "id": "7-1-1",
+              "slug": "men-clothing",
+              "name": "لباس مردانه",
+              "icon": "User",
+              "description": "پوشاک مردانه",
+              "image": "/images/categories/men-clothing.webp",
+              "productCount": 70,
+              "children": []
+            },
+            {
+              "id": "7-1-2",
+              "slug": "women-clothing",
+              "name": "لباس زنانه",
+              "icon": "User",
+              "description": "پوشاک زنانه",
+              "image": "/images/categories/women-clothing.webp",
+              "productCount": 75,
+              "children": []
+            },
+            {
+              "id": "7-1-3",
+              "slug": "accessories",
+              "name": "اکسسوری",
+              "icon": "Gem",
+              "description": "اکسسوری و زیورآلات",
+              "image": "/images/categories/accessories.webp",
+              "productCount": 45,
+              "children": []
+            }
+          ]
+        }
+      ]
     },
     {
       "id": "8",
-      "slug": "computer-accessories",
-      "name": "Computer Accessories",
-      "icon": "Mouse",
-      "description": "Keyboards, mice, monitors, and more",
-      "image": "/images/categories/computer-accessories.webp",
-      "productCount": 198
+      "slug": "sports-travel",
+      "name": "ورزش و سفر",
+      "icon": "Dumbbell",
+      "description": "لوازم ورزشی و سفر",
+      "image": "/images/categories/sports-travel.webp",
+      "productCount": 120,
+      "children": [
+        {
+          "id": "8-1",
+          "slug": "sports",
+          "name": "ورزش",
+          "icon": "Dumbbell",
+          "description": "لوازم ورزشی",
+          "image": "/images/categories/sports.webp",
+          "productCount": 60,
+          "children": [
+            {
+              "id": "8-1-1",
+              "slug": "sports-equipment",
+              "name": "لوازم ورزشی",
+              "icon": "Dumbbell",
+              "description": "ابزار و لوازم تمرینی",
+              "image": "/images/categories/sports-equipment.webp",
+              "productCount": 30,
+              "children": []
+            },
+            {
+              "id": "8-1-2",
+              "slug": "fitness",
+              "name": "فیتنس",
+              "icon": "HeartPulse",
+              "description": "لوازم فیتنس و بدنسازی",
+              "image": "/images/categories/fitness.webp",
+              "productCount": 30,
+              "children": []
+            }
+          ]
+        },
+        {
+          "id": "8-2",
+          "slug": "travel",
+          "name": "سفر",
+          "icon": "Plane",
+          "description": "لوازم سفر",
+          "image": "/images/categories/travel.webp",
+          "productCount": 60,
+          "children": [
+            {
+              "id": "8-2-1",
+              "slug": "backpacks",
+              "name": "کوله پشتی",
+              "icon": "Backpack",
+              "description": "کوله پشتی و کیف سفر",
+              "image": "/images/categories/backpacks.webp",
+              "productCount": 25,
+              "children": []
+            },
+            {
+              "id": "8-2-2",
+              "slug": "travel-accessories",
+              "name": "لوازم سفر",
+              "icon": "Luggage",
+              "description": "لوازم جانبی سفر",
+              "image": "/images/categories/travel-accessories.webp",
+              "productCount": 20,
+              "children": []
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "products": [
+    {
+      "id": "p1",
+      "slug": "iphone-15-pro-max",
+      "name": "آیفون ۱۵ پرو مکس",
+      "category": "mobile-accessories",
+      "description": "گوشی هوشمند اپل آیفون ۱۵ پرو مکس با تراشه A17 Pro و دوربین ۴۸ مگاپیکسلی",
+      "image": "/images/products/iphone-15-pro-max.webp",
+      "price": 89990000,
+      "brand": "Apple",
+      "stock": 25
     },
     {
-      "id": "9",
-      "slug": "audio-speakers",
-      "name": "Audio Speakers",
-      "icon": "Speaker",
-      "description": "Portable and home audio speakers",
-      "image": "/images/categories/audio-speakers.webp",
-      "productCount": 67
+      "id": "p2",
+      "slug": "samsung-galaxy-s24-ultra",
+      "name": "سامسونگ گلکسی S24 Ultra",
+      "category": "mobile-accessories",
+      "description": "گوشی هوشمند سامسونگ گلکسی S24 Ultra با قلم S Pen و هوش مصنوعی",
+      "image": "/images/products/samsung-galaxy-s24-ultra.webp",
+      "price": 75990000,
+      "brand": "Samsung",
+      "stock": 30
     },
     {
-      "id": "10",
-      "slug": "wearable-tech",
-      "name": "Wearable Tech",
-      "icon": "Glasses",
-      "description": "VR headsets, smart glasses, and wearable devices",
-      "image": "/images/categories/wearable-tech.webp",
-      "productCount": 29
+      "id": "p3",
+      "slug": "macbook-pro-14-m3",
+      "name": "مک‌بوک پرو ۱۴ اینچ M3",
+      "category": "computer-accessories",
+      "description": "لپ‌تاپ اپل مک‌بوک پرو ۱۴ اینچ با تراشه M3 Pro و ۱۸ گیگابایت رم",
+      "image": "/images/products/macbook-pro-14-m3.webp",
+      "price": 129990000,
+      "brand": "Apple",
+      "stock": 15
+    },
+    {
+      "id": "p4",
+      "slug": "sony-wh-1000xm5",
+      "name": "هدفون سونی WH-1000XM5",
+      "category": "audio-video",
+      "description": "هدفون بی‌سیم سونی با حذف نویز فعال و کیفیت صدای Hi-Res",
+      "image": "/images/products/sony-wh-1000xm5.webp",
+      "price": 12990000,
+      "brand": "Sony",
+      "stock": 40
+    },
+    {
+      "id": "p5",
+      "slug": "apple-watch-series-9",
+      "name": "اپل واچ سری ۹",
+      "category": "mobile-accessories",
+      "description": "ساعت هوشمند اپل واچ سری ۹ با تراشه S9 و صفحه نمایش همیشه روشن",
+      "image": "/images/products/apple-watch-series-9.webp",
+      "price": 18990000,
+      "brand": "Apple",
+      "stock": 35
+    },
+    {
+      "id": "p6",
+      "slug": "logitech-mx-master-3s",
+      "name": "ماوس لاگیتک MX Master 3S",
+      "category": "computer-accessories",
+      "description": "ماوس بی‌سیم لاگیتک با اسکرول مغناطیسی و اتصال چند دستگاه",
+      "image": "/images/products/logitech-mx-master-3s.webp",
+      "price": 3490000,
+      "brand": "Logitech",
+      "stock": 50
+    },
+    {
+      "id": "p7",
+      "slug": "xiaomi-smart-home-camera",
+      "name": "دوربین هوشمند شیائومی",
+      "category": "car-accessories",
+      "description": "دوربین مداربسته هوشمند شیائومی با کیفیت 2K و دید در شب",
+      "image": "/images/products/xiaomi-smart-home-camera.webp",
+      "price": 890000,
+      "brand": "Xiaomi",
+      "stock": 60
+    },
+    {
+      "id": "p8",
+      "slug": "dyson-v15-detect",
+      "name": "جاروبرقی دایسون V15",
+      "category": "home-kitchen",
+      "description": "جاروبرقی بی‌سیم دایسون V15 با لیزر تشخیص گرد و غبار",
+      "image": "/images/products/dyson-v15-detect.webp",
+      "price": 24990000,
+      "brand": "Dyson",
+      "stock": 12
+    },
+    {
+      "id": "p9",
+      "slug": "jbl-charge-5",
+      "name": "اسپیکر JBL Charge 5",
+      "category": "audio-video",
+      "description": "اسپیکر بی‌سیم JBL با مقاومت در برابر آب و باتری ۲۰ ساعته",
+      "image": "/images/products/jbl-charge-5.webp",
+      "price": 4290000,
+      "brand": "JBL",
+      "stock": 45
+    },
+    {
+      "id": "p10",
+      "slug": "nike-air-max-270",
+      "name": "کفش نایک ایرمکس ۲۷۰",
+      "category": "fashion-clothing",
+      "description": "کفش ورزشی نایک ایرمکس ۲۷۰ با بالشتک هوا و طراحی مدرن",
+      "image": "/images/products/nike-air-max-270.webp",
+      "price": 6990000,
+      "brand": "Nike",
+      "stock": 20
     }
   ]
 }

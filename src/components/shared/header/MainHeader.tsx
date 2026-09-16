@@ -1,19 +1,16 @@
 import { ThemeDropdownToggle } from "@/features/themes/ThemeDropdownToggle";
+import CategoryDropdown from "./CategoryDropdown";
 
 import {
   Search,
   UserRound,
   Heart,
   ShoppingBag,
-  ChevronDown,
-  ArrowUpDown,
-  ChevronsUpDown,
 } from "lucide-react";
 
 interface Props {
   messages: {
     searchPlaceholder: string;
-    allCategories: string;
   };
   isRTL?: boolean;
 }
@@ -42,11 +39,7 @@ export default function MainHeader({ messages, isRTL = true }: Props) {
 
         {/* Search */}
         <div className="mx-auto flex h-[48px] w-full max-w-[775px] overflow-hidden rounded-full border border-neutral-200 bg-white dark:border-neutral-700 dark:bg-neutral-800">
-          {/* Categories */}
-          <div className="flex w-[145px] shrink-0 items-center justify-center gap-2 border-e border-neutral-200 text-sm text-neutral-600 dark:border-neutral-700 dark:text-neutral-300">
-            <span>{messages.allCategories}</span>
-            <ChevronsUpDown size={20}/>
-          </div>
+          <CategoryDropdown />
 
           {/* Search input */}
           <div className="flex flex-1 items-center">

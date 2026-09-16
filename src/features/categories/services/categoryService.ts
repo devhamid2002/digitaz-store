@@ -1,22 +1,35 @@
 "use server";
 
+import { getLocale } from "next-intl/server";
 import { fetchInstance } from "@/utils/fetchInstance";
 import type { Category, CategoriesResponse } from "../types/category";
 
 export async function getCategories(): Promise<Category[]> {
-  const data = await fetchInstance<CategoriesResponse>("/categories", {
-    headers: {
-      "Accept-Language": "en",
-    },
-  });
-  return data.categories;
+  try {
+    const locale = await getLocale();
+    const data = await fetchInstance<CategoriesResponse>("/api/categories", {
+      baseUrl: "",
+      headers: {
+        "Accept-Language": locale,
+      },
+    });
+    return data.categories;
+  } catch (error) {
+    console.error("Failed to fetch categories:", error);
+    throw new Error(
+      error instanceof Error ? error.message : "Failed to fetch categories"
+    );
+  }
 }
 
-export async function getCategoryBySlug(slug: string): Promise<Category | null> {
+export async function getCategoryBySlug(
+  slug: string
+): Promise<Category | null> {
   try {
+    const locale = await getLocale();
     const data = await fetchInstance<Category>(`/categories/${slug}`, {
       headers: {
-        "Accept-Language": "en",
+        "Accept-Language": locale,
       },
     });
     return data;
