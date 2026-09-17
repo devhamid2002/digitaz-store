@@ -4,6 +4,7 @@ import localFont from "next/font/local";
 import { notFound } from "next/navigation";
 import { routing } from "@/i18n/routing";
 import Providers from "@/components/providers/Providers";
+import ThemeProvider from "@/components/providers/ThemeProvider";
 import Header from "@/components/shared/header/Header";
 import Footer from "@/components/shared/footer/Footer";
 
@@ -62,11 +63,13 @@ export default async function LocaleLayout({ children, params }: Props) {
   return (
     <html lang={locale} dir={locale === "fa" ? "rtl" : "ltr"} className="h-full antialiased" suppressHydrationWarning>
       <body className={`${vazirmatn.variable} ${vazirmatn.className} min-h-full flex flex-col overflow-x-hidden`}>
-        <Providers locale={locale} messages={messages}>
-          <Header locale={locale as "en" | "fa"} />
-          {children}
-          <Footer locale={locale as "en" | "fa"} />
-        </Providers>
+        <ThemeProvider>
+          <Providers locale={locale} messages={messages}>
+            <Header locale={locale as "en" | "fa"} />
+            {children}
+            <Footer locale={locale as "en" | "fa"} />
+          </Providers>
+        </ThemeProvider>
       </body>
     </html>
   );

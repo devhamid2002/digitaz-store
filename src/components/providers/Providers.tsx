@@ -13,7 +13,8 @@ type Props = {
 
 /**
  * Locale-aware providers: Session, Query, and Intl.
- * ThemeProvider is separate (in root layout) to avoid re-rendering on locale change.
+ * ThemeProvider wraps this from the locale layout, since next-themes must render
+ * its inline script inside the document.
  */
 export default function Providers({ children, locale, messages }: Props) {
   const [queryClient] = useState(
