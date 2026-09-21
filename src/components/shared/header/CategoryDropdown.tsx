@@ -42,7 +42,7 @@ export default function CategoryDropdown() {
           render={
             <button
               type="button"
-              className="flex w-[145px] shrink-0 items-center justify-center gap-2 border-e border-neutral-200 text-sm text-neutral-600 dark:border-neutral-700 dark:text-neutral-300"
+              className="flex h-full w-36 shrink-0 items-center justify-center gap-2 border-e border-neutral-200 bg-transparent text-sm text-neutral-800 dark:border-neutral-700 dark:text-neutral-200"
             />
           }
         >
