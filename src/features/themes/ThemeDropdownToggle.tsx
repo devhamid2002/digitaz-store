@@ -2,6 +2,7 @@
 
 import { Moon, Sun } from "lucide-react";
 import { useTheme } from "next-themes";
+import { useTranslations } from "next-intl";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -9,12 +10,9 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
-/**
- * Theme dropdown toggle for the header.
- * Displays sun/moon icon and allows switching between light/dark/system.
- */
 export function ThemeDropdownToggle() {
   const { setTheme } = useTheme();
+  const t = useTranslations("header");
 
   return (
     <DropdownMenu>
@@ -34,13 +32,13 @@ export function ThemeDropdownToggle() {
 
       <DropdownMenuContent align="end">
         <DropdownMenuItem onClick={() => setTheme("light")}>
-          Light
+          {t("themeLight")}
         </DropdownMenuItem>
         <DropdownMenuItem onClick={() => setTheme("dark")}>
-          Dark
+          {t("themeDark")}
         </DropdownMenuItem>
         <DropdownMenuItem onClick={() => setTheme("system")}>
-          System
+          {t("themeSystem")}
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
