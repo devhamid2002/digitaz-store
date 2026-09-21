@@ -8,7 +8,6 @@ export async function getCategories(): Promise<Category[]> {
   try {
     const locale = await getLocale();
     const data = await fetchInstance<CategoriesResponse>("/api/categories", {
-      baseUrl: "",
       headers: {
         "Accept-Language": locale,
       },
