@@ -69,9 +69,51 @@
       "register": "Register",
       "language": "Language",
       "persian": "Persian",
-      "english": "English"
+      "english": "English",
+
+      "themeLight": "Light",
+      "themeDark": "Dark",
+      "themeSystem": "System"
     },
   
+    "features": {
+      "freeShipping": {
+        "title": "Free Shipping",
+        "subtitle": "For all orders over $100"
+      },
+      "support": {
+        "title": "24/7 Support",
+        "subtitle": "Shop with an expert"
+      },
+      "returns": {
+        "title": "Returns & Refunds",
+        "subtitle": "Free returns over $200"
+      },
+      "payment": {
+        "title": "Secure Payment",
+        "subtitle": "Shop with confidence"
+      }
+    },
+
+    "promoBanners": {
+      "banner1": {
+        "title": "Smart Wireless Gaming Controller",
+        "priceLabel": "Price only",
+        "price": "$99.99"
+      },
+      "banner2": {
+        "title": "Hot Season End Smartphone",
+        "priceLabel": "Save up to",
+        "price": "45% Off"
+      },
+      "banner3": {
+        "title": "Bluetooth Wireless Headphones",
+        "priceLabel": "Discount",
+        "price": "$59.99",
+        "oldPrice": "$199.99"
+      }
+    },
+
     "footer": {
       "company": "Company",
       "account": "My account",

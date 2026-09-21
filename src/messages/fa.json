@@ -69,9 +69,51 @@
       "register": "ثبت نام",
       "language": "زبان",
       "persian": "فارسی",
-      "english": "انگلیسی"
+      "english": "انگلیسی",
+
+      "themeLight": "روشن",
+      "themeDark": "تاریک",
+      "themeSystem": "سیستم"
     },
   
+    "features": {
+      "freeShipping": {
+        "title": "ارسال رایگان",
+        "subtitle": "برای تمام سفارشات بیش از ۱۰۰ دلار"
+      },
+      "support": {
+        "title": "پشتیبانی شبانه روزی",
+        "subtitle": "با یک متخصص خرید کنید"
+      },
+      "returns": {
+        "title": "بازگشت و بازپرداخت",
+        "subtitle": "بازگشت رایگان بیش از ۲۰۰ دلار"
+      },
+      "payment": {
+        "title": "پرداخت امن",
+        "subtitle": "با خیال راحت خرید کنید"
+      }
+    },
+
+    "promoBanners": {
+      "banner1": {
+        "title": "کنترلر هوشمند بی سیم گیمینگ",
+        "priceLabel": "قیمت تنها با",
+        "price": "۹۹.۹۹ تومان"
+      },
+      "banner2": {
+        "title": "آخر فصل داغترین تلفن هوشمند",
+        "priceLabel": "صرفه جویی تا",
+        "price": "۴۵٪ تخفیف"
+      },
+      "banner3": {
+        "title": "هدفون بلوتوثی بی سیم",
+        "priceLabel": "تخفیف",
+        "price": "۵۹.۹۹ تومان",
+        "oldPrice": "۱۹۹.۹۹ تومان"
+      }
+    },
+
     "footer": {
       "company": "شرکت",
       "account": "حساب کاربری",
