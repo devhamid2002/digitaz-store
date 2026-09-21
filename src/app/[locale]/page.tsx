@@ -1,5 +1,8 @@
 import { setRequestLocale } from "next-intl/server";
 import Slider from "./components/Slider";
+import FeaturesBar from "./components/FeaturesBar";
+import PromoBanners from "./components/PromoBanners";
+import ProductShowcase from "../../features/products/components/ProductShowcase";
 
 type Props = {
   params: Promise<{ locale: string }>;
@@ -11,8 +14,10 @@ export default async function HomePage({ params }: Props) {
 
   return (
     <main>
-      {/* Main page slider with banners */}
       <Slider />
+      <FeaturesBar />
+      <PromoBanners />
+      <ProductShowcase />
     </main>
   );
 }
