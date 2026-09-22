@@ -114,6 +114,20 @@
       }
     },
 
+    "countdown": {
+      "days": "Days",
+      "hours": "Hours",
+      "minutes": "Minutes",
+      "seconds": "Seconds"
+    },
+
+    "errors": {
+      "fetchProducts": "Failed to load products",
+      "fetchBanners": "Failed to load banners",
+      "fetchCategories": "Failed to load categories",
+      "unexpected": "Something went wrong"
+    },
+
     "footer": {
       "company": "Company",
       "account": "My account",

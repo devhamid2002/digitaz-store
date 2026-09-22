@@ -114,6 +114,20 @@
       }
     },
 
+    "countdown": {
+      "days": "روز",
+      "hours": "ساعت",
+      "minutes": "دقیقه",
+      "seconds": "ثانیه"
+    },
+
+    "errors": {
+      "fetchProducts": "خطا در دریافت محصولات",
+      "fetchBanners": "خطا در دریافت بنرها",
+      "fetchCategories": "خطا در دریافت دسته‌بندی‌ها",
+      "unexpected": "خطای غیرمنتظره‌ای رخ داد"
+    },
+
     "footer": {
       "company": "شرکت",
       "account": "حساب کاربری",
