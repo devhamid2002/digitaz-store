@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useTranslations } from "next-intl";
 
 interface CountdownTimerProps {
   targetDate: Date;
@@ -40,6 +41,7 @@ function pad(value: number): string {
 export default function CountdownTimer({
   targetDate,
 }: CountdownTimerProps) {
+  const t = useTranslations("countdown");
   const [timeLeft, setTimeLeft] = useState<TimeLeft>(() =>
     calculateTimeLeft(targetDate),
   );
@@ -53,16 +55,16 @@ export default function CountdownTimer({
   }, [targetDate]);
 
   const segments = [
-    { value: timeLeft.days, label: "روز" },
-    { value: timeLeft.hours, label: "ساعت" },
-    { value: timeLeft.minutes, label: "دقیقه" },
-    { value: timeLeft.seconds, label: "ثانیه" },
+    { key: "days", value: timeLeft.days, label: t("days") },
+    { key: "hours", value: timeLeft.hours, label: t("hours") },
+    { key: "minutes", value: timeLeft.minutes, label: t("minutes") },
+    { key: "seconds", value: timeLeft.seconds, label: t("seconds") },
   ];
 
   return (
-    <div className="flex w-full items-start justify-center gap-2">
+    <div dir="ltr" className="flex w-full items-start justify-center gap-2">
       {segments.map((segment, index) => (
-        <div key={segment.label} className="flex items-start gap-2">
+        <div key={segment.key} className="flex items-start gap-2">
           <div className="w-10">
             <div className="overflow-hidden rounded-lg bg-gray-900 px-1.5 py-2 dark:bg-white">
               <h3

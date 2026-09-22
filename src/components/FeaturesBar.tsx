@@ -1,6 +1,4 @@
-"use client";
-
-import { useTranslations } from "next-intl";
+import { getTranslations } from "next-intl/server";
 import { Truck, RotateCcw, Headphones, CreditCard } from "lucide-react";
 
 const icons = [
@@ -17,8 +15,8 @@ const featureKeys = [
   "payment",
 ] as const;
 
-export default function FeaturesBar() {
-  const t = useTranslations("features");
+export default async function FeaturesBar() {
+  const t = await getTranslations("features");
 
   return (
     <div className="w-full bg-white dark:bg-gray-900 py-8 border-b border-gray-100 dark:border-gray-800">

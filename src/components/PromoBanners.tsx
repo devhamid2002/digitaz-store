@@ -1,6 +1,4 @@
-"use client";
-
-import { useTranslations } from "next-intl";
+import { getTranslations } from "next-intl/server";
 import Image from "next/image";
 
 const bannerKeys = ["banner1", "banner2", "banner3"] as const;
@@ -17,8 +15,8 @@ const bannerImages = [
   "/images/headphone/07.png",
 ];
 
-export default function PromoBanners() {
-  const t = useTranslations("promoBanners");
+export default async function PromoBanners() {
+  const t = await getTranslations("promoBanners");
 
   return (
     <div className="w-full bg-white dark:bg-gray-900 py-8">
