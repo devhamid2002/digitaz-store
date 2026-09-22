@@ -2,6 +2,7 @@
 
 import { getLocale } from "next-intl/server";
 import { fetchInstance } from "@/utils/fetchInstance";
+import { toLocalizedError } from "@/utils/apiErrors";
 import type { Category, CategoriesResponse } from "../types/category";
 
 export async function getCategories(): Promise<Category[]> {
@@ -15,9 +16,7 @@ export async function getCategories(): Promise<Category[]> {
     return data.categories;
   } catch (error) {
     console.error("Failed to fetch categories:", error);
-    throw new Error(
-      error instanceof Error ? error.message : "Failed to fetch categories"
-    );
+    return toLocalizedError(error, "fetchCategories");
   }
 }
 

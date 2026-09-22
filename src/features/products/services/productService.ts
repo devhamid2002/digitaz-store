@@ -1,6 +1,7 @@
 "use server";
 
 import { fetchInstance } from "@/utils/fetchInstance";
+import { toLocalizedError } from "@/utils/apiErrors";
 import type { Product, ProductsResponse } from "../types/product";
 
 export async function getProducts(): Promise<Product[]> {
@@ -9,9 +10,7 @@ export async function getProducts(): Promise<Product[]> {
     return data.products;
   } catch (error) {
     console.error("Failed to fetch products:", error);
-    throw new Error(
-      error instanceof Error ? error.message : "Failed to fetch products"
-    );
+    return toLocalizedError(error, "fetchProducts");
   }
 }
 

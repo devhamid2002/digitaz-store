@@ -1,27 +1,17 @@
 import Image from "next/image";
 import Link from "next/link";
-import StarRating from "../../../app/[locale]/components/StarRating";
-import CountdownTimer from "../../../app/[locale]/components/CountdownTimer";
+import { useLocale } from "next-intl";
+import StarRating from "@/components/StarRating";
+import CountdownTimer from "@/components/CountdownTimer";
+import { formatPrice, getTargetDate } from "@/utils/format";
 import type { Product } from "@/features/products/types/product";
 
 interface FeaturedProductCardProps {
   product: Product;
 }
 
-function formatPrice(price: number): string {
-  return price.toLocaleString("fa-IR") + " تومان";
-}
-
-function getTargetDate(): Date {
-  const d = new Date();
-  d.setDate(d.getDate() + 155);
-  d.setHours(d.getHours() + 13);
-  d.setMinutes(d.getMinutes() + 16);
-  d.setSeconds(d.getSeconds() + 46);
-  return d;
-}
-
 export default function FeaturedProductCard({ product }: FeaturedProductCardProps) {
+  const locale = useLocale() as "fa" | "en";
   const targetDate = getTargetDate();
 
   return (
@@ -58,11 +48,11 @@ export default function FeaturedProductCard({ product }: FeaturedProductCardProp
         <div className="flex items-center justify-center gap-2 mb-2">
           {product.discount && product.originalPrice && (
             <span className="text-sm text-gray-400 dark:text-gray-500 line-through">
-              {formatPrice(product.originalPrice)}
+              {formatPrice(product.originalPrice, locale)}
             </span>
           )}
           <span className="text-lg font-bold text-red-500">
-            {formatPrice(product.price)}
+            {formatPrice(product.price, locale)}
           </span>
         </div>
 

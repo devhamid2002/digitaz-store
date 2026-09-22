@@ -2,7 +2,6 @@
 
 import { Moon, Sun } from "lucide-react";
 import { useTheme } from "next-themes";
-import { useTranslations } from "next-intl";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -10,9 +9,20 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
-export function ThemeDropdownToggle() {
+interface ThemeLabels {
+  light: string;
+  dark: string;
+  system: string;
+}
+
+/**
+ * Theme dropdown toggle for the header.
+ * Labels come via props (same pattern as the rest of the header, which uses
+ * prop-drilled messages instead of useTranslations) so the component also
+ * renders during static prerender without an intl context.
+ */
+export function ThemeDropdownToggle({ labels }: { labels: ThemeLabels }) {
   const { setTheme } = useTheme();
-  const t = useTranslations("header");
 
   return (
     <DropdownMenu>
@@ -32,13 +42,13 @@ export function ThemeDropdownToggle() {
 
       <DropdownMenuContent align="end">
         <DropdownMenuItem onClick={() => setTheme("light")}>
-          {t("themeLight")}
+          {labels.light}
         </DropdownMenuItem>
         <DropdownMenuItem onClick={() => setTheme("dark")}>
-          {t("themeDark")}
+          {labels.dark}
         </DropdownMenuItem>
         <DropdownMenuItem onClick={() => setTheme("system")}>
-          {t("themeSystem")}
+          {labels.system}
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

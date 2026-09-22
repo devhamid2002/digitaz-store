@@ -1,17 +1,16 @@
 import Image from "next/image";
 import Link from "next/link";
-import StarRating from "../../../app/[locale]/components/StarRating";
+import { useLocale } from "next-intl";
+import StarRating from "../../../components/StarRating";
+import { formatPrice } from "@/utils/format";
 import type { Product } from "@/features/products/types/product";
 
 interface ProductCardProps {
   product: Product;
 }
 
-function formatPrice(price: number): string {
-  return price.toLocaleString("fa-IR") + " تومان";
-}
-
 export default function ProductCard({ product }: ProductCardProps) {
+  const locale = useLocale() as "fa" | "en";
   return (
     <Link
       href={`/product/${product.slug}`}
@@ -44,7 +43,7 @@ export default function ProductCard({ product }: ProductCardProps) {
           <div className="flex items-center justify-between">
             <StarRating rating={product.rating} />
             <span className="text-sm font-bold text-gray-900 dark:text-gray-100">
-              {formatPrice(product.price)}
+              {formatPrice(product.price, locale)}
             </span>
           </div>
         </div>

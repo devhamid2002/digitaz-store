@@ -11,6 +11,9 @@ import {
 interface Props {
   messages: {
     searchPlaceholder: string;
+    themeLight: string;
+    themeDark: string;
+    themeSystem: string;
   };
   isRTL?: boolean;
 }
@@ -62,7 +65,13 @@ export default function MainHeader({ messages, isRTL = true }: Props) {
 
         {/* Actions */}
         <div className="flex items-center gap-5">
-          <ThemeDropdownToggle />
+          <ThemeDropdownToggle
+            labels={{
+              light: messages.themeLight,
+              dark: messages.themeDark,
+              system: messages.themeSystem,
+            }}
+          />
 
           {/* User */}
           <button

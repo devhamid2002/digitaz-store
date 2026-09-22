@@ -1,11 +1,36 @@
 import { NextResponse } from "next/server";
-import { readFile } from "fs/promises";
-import { join } from "path";
+import { prisma } from "@/lib/prisma";
 
 export async function GET() {
-  const filePath = join(process.cwd(), "data", "data.json");
-  const raw = await readFile(filePath, "utf-8");
-  const data = JSON.parse(raw);
+  try {
+    const rows = await prisma.product.findMany({
+      orderBy: { createdAt: "asc" },
+    });
 
-  return NextResponse.json({ products: data.products });
+    const products = rows.map((p) => ({
+      id: p.id,
+      slug: p.slug,
+      name: p.name,
+      category: p.category,
+      description: p.description,
+      image: p.image,
+      price: p.price,
+      originalPrice: p.originalPrice,
+      discount: p.discount,
+      brand: p.brand,
+      stock: p.stock,
+      rating: p.rating,
+      ratingCount: p.ratingCount,
+      viewCount: p.viewCount,
+      isFeatured: p.isFeatured,
+    }));
+
+    return NextResponse.json({ products });
+  } catch (error) {
+    console.error("GET /api/products failed:", error);
+    return NextResponse.json(
+      { code: "PRODUCTS_FETCH_FAILED" },
+      { status: 500 }
+    );
+  }
 }
