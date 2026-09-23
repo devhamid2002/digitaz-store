@@ -15,7 +15,7 @@ export default function FeaturedProductCard({ product }: FeaturedProductCardProp
   const targetDate = getTargetDate();
 
   return (
-    <div className="relative flex flex-col items-center bg-white dark:bg-gray-800 rounded-xl border-2 border-blue-500 p-6 h-full">
+    <div className="relative flex flex-col items-center bg-white dark:bg-gray-800 rounded-xl border-2 border-brand-vivid p-6 h-full">
       {product.discount && (
         <span className="absolute top-4 left-4 bg-red-500 text-white text-xs font-bold px-2.5 py-1 rounded-lg">
           -{product.discount}%

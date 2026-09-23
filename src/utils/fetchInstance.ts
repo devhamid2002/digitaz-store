@@ -9,6 +9,7 @@ interface FetchOptions {
   baseUrl?: string;
 }
 
+// Empty fallback keeps relative URLs same-origin when the env var is unset
 const DEFAULT_BASE_URL = process.env.NEXT_PUBLIC_BACKEND_API_URL || "";
 
 export async function fetchInstance<T>(
@@ -27,6 +28,7 @@ export async function fetchInstance<T>(
   const buildFetchOptions = (token?: string): RequestInit => ({
     method,
     headers: {
+      // Omit JSON Content-Type so the browser sets the multipart boundary for FormData
       ...(isFormData ? {} : { "Content-Type": "application/json" }),
       ...(token ? { Authorization: `Bearer ${token}` } : {}),
       ...headers,
@@ -41,22 +43,11 @@ export async function fetchInstance<T>(
         : undefined,
   });
 
-  let token: string | undefined;
-  // TODO: Uncomment when auth is implemented
-  // token = await getAccessTokenCookies();
+  // Runs unauthenticated until cookie/refresh helpers exist
+  const token: string | undefined = undefined;
   if (!token) console.warn("No access token found!");
-  
-  // eslint-disable-next-line prefer-const
-  let res = await fetch(finalUrl, buildFetchOptions(token));
 
-  // if (res.status === 401 || res.status === 403) {
-  //   try {
-  //     token = await refreshAccessToken();
-  //     res = await fetch(finalUrl, buildFetchOptions(token));
-  //   } catch (err) {
-  //     throw new Error("Unauthorized and refresh token failed");
-  //   }
-  // }
+  const res = await fetch(finalUrl, buildFetchOptions(token));
 
   if (!res.ok) {
     let message = res.statusText;
@@ -70,6 +61,7 @@ export async function fetchInstance<T>(
     throw new Error(message);
   }
 
+  // 204 has no body; null satisfies the generic contract
   if (res.status === 204) return null as T;
 
   const data = await res.json();

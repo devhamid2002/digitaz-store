@@ -6,12 +6,7 @@ type Props = {
   children: React.ReactNode;
 };
 
-/**
- * Theme provider wrapper.
- * Must be rendered inside the document (<html>/<body>, i.e. in the locale layout):
- * next-themes renders a synchronous inline <script>, and React cannot render a sync
- * script outside the main document without knowing its order.
- */
+// Must stay in the locale layout: next-themes renders a sync inline <script> for the document
 export default function ThemeProvider({ children }: Props) {
   return (
     <NextThemesProvider

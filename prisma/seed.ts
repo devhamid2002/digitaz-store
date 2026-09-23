@@ -26,6 +26,7 @@ interface ProductSeed {
 }
 
 async function main() {
+  // Upsert by slug keeps re-seeds idempotent
   const raw = await readFile(join(rootDir, "data", "data.json"), "utf-8");
   const data = JSON.parse(raw) as { products: ProductSeed[] };
 

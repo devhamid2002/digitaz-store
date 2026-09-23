@@ -7,6 +7,7 @@ import type { Category, CategoriesResponse } from "../types/category";
 
 export async function getCategories(): Promise<Category[]> {
   try {
+    // Backend localizes category names via Accept-Language
     const locale = await getLocale();
     const data = await fetchInstance<CategoriesResponse>("/api/categories", {
       headers: {

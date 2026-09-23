@@ -7,21 +7,16 @@ export type ServiceErrorKey =
   | "fetchBanners"
   | "fetchCategories";
 
-/**
- * Stable error codes returned by our API routes (and, by contract,
- * by the future real backend).
- */
+// Stable error codes shared by API routes and the future real backend
 const CODE_TO_KEY: Record<string, ServiceErrorKey> = {
   PRODUCTS_FETCH_FAILED: "fetchProducts",
+  PRODUCT_FETCH_FAILED: "fetchProducts",
+  PRODUCT_NOT_FOUND: "fetchProducts",
   BANNERS_FETCH_FAILED: "fetchBanners",
   CATEGORIES_FETCH_FAILED: "fetchCategories",
 };
 
-/**
- * Convert any service-layer failure into a localized Error using the
- * current request locale. API routes stay locale-agnostic (codes only);
- * the human-readable message is resolved here, at the edge.
- */
+// API routes stay locale-agnostic (codes only); messages resolve here at the edge
 export async function toLocalizedError(
   error: unknown,
   fallbackKey: ServiceErrorKey
@@ -35,6 +30,7 @@ export async function toLocalizedError(
     const t = await getTranslations({ locale, namespace: "errors" });
     message = t(key);
   } catch {
+    // Non-localized last resort when the errors namespace is unavailable
     message = "Something went wrong";
   }
 

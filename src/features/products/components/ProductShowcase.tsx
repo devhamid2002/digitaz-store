@@ -22,13 +22,13 @@ export default function ProductGrid() {
     );
   }
 
+  // Featured card anchors the desktop grid center; regular items fill around it
   const featured = products.find((product) => product.isFeatured);
   const regular = products.filter((product) => !product.isFeatured);
 
   return (
     <div className="w-full bg-gray-50 py-12 dark:bg-gray-900">
       <div className="mx-auto max-w-7xl px-4">
-        {/* Desktop */}
         <div className="hidden auto-rows-fr grid-cols-5 gap-4 lg:grid">
           {regular.slice(0, 8).map((product, index) => (
             <div
@@ -54,7 +54,6 @@ export default function ProductGrid() {
           )}
         </div>
 
-        {/* Tablet */}
         <div className="hidden grid-cols-2 gap-4 md:grid lg:hidden">
           {featured && (
             <div className="col-span-2">
@@ -67,7 +66,6 @@ export default function ProductGrid() {
           ))}
         </div>
 
-        {/* Mobile */}
         <div className="grid grid-cols-1 gap-4 md:hidden">
           {featured && <FeaturedProductCard product={featured} />}
 

@@ -25,7 +25,6 @@ export default function MainHeader({ messages, isRTL = true }: Props) {
       className="border-b border-neutral-100 dark:border-neutral-800"
     >
       <div className="mx-auto flex min-h-[105px] max-w-[1280px] items-center gap-8 px-5">
-        {/* Logo */}
         <div className="flex shrink-0 items-center">
           <div className="flex items-center gap-2">
             <div className="relative h-9 w-9">
@@ -40,11 +39,9 @@ export default function MainHeader({ messages, isRTL = true }: Props) {
           </div>
         </div>
 
-        {/* Search */}
         <div className="mx-auto flex h-[48px] w-full max-w-[775px] overflow-hidden rounded-full border border-neutral-200 bg-white dark:border-neutral-700 dark:bg-neutral-800">
           <CategoryDropdown />
 
-          {/* Search input */}
           <div className="flex flex-1 items-center">
             <input
               type="text"
@@ -53,17 +50,15 @@ export default function MainHeader({ messages, isRTL = true }: Props) {
             />
           </div>
 
-          {/* Search button */}
           <button
             type="button"
             aria-label="Search"
-            className="flex w-[80px] shrink-0 items-center justify-center rounded-full bg-[#2161e8] text-white transition-colors hover:bg-[#1854d1]"
+            className="flex w-[80px] shrink-0 items-center justify-center rounded-full bg-brand text-white transition-colors hover:bg-brand-hover"
           >
             <Search size={21} />
           </button>
         </div>
 
-        {/* Actions */}
         <div className="flex items-center gap-5">
           <ThemeDropdownToggle
             labels={{
@@ -73,7 +68,6 @@ export default function MainHeader({ messages, isRTL = true }: Props) {
             }}
           />
 
-          {/* User */}
           <button
             type="button"
             aria-label="Account"
@@ -82,7 +76,6 @@ export default function MainHeader({ messages, isRTL = true }: Props) {
             <UserRound size={23} strokeWidth={1.8} />
           </button>
 
-          {/* Wishlist */}
           <button
             type="button"
             aria-label="Wishlist"
@@ -91,7 +84,6 @@ export default function MainHeader({ messages, isRTL = true }: Props) {
             <Heart size={23} strokeWidth={1.8} />
           </button>
 
-          {/* Shopping bag */}
           <button
             type="button"
             aria-label="Shopping cart"

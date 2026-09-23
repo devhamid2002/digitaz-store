@@ -11,17 +11,14 @@ type Props = {
   messages?: Record<string, unknown>;
 };
 
-/**
- * Locale-aware providers: Session, Query, and Intl.
- * ThemeProvider wraps this from the locale layout, since next-themes must render
- * its inline script inside the document.
- */
+// ThemeProvider wraps this from the locale layout for the next-themes inline script
 export default function Providers({ children, locale, messages }: Props) {
   const [queryClient] = useState(
     () =>
       new QueryClient({
         defaultOptions: {
           queries: {
+            // Cache catalog reads for a minute and avoid refetch churn on focus
             staleTime: 60 * 1000,
             refetchOnWindowFocus: false,
           },

@@ -10,8 +10,7 @@ export const authOptions: NextAuthOptions = {
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
-        // TODO: Replace with real backend authentication
-        // Example: call your backend API to verify credentials
+        // Mock auth: stub user until backend credential verification exists
         const user = {
           id: "1",
           name: "Test User",

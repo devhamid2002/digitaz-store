@@ -12,10 +12,6 @@ import {
   DropdownMenuItem,
 } from "@/components/ui/dropdown-menu";
 
-/**
- * Category dropdown for the search bar.
- * Fetches categories from the API and displays parent categories on hover.
- */
 export default function CategoryDropdown() {
   const [open, setOpen] = useState(false);
   const timeoutRef = useRef<ReturnType<typeof setTimeout>>(null);
@@ -31,13 +27,13 @@ export default function CategoryDropdown() {
   }, []);
 
   const handleMouseLeave = useCallback(() => {
+    // Close delay avoids flicker when moving between trigger and menu
     timeoutRef.current = setTimeout(() => setOpen(false), 150);
   }, []);
 
   return (
     <div onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
       <DropdownMenu open={open} onOpenChange={setOpen}>
-        {/* Trigger button styled to match the search bar */}
         <DropdownMenuTrigger
           render={
             <button
@@ -50,7 +46,6 @@ export default function CategoryDropdown() {
           <ChevronDown size={16} />
         </DropdownMenuTrigger>
 
-        {/* Dropdown content with category list */}
         <DropdownMenuContent align="start" sideOffset={8}>
           {categories.map((category) => (
             <DropdownMenuItem

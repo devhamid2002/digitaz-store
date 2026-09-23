@@ -15,12 +15,7 @@ interface ThemeLabels {
   system: string;
 }
 
-/**
- * Theme dropdown toggle for the header.
- * Labels come via props (same pattern as the rest of the header, which uses
- * prop-drilled messages instead of useTranslations) so the component also
- * renders during static prerender without an intl context.
- */
+// Labels are prop-drilled (not useTranslations) so this renders during static prerender without intl context
 export function ThemeDropdownToggle({ labels }: { labels: ThemeLabels }) {
   const { setTheme } = useTheme();
 

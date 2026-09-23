@@ -6,15 +6,11 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Pagination, Navigation } from "swiper/modules";
 import { getBanners } from "@/features/banners/services/bannerService";
 
-// Swiper styles
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 
-/**
- * Main page slider with autoplay, pagination dots, and left/right navigation arrows.
- * Banner images come from GET /api/banners.
- */
+// Banner images come from GET /api/banners
 export default function Slider() {
   const { data: banners = [], isLoading } = useQuery({
     queryKey: ["banners"],

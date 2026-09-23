@@ -10,7 +10,6 @@ import {
   DropdownMenuItem,
 } from "@/components/ui/dropdown-menu";
 
-/** Locale options for the language switcher */
 const localeOptions = [
   {
     value: "fa" as const,
@@ -24,11 +23,6 @@ const localeOptions = [
   },
 ];
 
-/**
- * Language switcher dropdown in the header.
- * Shows a flag icon + language name and allows switching between fa/en.
- * Uses flag-icons package for country flags.
- */
 export default function LanguageSwitcher() {
   const locale = useLocale();
   const pathname = usePathname();
@@ -43,7 +37,7 @@ export default function LanguageSwitcher() {
     // would remount the locale layout on the client and React refuses to render
     // a <script> there ("Encountered a script tag..."). A hard navigation lets
     // the server render a fresh document instead. `pathname` from next-intl is
-    // locale-stripped (e.g. "/" or "/products"), so prefix the target locale.
+    // locale-stripped (e.g. "/" or "/products"), so prefix the target locale
     window.location.assign(`/${newLocale}${pathname}${window.location.search}`);
   }
 
@@ -53,7 +47,7 @@ export default function LanguageSwitcher() {
         render={
           <button
             type="button"
-            className="flex items-center gap-2 text-sm font-bold text-neutral-800 transition-colors hover:text-[#2161e8] dark:text-neutral-200 dark:hover:text-blue-400"
+            className="flex items-center gap-2 text-sm font-bold text-neutral-800 transition-colors hover:text-brand dark:text-neutral-200 dark:hover:text-brand-ink"
           />
         }
       >

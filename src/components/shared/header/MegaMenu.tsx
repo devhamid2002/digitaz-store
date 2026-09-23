@@ -44,13 +44,13 @@ export default function MegaMenu() {
         <NavigationMenuItem>
           <NavigationMenuTrigger
             className="
-              bg-blue-600
+              bg-brand-strong
               p-6
               text-sm
               font-medium
               text-white
-              hover:bg-blue-800
-              focus:bg-blue-800
+              hover:bg-brand-strong-hover
+              focus:bg-brand-strong-hover
             "
           >
             <RiMenu5Fill size={15} />
@@ -159,7 +159,7 @@ export default function MegaMenu() {
                             text-xs
                             text-primary
                             transition-colors
-                            hover:text-blue-500
+                            hover:text-brand-vivid
                           "
                         >
                           مشاهده همه

@@ -2,11 +2,7 @@ import { NextResponse } from "next/server";
 import { readFile } from "fs/promises";
 import { join } from "path";
 
-/**
- * GET /api/categories
- * Mock API route that reads categories from data/data.json.
- * In production, this will be replaced by the real backend.
- */
+// GET /api/categories: mock source is data/data.json until the real backend exists
 export async function GET() {
   try {
     const filePath = join(process.cwd(), "data", "data.json");

@@ -1,8 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Get a free hosted Postgres database in seconds: `npx create-db`
-
 generator client {
   provider = "prisma-client"
   output   = "../src/generated/prisma"
@@ -14,11 +9,13 @@ datasource db {
 
 model Product {
   id            String   @id @default(uuid())
+  // slug is the canonical lookup key for routes and seed upserts
   slug          String   @unique
   name          String
   category      String
   description   String
   image         String
+  // price fields are minor currency units; discount is a percent, not derived
   price         Int
   originalPrice Int?
   discount      Int?
