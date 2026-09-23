@@ -4,6 +4,22 @@
 
 @custom-variant dark (&:is(.dark *));
 
+/* Brand tokens: single source for recolor, e.g. bg-brand, hover:bg-brand-hover, dark:text-brand-ink */
+@theme {
+  /* soft = light surfaces, deep = dark surfaces */
+  --color-brand: #2161e8;
+  --color-brand-hover: #1854d1;
+  --color-brand-strong: #2563eb;
+  --color-brand-strong-hover: #1e40af;
+  --color-brand-vivid: #3b82f6;
+  --color-brand-soft: #eff6ff;
+  --color-brand-soft-hover: #dbeafe;
+  --color-brand-ink: #60a5fa;
+  --color-brand-ink-soft: #93c5fd;
+  --color-brand-deep: #172554;
+  --color-brand-deep-hover: #1e3a8a;
+}
+
 @theme inline {
   --font-sans: var(--font-vazirmatn);
   --font-heading: var(--font-vazirmatn);
@@ -125,7 +141,7 @@
   }
 }
 
-/* Swiper: white navigation arrows and pagination dots */
+/* Override Swiper defaults: force white for contrast over product imagery */
 .swiper-button-next,
 .swiper-button-prev {
   color: white !important;
