@@ -128,6 +128,20 @@
       "unexpected": "خطای غیرمنتظره‌ای رخ داد"
     },
 
+    "product": {
+      "color": "رنگ",
+      "size": "سایز",
+      "addToCart": "افزودن به سبد خرید",
+      "wishlist": "علاقه‌مندی‌ها",
+      "reviews": "دیدگاه",
+      "off": "تخفیف",
+      "freeDelivery": "ارسال رایگان",
+      "freeDeliveryHint": "کد پستی را برای بررسی امکان ارسال وارد کنید",
+      "returns": "بازگشت کالا",
+      "returnsHint": "۳۰ روز ضمانت بازگشت.",
+      "details": "جزئیات"
+    },
+
     "footer": {
       "company": "شرکت",
       "account": "حساب کاربری",

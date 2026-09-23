@@ -128,6 +128,20 @@
       "unexpected": "Something went wrong"
     },
 
+    "product": {
+      "color": "Color",
+      "size": "Size",
+      "addToCart": "Add to cart",
+      "wishlist": "Wishlist",
+      "reviews": "Reviews",
+      "off": "OFF",
+      "freeDelivery": "Free Delivery",
+      "freeDeliveryHint": "Enter your postal code for delivery availability",
+      "returns": "Return Delivery",
+      "returnsHint": "Free 30 Days Delivery Returns.",
+      "details": "Details"
+    },
+
     "footer": {
       "company": "Company",
       "account": "My account",
