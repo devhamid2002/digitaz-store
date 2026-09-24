@@ -64,6 +64,7 @@
       "phone": "013456789",
   
       "menu": "Menu",
+      "close": "Close",
       "search": "Search",
       "login": "Login",
       "register": "Register",
@@ -134,12 +135,25 @@
       "addToCart": "Add to cart",
       "wishlist": "Wishlist",
       "reviews": "Reviews",
+      "brand": "Brand",
+      "productCode": "SKU",
+      "inStock": "In stock",
+      "outOfStock": "Out of stock",
       "off": "OFF",
-      "freeDelivery": "Free Delivery",
-      "freeDeliveryHint": "Enter your postal code for delivery availability",
-      "returns": "Return Delivery",
-      "returnsHint": "Free 30 Days Delivery Returns.",
-      "details": "Details"
+      "sizeGuide": "Size Guide",
+      "freeDelivery": "Free Shipping",
+      "freeDeliveryHint": "On orders over $99",
+      "returns": "Easy Returns",
+      "returnsHint": "30-day return policy",
+      "securePayment": "Secure Payment",
+      "securePaymentHint": "100% secure checkout",
+      "details": "Details",
+      "colors": {
+        "charcoal": "Charcoal Gray",
+        "gray": "Light Gray",
+        "beige": "Beige",
+        "black": "Black"
+      }
     },
 
     "footer": {

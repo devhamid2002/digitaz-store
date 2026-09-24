@@ -10,6 +10,7 @@ type Props = {
 
 export default async function HomePage({ params }: Props) {
   const { locale } = await params;
+  // Enable static rendering for next-intl server components on this page
   setRequestLocale(locale);
 
   return (

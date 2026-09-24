@@ -15,6 +15,7 @@ interface TimeLeft {
 }
 
 function calculateTimeLeft(target: Date): TimeLeft {
+  // Clamp expired deadlines to zero instead of showing negative values
   const diff = target.getTime() - Date.now();
 
   if (diff <= 0) {
@@ -46,6 +47,7 @@ export default function CountdownTimer({
     calculateTimeLeft(targetDate),
   );
 
+  // Tick every second and clean up on unmount or deadline change
   useEffect(() => {
     const timer = setInterval(() => {
       setTimeLeft(calculateTimeLeft(targetDate));

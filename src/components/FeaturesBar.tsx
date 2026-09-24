@@ -15,23 +15,24 @@ const featureKeys = [
   "payment",
 ] as const;
 
+// Icons and translation keys share an index so each benefit pairs icon, title, and subtitle
 export default async function FeaturesBar() {
   const t = await getTranslations("features");
 
   return (
     <div className="w-full bg-white dark:bg-gray-900 py-8 border-b border-gray-100 dark:border-gray-800">
       <div className="max-w-7xl mx-auto px-4">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
           {featureKeys.map((key, index) => {
             const Icon = icons[index];
             return (
               <div
                 key={key}
-                className="flex items-center gap-4 justify-center lg:justify-start"
+                className="flex items-center gap-3 sm:gap-4 justify-center lg:justify-start"
               >
-                <div className="flex-shrink-0">
+                <div className="shrink-0">
                   <Icon
-                    className="w-8 h-8 text-gray-700 dark:text-gray-300"
+                    className="w-7 h-7 sm:w-8 sm:h-8 text-gray-700 dark:text-gray-300"
                     strokeWidth={1.5}
                   />
                 </div>

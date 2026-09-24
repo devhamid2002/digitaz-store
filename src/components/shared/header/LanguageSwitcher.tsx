@@ -30,14 +30,9 @@ export default function LanguageSwitcher() {
   const currentOption =
     localeOptions.find((opt) => opt.value === locale) ?? localeOptions[0];
 
+  // Full reload re-negotiates locale routing while preserving path and query
   function handleLocaleChange(newLocale: "fa" | "en") {
     if (newLocale === locale) return;
-    // Full-page navigation: next-themes injects a synchronous inline <script>
-    // via ThemeProvider in the locale layout. A client-side router.replace()
-    // would remount the locale layout on the client and React refuses to render
-    // a <script> there ("Encountered a script tag..."). A hard navigation lets
-    // the server render a fresh document instead. `pathname` from next-intl is
-    // locale-stripped (e.g. "/" or "/products"), so prefix the target locale
     window.location.assign(`/${newLocale}${pathname}${window.location.search}`);
   }
 

@@ -30,10 +30,12 @@ type Props = {
   params: Promise<{ locale: string }>;
 };
 
+// Prerender one static shell per supported locale
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
 }
 
+// Resolve localized SEO metadata from the message catalog
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params;
   const messages = await getMessages({ locale });
@@ -53,6 +55,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function LocaleLayout({ children, params }: Props) {
   const { locale } = await params;
 
+  // Unknown locales fall through to the root not-found boundary
   if (!routing.locales.includes(locale as "en" | "fa")) {
     notFound();
   }

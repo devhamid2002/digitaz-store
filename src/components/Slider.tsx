@@ -10,8 +10,8 @@ import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 
-// Banner images come from GET /api/banners
 export default function Slider() {
+  // Subscribe to slider banners; loading shows a placeholder while empty hides the hero
   const { data: banners = [], isLoading } = useQuery({
     queryKey: ["banners"],
     queryFn: getBanners,

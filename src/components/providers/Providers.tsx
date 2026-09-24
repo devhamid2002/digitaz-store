@@ -11,7 +11,6 @@ type Props = {
   messages?: Record<string, unknown>;
 };
 
-// ThemeProvider wraps this from the locale layout for the next-themes inline script
 export default function Providers({ children, locale, messages }: Props) {
   const [queryClient] = useState(
     () =>

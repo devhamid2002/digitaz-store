@@ -7,6 +7,7 @@ import FeaturedProductCard from "./FeaturedProductCard";
 import ProductGridSkeleton from "./ProductGridSkeleton";
 
 export default function ProductGrid() {
+  // Subscribe to the shared catalog; loading shows skeletons while errors propagate to the boundary
   const { data: products = [], isLoading } = useQuery({
     queryKey: ["products"],
     queryFn: getProducts,
@@ -24,6 +25,7 @@ export default function ProductGrid() {
 
   // Featured card anchors the desktop grid center; regular items fill around it
   const featured = products.find((product) => product.isFeatured);
+  // Desktop shows eight regulars around the feature; smaller screens stack linearly
   const regular = products.filter((product) => !product.isFeatured);
 
   return (

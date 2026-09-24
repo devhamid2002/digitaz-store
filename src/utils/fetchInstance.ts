@@ -50,6 +50,7 @@ export async function fetchInstance<T>(
   const res = await fetch(finalUrl, buildFetchOptions(token));
 
   if (!res.ok) {
+    // Surface the backend message while preserving the HTTP failure as an exception
     let message = res.statusText;
     try {
       const errorBody = await res.json();

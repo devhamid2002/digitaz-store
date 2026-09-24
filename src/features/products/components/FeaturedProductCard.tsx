@@ -12,6 +12,7 @@ interface FeaturedProductCardProps {
 
 export default function FeaturedProductCard({ product }: FeaturedProductCardProps) {
   const locale = useLocale() as "fa" | "en";
+  // Shared mock deadline keeps the featured countdown consistent with regular cards
   const targetDate = getTargetDate();
 
   return (
@@ -61,6 +62,7 @@ export default function FeaturedProductCard({ product }: FeaturedProductCardProp
         </div>
 
         <div className="border-t border-gray-100 dark:border-gray-700 pt-3 mt-2">
+          {/* Limited-time offer countdown */}
           <p className="text-xs text-gray-500 dark:text-gray-400 mb-2">
             عجله کن! زمان باقیمانده پیشنهاد:
           </p>

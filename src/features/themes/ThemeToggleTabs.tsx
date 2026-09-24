@@ -13,6 +13,7 @@ export default function ThemeToggleTabs({
 }: HTMLAttributes<HTMLDivElement>) {
   const { theme, setTheme } = useTheme();
 
+  // Controlled theme tabs sync the active option with next-themes state
   const tabs: { value: ThemeOption; icon: LucideIcon; label: string }[] = [
     { value: "light", icon: Sun, label: "Light" },
     { value: "dark", icon: Moon, label: "Dark" },

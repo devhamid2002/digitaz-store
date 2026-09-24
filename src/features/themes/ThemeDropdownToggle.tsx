@@ -15,8 +15,8 @@ interface ThemeLabels {
   system: string;
 }
 
-// Labels are prop-drilled (not useTranslations) so this renders during static prerender without intl context
 export function ThemeDropdownToggle({ labels }: { labels: ThemeLabels }) {
+  // Dropdown theme switcher; localized labels arrive as props to stay server-renderable
   const { setTheme } = useTheme();
 
   return (

@@ -5,6 +5,7 @@ import { fetchInstance } from "@/utils/fetchInstance";
 import { toLocalizedError } from "@/utils/apiErrors";
 import type { Category, CategoriesResponse } from "../types/category";
 
+// Fetch the localized category tree; failures surface a localized catalog error
 export async function getCategories(): Promise<Category[]> {
   try {
     // Backend localizes category names via Accept-Language
@@ -21,6 +22,7 @@ export async function getCategories(): Promise<Category[]> {
   }
 }
 
+// Single-category lookup resolves to null so callers can handle unknown slugs
 export async function getCategoryBySlug(
   slug: string
 ): Promise<Category | null> {

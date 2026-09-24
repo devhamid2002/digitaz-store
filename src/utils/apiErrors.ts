@@ -17,6 +17,7 @@ const CODE_TO_KEY: Record<string, ServiceErrorKey> = {
 };
 
 // API routes stay locale-agnostic (codes only); messages resolve here at the edge
+// Always throws, so service catch blocks forward it with return
 export async function toLocalizedError(
   error: unknown,
   fallbackKey: ServiceErrorKey

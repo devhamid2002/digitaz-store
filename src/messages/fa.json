@@ -64,6 +64,7 @@
       "phone": "۰۱۳۴۵۶۷۸۹",
   
       "menu": "منو",
+      "close": "بستن",
       "search": "جستجو",
       "login": "ورود",
       "register": "ثبت نام",
@@ -134,12 +135,25 @@
       "addToCart": "افزودن به سبد خرید",
       "wishlist": "علاقه‌مندی‌ها",
       "reviews": "دیدگاه",
+      "brand": "برند",
+      "productCode": "کد محصول",
+      "inStock": "موجود",
+      "outOfStock": "ناموجود",
       "off": "تخفیف",
+      "sizeGuide": "راهنمای سایز",
       "freeDelivery": "ارسال رایگان",
-      "freeDeliveryHint": "کد پستی را برای بررسی امکان ارسال وارد کنید",
-      "returns": "بازگشت کالا",
-      "returnsHint": "۳۰ روز ضمانت بازگشت.",
-      "details": "جزئیات"
+      "freeDeliveryHint": "برای سفارش‌های بالای ۹۹ دلار",
+      "returns": "بازگشت آسان",
+      "returnsHint": "۳۰ روز ضمانت بازگشت",
+      "securePayment": "پرداخت امن",
+      "securePaymentHint": "پرداخت ۱۰۰٪ امن",
+      "details": "جزئیات",
+      "colors": {
+        "charcoal": "خاکستری ذغالی",
+        "gray": "خاکستری روشن",
+        "beige": "بژ",
+        "black": "مشکی"
+      }
     },
 
     "footer": {
