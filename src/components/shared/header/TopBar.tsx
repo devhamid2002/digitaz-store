@@ -10,10 +10,11 @@ interface Props {
 }
 
 export default function TopBar({ messages }: Props) {
+  // Static service links without navigation targets yet
   return (
     <div className="border-b border-neutral-100 dark:border-neutral-800">
-      <div className="mx-auto flex h-11 max-w-[1280px] items-center justify-between px-5 text-[12px] text-neutral-500 dark:text-neutral-400">
-        <div className="flex items-center gap-3">
+      <div className="mx-auto flex h-11 max-w-[1280px] items-center justify-center px-5 text-[11px] text-neutral-500 sm:text-[12px] md:justify-between dark:text-neutral-400">
+        <div className="flex items-center gap-2 sm:gap-3">
           <span className="group flex cursor-pointer items-center gap-1.5 transition-colors hover:text-brand-vivid dark:hover:text-brand-vivid">
             <MapPin
               size={15}
@@ -52,7 +53,7 @@ export default function TopBar({ messages }: Props) {
             {messages.store}
           </span>
         </div>
-        <p>{messages.shipping}</p>
+        <p className="hidden md:block">{messages.shipping}</p>
       </div>
     </div>
   );

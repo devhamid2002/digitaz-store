@@ -15,7 +15,8 @@ interface Props {
 
 export default function Navigation({ messages }: Props) {
   return (
-    <nav className="border-b border-neutral-100 dark:border-neutral-800">
+    <nav className="hidden border-b border-neutral-100 md:block dark:border-neutral-800">
+      {/* Primary navigation with catalog menu, placeholder links, and locale controls */}
       <div className="mx-auto flex min-h-[50px] max-w-[1280px] items-stretch px-5">
         <MegaMenu />
 

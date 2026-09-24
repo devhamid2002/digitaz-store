@@ -18,6 +18,7 @@ import { getCategories } from "@/features/categories/services/categoryService";
 import type { Category } from "@/features/categories/types/category";
 
 export default function MegaMenu() {
+  // Subscribe to the category tree for hover-driven three-pane navigation
   const { data: categories = [] } = useQuery({
     queryKey: ["categories"],
     queryFn: getCategories,
@@ -30,6 +31,7 @@ export default function MegaMenu() {
     useState<Category | null>(null);
 
   const handleCategoryEnter = (category: Category) => {
+    // Switching top-level categories resets the drilled-in subcategory pane
     setActiveCategory(category);
     setActiveSubCategory(null);
   };
