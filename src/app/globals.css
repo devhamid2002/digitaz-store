@@ -18,6 +18,9 @@
   --color-brand-ink-soft: #93c5fd;
   --color-brand-deep: #172554;
   --color-brand-deep-hover: #1e3a8a;
+  /* Product page dark surfaces */
+  --color-night: #14151a;
+  --color-night-surface: #1e2026;
 }
 
 @theme inline {
