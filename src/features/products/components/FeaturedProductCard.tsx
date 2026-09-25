@@ -1,9 +1,11 @@
+"use client";
+
 import Image from "next/image";
-import Link from "next/link";
-import { useLocale } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
+import { Link } from "@/i18n/routing";
 import StarRating from "@/components/StarRating";
 import CountdownTimer from "@/components/CountdownTimer";
-import { formatPrice, getTargetDate } from "@/utils/format";
+import { formatPrice, getTargetDate, type PriceLocale } from "@/utils/format";
 import type { Product } from "@/features/products/types/product";
 
 interface FeaturedProductCardProps {
@@ -11,7 +13,9 @@ interface FeaturedProductCardProps {
 }
 
 export default function FeaturedProductCard({ product }: FeaturedProductCardProps) {
-  const locale = useLocale() as "fa" | "en";
+  // Locale-aware formatting and catalog labels; parent grid is already client-rendered
+  const locale = useLocale() as PriceLocale;
+  const t = useTranslations("product");
   // Shared mock deadline keeps the featured countdown consistent with regular cards
   const targetDate = getTargetDate();
 
@@ -24,7 +28,7 @@ export default function FeaturedProductCard({ product }: FeaturedProductCardProp
       )}
 
       <h2 className="text-xl font-bold text-gray-900 dark:text-gray-100 mb-4 text-center">
-        پیشنهادهای ویژه
+        {t("specialOffers")}
       </h2>
 
       <Link
@@ -64,7 +68,7 @@ export default function FeaturedProductCard({ product }: FeaturedProductCardProp
         <div className="border-t border-gray-100 dark:border-gray-700 pt-3 mt-2">
           {/* Limited-time offer countdown */}
           <p className="text-xs text-gray-500 dark:text-gray-400 mb-2">
-            عجله کن! زمان باقیمانده پیشنهاد:
+            {t("hurryUp")}
           </p>
           <div className="flex justify-center">
             <CountdownTimer targetDate={targetDate} />
@@ -72,7 +76,7 @@ export default function FeaturedProductCard({ product }: FeaturedProductCardProp
         </div>
 
         <p className="text-xs text-gray-400 dark:text-gray-500 mt-3">
-          تا پایان پیشنهاد باقی مانده!
+          {t("offerRemaining")}
         </p>
       </div>
     </div>

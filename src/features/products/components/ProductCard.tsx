@@ -1,8 +1,10 @@
+"use client";
+
 import Image from "next/image";
-import Link from "next/link";
-import { useLocale } from "next-intl";
-import StarRating from "../../../components/StarRating";
-import { formatPrice } from "@/utils/format";
+import { useLocale, useTranslations } from "next-intl";
+import { Link } from "@/i18n/routing";
+import StarRating from "@/components/StarRating";
+import { formatPrice, type PriceLocale } from "@/utils/format";
 import type { Product } from "@/features/products/types/product";
 
 interface ProductCardProps {
@@ -10,9 +12,11 @@ interface ProductCardProps {
 }
 
 export default function ProductCard({ product }: ProductCardProps) {
-  // Resolve locale once for localized price formatting across the card
-  const locale = useLocale() as "fa" | "en";
+  // Locale-aware formatting and catalog labels; parent grid is already client-rendered
+  const locale = useLocale() as PriceLocale;
+  const t = useTranslations("product");
   return (
+    // locale-aware Link keeps the /[locale] prefix; plain next/link would drop it
     <Link
       href={`/product/${product.slug}`}
       className="group flex flex-col bg-white dark:bg-gray-800 rounded-xl border border-gray-100 dark:border-gray-700 p-4 transition-all duration-300 hover:shadow-md h-full"
@@ -36,10 +40,9 @@ export default function ProductCard({ product }: ProductCardProps) {
         </h3>
 
         <div className="mt-auto pt-2">
-          {/* View count and localized price footer */}
           <div className="flex items-center justify-between mb-1">
             <span className="text-[11px] text-gray-400 dark:text-gray-500">
-              ({product.viewCount} دیدکاه)
+              ({product.viewCount} {t("reviews")})
             </span>
           </div>
           <div className="flex items-center justify-between">
