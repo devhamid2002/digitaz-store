@@ -148,6 +148,9 @@
       "securePayment": "Secure Payment",
       "securePaymentHint": "100% secure checkout",
       "details": "Details",
+      "specialOffers": "Special Offers",
+      "hurryUp": "Hurry up! Time left for this offer:",
+      "offerRemaining": "Remaining until the offer ends!",
       "colors": {
         "charcoal": "Charcoal Gray",
         "gray": "Light Gray",

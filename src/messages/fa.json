@@ -148,6 +148,9 @@
       "securePayment": "پرداخت امن",
       "securePaymentHint": "پرداخت ۱۰۰٪ امن",
       "details": "جزئیات",
+      "specialOffers": "پیشنهادهای ویژه",
+      "hurryUp": "عجله کن! زمان باقیمانده پیشنهاد:",
+      "offerRemaining": "تا پایان پیشنهاد باقی مانده!",
       "colors": {
         "charcoal": "خاکستری ذغالی",
         "gray": "خاکستری روشن",
