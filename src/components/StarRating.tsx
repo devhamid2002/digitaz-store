@@ -17,7 +17,7 @@ export default function StarRating({ rating, ratingCount, size = 14 }: StarRatin
             size={size}
             className={
               i < rating
-                ? "fill-gray-900 text-gray-900 dark:fill-white dark:text-white"
+                ? "fill-amber-400 text-amber-400"
                 : "fill-gray-200 text-gray-200 dark:fill-gray-700 dark:text-gray-700"
             }
           />
