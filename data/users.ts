@@ -1,4 +1,4 @@
-import { hashSync } from 'bcryptjs'
+import { hashSync } from 'bcrypt'
 
 const userData = {
   users: [
