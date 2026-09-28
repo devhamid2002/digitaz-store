@@ -5,7 +5,16 @@ import { getLocale, getTranslations } from "next-intl/server";
 export type ServiceErrorKey =
   | "fetchProducts"
   | "fetchBanners"
-  | "fetchCategories";
+  | "fetchCategories"
+  | "otpNotFound"
+  | "otpExpired"
+  | "otpInvalid"
+  | "otpMaxAttempts"
+  | "otpRateLimited"
+  | "otpMissing"
+  | "otpFailed"
+  | "invalidIdentifier"
+  | "signInFailed";
 
 // Stable error codes shared by API routes and the future real backend
 const CODE_TO_KEY: Record<string, ServiceErrorKey> = {
@@ -14,6 +23,13 @@ const CODE_TO_KEY: Record<string, ServiceErrorKey> = {
   PRODUCT_NOT_FOUND: "fetchProducts",
   BANNERS_FETCH_FAILED: "fetchBanners",
   CATEGORIES_FETCH_FAILED: "fetchCategories",
+  OTP_NOT_FOUND: "otpNotFound",
+  OTP_EXPIRED: "otpExpired",
+  OTP_INVALID: "otpInvalid",
+  OTP_MAX_ATTEMPTS: "otpMaxAttempts",
+  OTP_RATE_LIMITED: "otpRateLimited",
+  OTP_MISSING: "otpMissing",
+  OTP_FAILED: "otpFailed",
 };
 
 // API routes stay locale-agnostic (codes only); messages resolve here at the edge
