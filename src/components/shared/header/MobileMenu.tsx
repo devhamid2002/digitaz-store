@@ -3,7 +3,7 @@
 import { useQuery } from "@tanstack/react-query";
 import Link from "next/link";
 import { X } from "lucide-react";
-import { getCategories } from "@/features/categories/services/categoryService";
+import { getCategories } from "@/features/categories/actions/category.action";
 import LanguageSwitcher from "./LanguageSwitcher";
 import {
   Drawer,

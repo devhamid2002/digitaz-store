@@ -10,7 +10,6 @@ import {
   Menu,
   Search,
   UserRound,
-  Heart,
   ShoppingBag,
   ShoppingCart,
 } from "lucide-react";
@@ -94,21 +93,13 @@ export default function MainHeader({ messages, isRTL = true, locale = "fa" }: Pr
             }}
           />
 
-          <button
-            type="button"
+          <Link
+            href={`/${locale}/auth/sign-in`}
             aria-label="Account"
             className="text-neutral-700 transition-colors hover:text-neutral-900 dark:text-neutral-300 dark:hover:text-white"
           >
             <UserRound size={23} strokeWidth={1.8} />
-          </button>
-
-          <button
-            type="button"
-            aria-label="Wishlist"
-            className="text-neutral-700 transition-colors hover:text-neutral-900 dark:text-neutral-300 dark:hover:text-white"
-          >
-            <Heart size={23} strokeWidth={1.8} />
-          </button>
+          </Link>
 
           <button
             type="button"
@@ -155,14 +146,6 @@ export default function MainHeader({ messages, isRTL = true, locale = "fa" }: Pr
           </Link>
 
           <div className="flex shrink-0 items-center gap-4">
-            <button
-              type="button"
-              aria-label="Wishlist"
-              className="text-neutral-700 transition-colors hover:text-neutral-900 dark:text-neutral-300 dark:hover:text-white"
-            >
-              <Heart size={22} strokeWidth={1.8} />
-            </button>
-
             <button
               type="button"
               aria-label="Shopping cart"

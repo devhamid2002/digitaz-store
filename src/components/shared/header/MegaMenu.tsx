@@ -14,7 +14,7 @@ import {
   NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu";
 
-import { getCategories } from "@/features/categories/services/categoryService";
+import { getCategories } from "@/features/categories/actions/category.action";
 import type { Category } from "@/features/categories/types/category";
 
 export default function MegaMenu() {
