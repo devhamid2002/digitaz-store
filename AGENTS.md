@@ -1,383 +1,131 @@
 # AGENTS.md
 
-## Project Overview
-
-This is a Next.js application using:
-
-- Next.js 16.3.4
-- React 19.2.8
-- TypeScript
-- Tailwind CSS 4
-- shadcn/ui
-- Lucide React
-- React Icons
-- next-themes
-- pnpm 11.11.0
+Read `CONTEXT.md` before making repository-specific changes.
 
-The project uses a feature-based architecture.
+## 1. Think Before Coding
 
-## Package Manager
+* Understand the request before changing code.
+* Do not make assumptions when requirements are ambiguous.
+* If multiple approaches are reasonable, explain the tradeoffs.
+* Prefer the simplest solution that satisfies the requirement.
 
-This project uses **pnpm**.
+## 2. Simplicity First
 
-Always use pnpm instead of npm or yarn.
+* Do not add features that were not requested.
+* Avoid abstractions for single-use code.
+* Do not add dependencies without a clear reason.
+* Prefer existing project utilities and patterns.
 
-### Commands
+## 3. Surgical Changes
 
-```bash
-pnpm dev
-pnpm build
-pnpm start
-pnpm lint
-```
+* Change only what is necessary.
+* Do not refactor unrelated code.
+* Do not rewrite working code for personal preference.
+* Preserve existing behavior unless the task requires changing it.
+* Clean up only unused code created by your own changes.
 
-Do not replace these with npm or yarn commands.
+## 4. Follow Project Context
 
-## Architecture
+Read `CONTEXT.md` before making repository-specific architectural decisions.
 
-The source code is located inside `src/`.
+Follow the existing:
 
-```text
-src/
-├── api/
-├── app/
-├── assets/
-├── components/
-│   ├── providers/
-│   ├── shared/
-│   │   ├── footer/
-│   │   └── header/
-│   └── ui/
-├── context/
-├── features/
-├── helpers/
-├── hooks/
-├── lib/
-├── messages/
-├── services/
-├── tests/
-├── types/
-│   └── enum/
-└── utils/
-```
+* architecture
+* naming conventions
+* package manager
+* styling conventions
+* API conventions
+* testing conventions
 
-## Feature-Based Architecture
+Do not change project architecture without a clear reason.
 
-The `features/` directory is the primary location for feature-specific code.
+## 5. Reuse Before Creating
 
-A feature should own code that belongs specifically to that feature.
+Before creating a new:
 
-Example:
+* component
+* hook
+* utility
+* service
+* type
 
-```text
-features/
-└── products/
-    ├── components/
-    ├── hooks/
-    ├── services/
-    ├── types/
-    └── ...
-```
+check whether an existing implementation can be reused.
 
-If a component, hook, utility, type, or service is specific to one feature, keep it inside that feature.
+Do not create duplicate functionality.
 
-Do not move feature-specific code into `components/shared/`.
+## 6. Server and Client Components
 
-Do not put everything into `shared` simply because it is a React component.
+* Prefer React Server Components.
+* Use `"use client"` only when client-side functionality is required.
+* Do not add `"use client"` unnecessarily.
 
-## Shared Components
+## 7. Type Safety
 
-Reusable application components used by multiple pages or features belong in:
+* Use TypeScript consistently.
+* Avoid `any` unless technically justified.
+* Prefer specific types over broad types.
+* Reuse existing types when appropriate.
 
-```text
-src/components/shared/
-```
+## 8. Dependencies
 
-Current shared areas include:
+Before installing a dependency:
 
-```text
-components/shared/
-├── header/
-│   ├── Header.tsx
-│   ├── MainHeader.tsx
-│   ├── MegaMenu.tsx
-│   ├── Navigation.tsx
-│   └── TopBar.tsx
-└── footer/
-```
+1. Check existing dependencies.
+2. Check whether Next.js, React, TypeScript, or the browser already provides the functionality.
+3. Add a package only when it provides meaningful value.
 
-A component belongs in `shared/` when it is genuinely reusable across different parts of the application.
+Use `pnpm` for all package operations.
 
-Do not create shared components prematurely.
-
-If a component belongs only to one feature, keep it inside that feature.
-
-## UI Components
-
-Reusable low-level UI components belong in:
-
-```text
-src/components/ui/
-```
-
-Follow the existing shadcn/ui conventions.
-
-Do not unnecessarily rewrite or duplicate existing UI primitives.
-
-## Providers
-
-Application-wide React providers belong in:
-
-```text
-src/components/providers/
-```
-
-Feature-specific providers should remain inside their feature unless they are genuinely application-wide.
-
-## App Router
-
-Routing and pages belong inside:
-
-```text
-src/app/
-```
-
-Keep route-specific logic close to the route or relevant feature.
-
-## Server and Client Components
-
-Prefer React Server Components by default.
-
-Only add:
-
-```tsx
-"use client";
-```
-
-when the component actually requires client-side functionality such as:
-
-- `useState`
-- `useEffect`
-- event handlers
-- browser APIs
-- client-only libraries
-- client-side context
-
-Do not add `"use client"` unnecessarily.
-
-Avoid turning large component trees into Client Components when only a small part requires client-side behavior.
-
-## TypeScript
-
-Use TypeScript consistently.
-
-Prefer explicit types for:
-
-- component props
-- API responses
-- feature data
-- reusable functions
-- shared utilities
-
-Avoid `any` unless there is a strong technical reason.
-
-Prefer specific types over `any`.
-
-## Enums
-
-Enums are stored inside:
-
-```text
-src/types/enum/
-```
-
-When adding a new enum, follow the existing naming and organization conventions in that directory.
-
-Do not create random enum files in unrelated directories.
-
-## Hooks
-
-Global reusable hooks belong in:
-
-```text
-src/hooks/
-```
-
-Feature-specific hooks should stay inside the relevant feature:
-
-```text
-src/features/<feature>/hooks/
-```
-
-Do not put feature-specific hooks into the global hooks directory.
-
-## Services
-
-Application or external data-access services belong in:
-
-```text
-src/services/
-```
-
-If a service is strongly coupled to one feature, prefer keeping it inside that feature.
-
-## Helpers and Utils
-
-Use the existing directories:
-
-```text
-src/helpers/
-src/utils/
-```
-
-Do not create additional utility directories.
-
-Before creating a new helper or utility, check whether an existing function already solves the problem.
-
-Avoid duplicated utility functions.
-
-## Context
-
-Global React contexts belong in:
-
-```text
-src/context/
-```
-
-Feature-specific state should generally remain inside the feature unless it genuinely needs to be globally accessible.
-
-## Internationalization
-
-Translations are stored in:
-
-```text
-src/messages/
-```
-
-The application supports localized UI.
-
-Do not hardcode user-facing translated text inside components when the existing message system should be used.
-
-When adding UI text, update the appropriate locale message files and keep supported locales consistent.
-
-## Styling
-
-Use Tailwind CSS for styling and follow the existing project conventions.
-
-Prefer existing design tokens, utility classes, and components instead of introducing another styling system.
-
-Avoid unnecessary custom CSS.
-
-Before adding CSS to global styles, check whether the same result can be achieved with existing Tailwind utilities.
-
-## Component Guidelines
-
-Prefer small, focused components.
-
-Avoid large components that combine UI, data fetching, business logic, state management, and formatting without a clear reason.
-
-Separate responsibilities when there is a clear benefit.
-
-## Reuse Before Creating
-
-Before creating a new component, hook, helper, utility, or service:
-
-1. Check whether an existing implementation can be reused.
-2. Check `components/shared/`.
-3. Check `components/ui/`.
-4. Check the relevant feature.
-5. Only then create a new implementation.
-
-Do not duplicate existing functionality.
-
-## Imports
-
-Use the project's configured path aliases when available.
-
-Prefer:
-
-```ts
-import Button from "@/components/ui/button";
-```
-
-over unnecessarily long relative paths.
-
-Follow the existing import ordering and formatting conventions.
-
-## Changes
-
-When modifying the project:
-
-- Make the smallest reasonable change.
-- Do not rewrite unrelated code.
-- Do not rename files without a reason.
-- Do not change the architecture unnecessarily.
-- Do not introduce new dependencies when existing dependencies can solve the problem.
-- Preserve existing behavior unless the task explicitly requires changing it.
-
-## Dependencies
-
-Before installing a package, check whether an existing dependency already provides the required functionality.
-
-Use:
-
-```bash
-pnpm add <package>
-```
-
-for production dependencies.
-
-Use:
-
-```bash
-pnpm add -D <package>
-```
-
-for development dependencies.
-
-Never use npm or yarn.
-
-## Validation
+## 9. Validation
 
 After making changes, run the relevant checks.
 
-At minimum, when appropriate:
+At minimum when appropriate:
 
 ```bash
 pnpm lint
+pnpm format:check
 ```
 
-For changes that may affect the production build:
+For production-affecting changes:
 
 ```bash
 pnpm build
 ```
 
-Do not claim that a change works without validating it when validation is possible.
+Do not claim that a change works without verifying it when verification is possible.
 
-## Do Not
+## 10. Goal-Driven Execution
+
+For multi-step tasks:
+
+1. Define the goal.
+2. Make a short plan.
+3. Implement the smallest appropriate change.
+4. Verify the result.
+5. Review the final diff.
+
+## 11. Git
+
+* Do not create commits unless explicitly requested.
+* Before committing, review:
+
+  ```bash
+  git status
+  git diff
+  ```
+* Keep commits focused.
+* Use conventional commit messages.
+
+## 12. Do Not
 
 The agent must not:
 
-- Replace pnpm with npm/yarn.
-- Create unnecessary global components.
-- Put feature-specific code in `components/shared`.
-- Add `"use client"` without a reason.
-- Use `any` unnecessarily.
-- Duplicate existing components or utilities.
-- Add unnecessary dependencies.
-- Modify unrelated files.
-- Rewrite working code just for stylistic preference.
-- Change the project architecture without a clear reason.
-
-## Priority
-
-When working on this project, follow this order:
-
-1. Existing project conventions
-2. Feature ownership
-3. Reusability
-4. Type safety
-5. Minimal changes
-6. Performance
-7. Developer experience
+* replace `pnpm` with `npm` or `yarn`
+* modify unrelated files
+* add unnecessary dependencies
+* duplicate existing functionality
+* over-engineer simple tasks
+* change architecture without a reason
+* ignore validation failures
+* claim success without verification
