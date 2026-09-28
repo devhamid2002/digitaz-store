@@ -3,7 +3,7 @@
 import { useState, useRef, useCallback } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { ChevronDown } from "lucide-react";
-import { getCategories } from "@/features/categories/services/categoryService";
+import { getCategories } from "@/features/categories/actions/category.action";
 
 import {
   DropdownMenu,
