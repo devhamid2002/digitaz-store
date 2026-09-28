@@ -66,26 +66,19 @@ export default function CountdownTimer({
   return (
     <div dir="ltr" className="flex w-full items-start justify-center gap-2">
       {segments.map((segment, index) => (
-        <div key={segment.key} className="flex items-start gap-2">
-          <div className="w-10">
-            <div className="overflow-hidden rounded-lg bg-gray-900 px-1.5 py-2 dark:bg-white">
-              <h3
-                className={`text-center text-sm font-semibold text-white dark:text-gray-900 ${
-                  index === 3 ? "animate-countinsecond" : ""
-                }`}
-              >
-                {pad(segment.value)}
-              </h3>
+        <div key={segment.key} className="w-12">
+          <div className="rounded-lg bg-gray-900 px-1 py-2 text-center dark:bg-white">
+            <div
+              className={`text-center text-sm font-bold text-white tabular-nums dark:text-gray-900 ${
+                index === 3 ? "animate-countinsecond" : ""
+              }`}
+            >
+              {pad(segment.value)}
             </div>
-
-            <p className="mt-1 w-full text-center text-[10px] font-medium text-gray-900 dark:text-gray-100">
+            <div className="mt-0.5 text-center text-[10px] font-medium text-gray-300 dark:text-gray-600">
               {segment.label}
-            </p>
+            </div>
           </div>
-
-          {index < segments.length - 1 && (
-            <h3 className="text-sm font-semibold text-gray-900 dark:text-gray-100 mt-2">:</h3>
-          )}
         </div>
       ))}
     </div>

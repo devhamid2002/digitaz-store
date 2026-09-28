@@ -1,7 +1,7 @@
 "use client";
 
 import { useQuery } from "@tanstack/react-query";
-import { getProducts } from "@/features/products/services/productService";
+import { getProducts } from "@/features/products/actions/product.action";
 import ProductCard from "./ProductCard";
 import FeaturedProductCard from "./FeaturedProductCard";
 import ProductGridSkeleton from "./ProductGridSkeleton";
