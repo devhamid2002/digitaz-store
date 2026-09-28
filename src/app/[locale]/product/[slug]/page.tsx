@@ -1,7 +1,7 @@
 import { setRequestLocale, getTranslations } from "next-intl/server";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
-import { getProductBySlug } from "@/features/products/services/productService";
+import { getProductBySlug } from "@/features/products/actions/product.action";
 import ProductGallery from "@/features/products/components/ProductGallery";
 import ProductDetails from "@/features/products/components/ProductDetails";
 

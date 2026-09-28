@@ -4,7 +4,7 @@ import Image from "next/image";
 import { useQuery } from "@tanstack/react-query";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Pagination, Navigation } from "swiper/modules";
-import { getBanners } from "@/features/banners/services/bannerService";
+import { getBanners } from "@/features/banners/actions/banner.action";
 
 import "swiper/css";
 import "swiper/css/pagination";
