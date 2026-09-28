@@ -6,8 +6,8 @@ export interface Product {
   description: string;
   image: string;
   price: number;
-  originalPrice?: number;
-  discount?: number;
+  originalPrice?: number | null;
+  discount?: number | null;
   brand: string;
   stock: number;
   rating: number;
