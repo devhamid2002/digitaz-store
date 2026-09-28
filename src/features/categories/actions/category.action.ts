@@ -4,6 +4,7 @@ import { getLocale } from "next-intl/server";
 import { fetchInstance } from "@/utils/fetchInstance";
 import { toLocalizedError } from "@/utils/apiErrors";
 import type { Category, CategoriesResponse } from "../types/category";
+import { isCategoriesResponse } from "../types/category.validator";
 
 // Fetch the localized category tree; failures surface a localized catalog error
 export async function getCategories(): Promise<Category[]> {
@@ -15,6 +16,7 @@ export async function getCategories(): Promise<Category[]> {
         "Accept-Language": locale,
       },
     });
+    if (!isCategoriesResponse(data)) throw new Error("CATEGORIES_FETCH_FAILED");
     return data.categories;
   } catch (error) {
     console.error("Failed to fetch categories:", error);

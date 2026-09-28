@@ -3,11 +3,13 @@
 import { fetchInstance } from "@/utils/fetchInstance";
 import { toLocalizedError } from "@/utils/apiErrors";
 import type { Product, ProductsResponse } from "../types/product";
+import { isProduct, isProductsResponse } from "../types/product.validator";
 
 // Throws a localized error on failure so the catalog surfaces it instead of rendering empty
 export async function getProducts(): Promise<Product[]> {
   try {
     const data = await fetchInstance<ProductsResponse>("/api/products");
+    if (!isProductsResponse(data)) throw new Error("PRODUCTS_FETCH_FAILED");
     return data.products;
   } catch (error) {
     console.error("Failed to fetch products:", error);
@@ -19,6 +21,7 @@ export async function getProducts(): Promise<Product[]> {
 export async function getProductBySlug(slug: string): Promise<Product | null> {
   try {
     const data = await fetchInstance<Product>(`/api/products/${slug}`);
+    if (!isProduct(data)) return null;
     return data;
   } catch (error) {
     console.error(`Failed to fetch product ${slug}:`, error);
