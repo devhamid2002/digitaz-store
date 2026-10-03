@@ -1,4 +1,4 @@
-import { setRequestLocale, getTranslations } from "next-intl/server";
+import { setRequestLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { getProductBySlug } from "@/features/products/actions/product.action";
@@ -32,35 +32,6 @@ export default async function ProductPage({ params }: Props) {
     notFound();
   }
 
-  // Map the product namespace once so presentational components stay locale-agnostic
-  const t = await getTranslations("product");
-  const labels = {
-    color: t("color"),
-    size: t("size"),
-    sizeGuide: t("sizeGuide"),
-    addToCart: t("addToCart"),
-    wishlist: t("wishlist"),
-    reviews: t("reviews"),
-    off: t("off"),
-    freeDelivery: t("freeDelivery"),
-    freeDeliveryHint: t("freeDeliveryHint"),
-    returns: t("returns"),
-    returnsHint: t("returnsHint"),
-    securePayment: t("securePayment"),
-    securePaymentHint: t("securePaymentHint"),
-    details: t("details"),
-    brand: t("brand"),
-    productCode: t("productCode"),
-    inStock: t("inStock"),
-    outOfStock: t("outOfStock"),
-    colorNames: [
-      t("colors.charcoal"),
-      t("colors.gray"),
-      t("colors.beige"),
-      t("colors.black"),
-    ],
-  };
-
   return (
     <main className="mx-auto my-4 w-full max-w-[1600px] rounded-2xl bg-white shadow dark:bg-neutral-900">
       <div className="mx-auto px-4 py-8">
@@ -68,7 +39,6 @@ export default async function ProductPage({ params }: Props) {
           <ProductGallery image={product.image} name={product.name} />
           <ProductDetails
             product={product}
-            labels={labels}
             locale={locale as "fa" | "en"}
           />
         </div>
