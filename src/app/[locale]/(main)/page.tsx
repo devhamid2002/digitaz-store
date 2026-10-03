@@ -4,7 +4,6 @@ import Slider from "@/components/Slider";
 import ProductShowcase from "@/features/products/components/ProductShowcase";
 import { setRequestLocale } from "next-intl/server";
 
-
 type Props = {
   params: Promise<{ locale: string }>;
 };
