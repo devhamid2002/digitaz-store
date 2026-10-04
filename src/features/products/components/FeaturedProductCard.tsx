@@ -1,5 +1,6 @@
 "use client";
 
+import { useMemo } from "react";
 import Image from "next/image";
 import { useLocale, useTranslations } from "next-intl";
 import { Link } from "@/i18n/routing";
@@ -16,8 +17,9 @@ export default function FeaturedProductCard({ product }: FeaturedProductCardProp
   // Locale-aware formatting and catalog labels; parent grid is already client-rendered
   const locale = useLocale() as PriceLocale;
   const t = useTranslations("product");
-  // Shared mock deadline keeps the featured countdown consistent with regular cards
-  const targetDate = getTargetDate();
+  // Shared mock deadline keeps the featured countdown consistent with regular cards.
+  // Memoized so CountdownTimer's interval effect isn't reset on every parent render.
+  const targetDate = useMemo(() => getTargetDate(), []);
 
   return (
     <div className="relative flex flex-col items-center bg-white dark:bg-gray-800 rounded-xl border-2 border-brand-vivid p-6 h-full">
