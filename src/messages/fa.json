@@ -140,9 +140,9 @@
 
     "auth": {
       "loginTitle": "ورود",
-      "loginSubtitle": "شماره موبایل یا ایمیل خود را وارد کنید تا کد تأیید دریافت کنید.",
-      "identifierLabel": "شماره موبایل یا ایمیل",
-      "identifierPlaceholder": "مثلاً 09123456789 یا you@example.com",
+      "loginSubtitle": "شماره موبایل خود را وارد کنید تا کد تأیید دریافت کنید.",
+      "identifierLabel": "شماره موبایل",
+      "identifierPlaceholder": "مثلاً 09123456789",
       "sendCode": "ارسال کد تأیید",
       "sending": "در حال ارسال...",
       "codeSent": "کد تأیید ارسال شد.",
@@ -153,7 +153,8 @@
       "verify": "تأیید و ورود",
       "verifying": "در حال بررسی...",
       "resendCode": "ارسال مجدد کد",
-      "changeIdentifier": "تغییر شماره موبایل یا ایمیل",
+      "changeIdentifier": "تغییر شماره موبایل",
+      "termsNotice": "با ادامه، با <terms>قوانین و مقررات</terms> و <privacy>حریم خصوصی</privacy> موافقت می‌کنید.",
       "logout": "خروج از حساب"
     },
 
@@ -161,6 +162,9 @@
       "color": "رنگ",
       "size": "سایز",
       "addToCart": "افزودن به سبد خرید",
+      "addingToCart": "در حال افزودن...",
+      "addedToCart": "به سبد خرید اضافه شد",
+      "addToCartError": "افزودن ناموفق بود. لطفاً دوباره تلاش کنید.",
       "wishlist": "علاقه‌مندی‌ها",
       "reviews": "دیدگاه",
       "brand": "برند",

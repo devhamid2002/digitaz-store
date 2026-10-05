@@ -140,9 +140,9 @@
 
     "auth": {
       "loginTitle": "Login",
-      "loginSubtitle": "Enter your phone number or email to receive a verification code.",
-      "identifierLabel": "Phone number or email",
-      "identifierPlaceholder": "e.g. 09123456789 or you@example.com",
+      "loginSubtitle": "Enter your phone number to receive a verification code.",
+      "identifierLabel": "Phone number",
+      "identifierPlaceholder": "e.g. 09123456789",
       "sendCode": "Send verification code",
       "sending": "Sending...",
       "codeSent": "Verification code sent.",
@@ -153,7 +153,8 @@
       "verify": "Verify and login",
       "verifying": "Verifying...",
       "resendCode": "Resend code",
-      "changeIdentifier": "Change phone number or email",
+      "changeIdentifier": "Change phone number",
+      "termsNotice": "By continuing, you agree to our <terms>Terms & conditions</terms> and <privacy>Privacy policy</privacy>.",
       "logout": "Logout"
     },
 
@@ -161,6 +162,9 @@
       "color": "Color",
       "size": "Size",
       "addToCart": "Add to cart",
+      "addingToCart": "Adding...",
+      "addedToCart": "Added to cart",
+      "addToCartError": "Could not add to cart. Please try again.",
       "wishlist": "Wishlist",
       "reviews": "Reviews",
       "brand": "Brand",
