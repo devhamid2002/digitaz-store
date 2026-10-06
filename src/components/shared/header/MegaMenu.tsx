@@ -24,11 +24,12 @@ export default function MegaMenu() {
     queryFn: getCategories,
   });
 
-  const [activeCategory, setActiveCategory] = useState<Category | null>(
-    categories[0] ?? null
-  );
+  const [activeCategory, setActiveCategory] = useState<Category | null>(null);
   const [activeSubCategory, setActiveSubCategory] =
     useState<Category | null>(null);
+
+  // Fall back to the first category so the panes are populated before any hover
+  const selectedCategory = activeCategory ?? categories[0] ?? null;
 
   const handleCategoryEnter = (category: Category) => {
     // Switching top-level categories resets the drilled-in subcategory pane
@@ -94,7 +95,7 @@ export default function MegaMenu() {
                   <div className="space-y-1">
                     {categories.map((category) => {
                       const isActive =
-                        activeCategory?.id === category.id;
+                        selectedCategory?.id === category.id;
 
                       return (
                         <button
@@ -112,7 +113,7 @@ export default function MegaMenu() {
                             rounded-lg
                             px-3
                             py-2.5
-                            text-right
+                            text-start
                             text-sm
                             transition-colors
 
@@ -147,11 +148,11 @@ export default function MegaMenu() {
                     p-5
                   "
                 >
-                  {activeCategory?.children?.length ? (
+                  {selectedCategory?.children?.length ? (
                     <>
                       <div className="mb-4 flex items-center justify-between gap-3">
                         <h3 className="text-sm font-bold">
-                          {activeCategory.name}
+                          {selectedCategory.name}
                         </h3>
 
                         <Link
@@ -169,7 +170,7 @@ export default function MegaMenu() {
                       </div>
 
                       <div className="space-y-1">
-                        {activeCategory.children.map(
+                        {selectedCategory.children.map(
                           (subcategory) => {
                             const isActive =
                               activeSubCategory?.id ===
@@ -192,7 +193,7 @@ export default function MegaMenu() {
                                   rounded-lg
                                   px-3
                                   py-2.5
-                                  text-right
+                                  text-start
                                   text-sm
                                   transition-colors
 
