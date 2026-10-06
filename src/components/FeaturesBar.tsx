@@ -36,7 +36,7 @@ export default async function FeaturesBar() {
                     strokeWidth={1.5}
                   />
                 </div>
-                <div className="flex flex-col text-right">
+                <div className="flex flex-col text-start">
                   <h3 className="font-bold text-gray-900 dark:text-gray-100 text-sm lg:text-base">
                     {t(`${key}.title`)}
                   </h3>
