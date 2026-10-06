@@ -36,7 +36,7 @@ export default function Slider() {
       loop
       className="w-full"
     >
-      {banners.map((banner) => (
+      {banners.map((banner, index) => (
         <SwiperSlide key={banner.id}>
           <div className="relative w-full h-[350px]">
             <Image
@@ -45,7 +45,7 @@ export default function Slider() {
               fill
               className="object-cover"
               sizes="100vw"
-              priority
+              priority={index === 0}
             />
           </div>
         </SwiperSlide>
