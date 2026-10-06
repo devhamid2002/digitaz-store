@@ -7,6 +7,7 @@ interface FetchOptions {
   body?: unknown;
   headers?: Record<string, string>;
   baseUrl?: string;
+  cache?: RequestCache;
 }
 
 // Empty fallback keeps relative URLs same-origin when the env var is unset
@@ -21,12 +22,14 @@ export async function fetchInstance<T>(
     body,
     headers = {},
     baseUrl = DEFAULT_BASE_URL,
+    cache,
   } = options;
   const finalUrl = url.startsWith("http") ? url : baseUrl + url;
   const isFormData = body instanceof FormData;
 
   const buildFetchOptions = (token?: string): RequestInit => ({
     method,
+    cache,
     headers: {
       // Omit JSON Content-Type so the browser sets the multipart boundary for FormData
       ...(isFormData ? {} : { "Content-Type": "application/json" }),
@@ -43,9 +46,9 @@ export async function fetchInstance<T>(
         : undefined,
   });
 
-  // Runs unauthenticated until cookie/refresh helpers exist
+  // Runs unauthenticated until cookie/refresh helpers exist (no per-call warning:
+  // the token slot below is intentionally unwired, so logging here is pure noise).
   const token: string | undefined = undefined;
-  if (!token) console.warn("No access token found!");
 
   const res = await fetch(finalUrl, buildFetchOptions(token));
 
