@@ -1,7 +1,7 @@
-export type PriceLocale = "fa" | "en";
+export type Locale = "fa" | "en";
 
 // fa → "۱۲٬۰۰۰٬۰۰۰ تومان", en → "$12,000,000"
-export function formatPrice(price: number, locale: PriceLocale = "fa"): string {
+export function formatPrice(price: number, locale: Locale = "fa"): string {
   if (locale === "en") {
     return `$${price.toLocaleString("en-US")}`;
   }
