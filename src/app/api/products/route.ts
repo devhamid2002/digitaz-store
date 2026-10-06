@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import type { ProductSpecifications } from "@/features/products/types/product";
 
 export async function GET() {
   try {
@@ -23,6 +24,8 @@ export async function GET() {
       ratingCount: p.ratingCount,
       viewCount: p.viewCount,
       isFeatured: p.isFeatured,
+      // JSON column; shape is validated by the catalog actions before render
+      specifications: p.specifications as unknown as ProductSpecifications,
     }));
 
     return NextResponse.json({ products });

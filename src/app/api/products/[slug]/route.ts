@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import type { ProductSpecifications } from "@/features/products/types/product";
 
 interface Params {
   params: Promise<{ slug: string }>;
@@ -34,6 +35,8 @@ export async function GET(_request: Request, { params }: Params) {
       ratingCount: p.ratingCount,
       viewCount: p.viewCount,
       isFeatured: p.isFeatured,
+      // JSON column; shape is validated by the catalog actions before render
+      specifications: p.specifications as unknown as ProductSpecifications,
     });
   } catch (error) {
     console.error("GET /api/products/[slug] failed:", error);
