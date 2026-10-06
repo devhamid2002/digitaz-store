@@ -1,9 +1,9 @@
 "use client";
 
-import { useQuery } from "@tanstack/react-query";
 import Link from "next/link";
 import { X } from "lucide-react";
 import { getCategories } from "@/features/categories/actions/category.action";
+import { useActionQuery } from "@/hooks/useActionQuery";
 import LanguageSwitcher from "./LanguageSwitcher";
 import {
   Drawer,
@@ -39,10 +39,10 @@ export default function MobileMenu({
   locale,
 }: MobileMenuProps) {
   // Categories share the cached query with the desktop mega menu
-  const { data: categories = [] } = useQuery({
-    queryKey: ["categories"],
-    queryFn: getCategories,
-  });
+  const { data: categories = [] } = useActionQuery(
+    ["categories"],
+    getCategories
+  );
 
   const isRTL = locale === "fa";
   // Panel slides in from the same physical side as the hamburger button

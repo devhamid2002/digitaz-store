@@ -1,10 +1,10 @@
 "use client";
 
 import Image from "next/image";
-import { useQuery } from "@tanstack/react-query";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Pagination, Navigation } from "swiper/modules";
 import { getBanners } from "@/features/banners/actions/banner.action";
+import { useActionQuery } from "@/hooks/useActionQuery";
 
 import "swiper/css";
 import "swiper/css/pagination";
@@ -12,10 +12,10 @@ import "swiper/css/navigation";
 
 export default function Slider() {
   // Subscribe to slider banners; loading shows a placeholder while empty hides the hero
-  const { data: banners = [], isLoading } = useQuery({
-    queryKey: ["banners"],
-    queryFn: getBanners,
-  });
+  const { data: banners = [], isLoading } = useActionQuery(
+    ["banners"],
+    getBanners
+  );
 
   if (isLoading) {
     return (

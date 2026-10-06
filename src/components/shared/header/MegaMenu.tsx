@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { useQuery } from "@tanstack/react-query";
 import Link from "next/link";
 import { ChevronLeft } from "lucide-react";
 import { RiMenu5Fill } from "react-icons/ri";
@@ -15,14 +14,15 @@ import {
 } from "@/components/ui/navigation-menu";
 
 import { getCategories } from "@/features/categories/actions/category.action";
+import { useActionQuery } from "@/hooks/useActionQuery";
 import type { Category } from "@/features/categories/types/category";
 
 export default function MegaMenu() {
   // Subscribe to the category tree for hover-driven three-pane navigation
-  const { data: categories = [] } = useQuery({
-    queryKey: ["categories"],
-    queryFn: getCategories,
-  });
+  const { data: categories = [] } = useActionQuery(
+    ["categories"],
+    getCategories
+  );
 
   const [activeCategory, setActiveCategory] = useState<Category | null>(null);
   const [activeSubCategory, setActiveSubCategory] =
