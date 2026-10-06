@@ -3,6 +3,8 @@
 import { useState } from "react";
 import Link from "next/link";
 import { ThemeDropdownToggle } from "@/features/themes/ThemeDropdownToggle";
+import { useAppSelector } from "@/context/hooks";
+import { selectCartCount } from "@/context/slices/cartSlice";
 import CategoryDropdown from "./CategoryDropdown";
 import MobileMenu from "./MobileMenu";
 
@@ -35,6 +37,7 @@ interface Props {
 
 export default function MainHeader({ messages, isRTL = true, locale = "fa" }: Props) {
   const [menuOpen, setMenuOpen] = useState(false);
+  const cartCount = useAppSelector(selectCartCount);
 
   return (
     <div
@@ -83,7 +86,7 @@ export default function MainHeader({ messages, isRTL = true, locale = "fa" }: Pr
           </button>
         </div>
 
-        {/* Theme and account shortcuts; cart count is static until cart state exists */}
+        {/* Theme and account shortcuts; cart badge reflects the live cart count */}
         <div className="flex items-center gap-5">
           <ThemeDropdownToggle
             labels={{
@@ -108,9 +111,11 @@ export default function MainHeader({ messages, isRTL = true, locale = "fa" }: Pr
           >
             <ShoppingCart  size={23} strokeWidth={1.8} />
 
-            <span className="absolute -end-2 -top-2 flex h-5 w-5 items-center justify-center rounded-full bg-red-500 text-[10px] font-bold text-white">
-              1
-            </span>
+            {cartCount > 0 && (
+              <span className="absolute -end-2 -top-2 flex h-5 w-5 items-center justify-center rounded-full bg-red-500 text-[10px] font-bold text-white">
+                {cartCount}
+              </span>
+            )}
           </button>
         </div>
       </div>
