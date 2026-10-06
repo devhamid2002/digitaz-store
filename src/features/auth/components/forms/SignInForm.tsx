@@ -1,9 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useActionState, useRef, useState } from "react";
 import { signIn } from "next-auth/react";
 import { useTranslations } from "next-intl";
 import { useSearchParams } from "next/navigation";
+import { REGEXP_ONLY_DIGITS } from "input-otp";
 import { useRouter } from "@/i18n/routing";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -15,8 +16,18 @@ import {
   FieldLabel,
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
+import {
+  InputOTP,
+  InputOTPGroup,
+  InputOTPSeparator,
+  InputOTPSlot,
+} from "@/components/ui/input-otp";
+import {
+  INITIAL_AUTH_REQUEST_STATE,
+  authRequestAction,
+} from "@/features/auth/actions/auth.action";
 
-// next-auth / OTP API failure codes -> errors-namespace message keys
+// next-auth / OTP failure codes -> errors-namespace message keys
 const ERROR_KEYS = {
   OTP_NOT_FOUND: "otpNotFound",
   OTP_EXPIRED: "otpExpired",
@@ -33,6 +44,12 @@ function isOtpErrorCode(value: unknown): value is OtpErrorCode {
   return typeof value === "string" && value in ERROR_KEYS;
 }
 
+type VerifyState = {
+  errorKey: string | null;
+};
+
+const INITIAL_VERIFY_STATE: VerifyState = { errorKey: null };
+
 export function SignInForm({
   className,
   ...props
@@ -42,187 +59,214 @@ export function SignInForm({
   const router = useRouter();
   const searchParams = useSearchParams();
 
-  const [step, setStep] = useState<"identifier" | "code">("identifier");
-  const [identifier, setIdentifier] = useState("");
-  const [code, setCode] = useState("");
-  const [pending, setPending] = useState(false);
-
   const callbackUrl = searchParams.get("callbackUrl") ?? "/";
 
-  // Surface next-auth redirect errors (e.g. expired session) as localized text
-  const [errorKey, setErrorKey] = useState<string | null>(() => {
-    const urlError = searchParams.get("error");
-    return isOtpErrorCode(urlError) ? ERROR_KEYS[urlError] : null;
-  });
-  const [codeSent, setCodeSent] = useState(false);
+  // Identifier step runs through the server action (request/resend/back).
+  const [requestState, requestFormAction, isRequesting] = useActionState(
+    authRequestAction,
+    INITIAL_AUTH_REQUEST_STATE,
+  );
 
-  async function requestCode(currentIdentifier = identifier) {
-    setPending(true);
-    setErrorKey(null);
-    try {
-      const res = await fetch("/api/auth/otp/request", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ identifier: currentIdentifier }),
-      });
-      const data = (await res.json()) as {
-        ok: boolean;
-        error?: string;
-      };
-      if (!data.ok) {
-        setErrorKey(
-          isOtpErrorCode(data.error) ? ERROR_KEYS[data.error] : "otpFailed"
-        );
-        return false;
-      }
-      setCodeSent(true);
-      setStep("code");
-      return true;
-    } catch {
-      setErrorKey("otpFailed");
-      return false;
-    } finally {
-      setPending(false);
-    }
-  }
-
-  async function verifyCode(event: React.FormEvent) {
-    event.preventDefault();
-    setPending(true);
-    setErrorKey(null);
-    try {
+  // Surface next-auth redirect errors (e.g. expired session) as localized text.
+  const urlError = searchParams.get("error");
+  const [verifyState, verifyFormAction, isVerifying] = useActionState(
+    async (
+      _prevState: VerifyState,
+      formData: FormData,
+    ): Promise<VerifyState> => {
       // First successful verification auto-creates the account: login and
       // signup share this single step.
       const res = await signIn("otp", {
-        identifier,
-        code,
+        identifier: formData.get("identifier")?.toString() ?? "",
+        code: formData.get("code")?.toString() ?? "",
         redirect: false,
-        callbackUrl,
+        callbackUrl: formData.get("callbackUrl")?.toString() ?? "/",
       });
       if (res?.error) {
-        setErrorKey(
-          isOtpErrorCode(res.error) ? ERROR_KEYS[res.error] : "signInFailed"
-        );
-        return;
+        return {
+          errorKey: isOtpErrorCode(res.error)
+            ? ERROR_KEYS[res.error]
+            : "signInFailed",
+        };
       }
       if (res?.ok) {
         router.push(res.url ?? callbackUrl);
         router.refresh();
+        return INITIAL_VERIFY_STATE;
       }
-    } catch {
-      setErrorKey("signInFailed");
-    } finally {
-      setPending(false);
-    }
-  }
+      return { errorKey: "signInFailed" };
+    },
+    {
+      errorKey: isOtpErrorCode(urlError) ? ERROR_KEYS[urlError] : null,
+    },
+  );
+
+  const [code, setCode] = useState("");
+  const verifyFormRef = useRef<HTMLFormElement>(null);
+
+  const onCodeStep = requestState.step === "code";
 
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
-      <form
-        onSubmit={
-          step === "identifier"
-            ? (event) => {
-                event.preventDefault();
-                void requestCode();
-              }
-            : verifyCode
-        }
-      >
-        <FieldGroup>
-          <div className="flex flex-col items-center gap-2 text-center">
-            <span className="text-[29px] font-black tracking-tight italic">
-              digitaz
-            </span>
-            <h1 className="text-xl font-bold">{t("loginTitle")}</h1>
-            <FieldDescription>
-              {step === "identifier" ? t("loginSubtitle") : t("codeSubtitle")}
-            </FieldDescription>
-          </div>
+      <div className="flex flex-col items-center gap-2 text-center">
+        <span className="text-[29px] font-black tracking-tight italic">
+          digitaz
+        </span>
+        <h1 className="text-xl font-bold">{t("loginTitle")}</h1>
+        <FieldDescription>
+          {onCodeStep ? t("codeSubtitle") : t("loginSubtitle")}
+        </FieldDescription>
+      </div>
 
-          {step === "identifier" ? (
+      {!onCodeStep ? (
+        <form action={requestFormAction}>
+          <FieldGroup>
             <Field>
               <FieldLabel htmlFor="identifier">
                 {t("identifierLabel")}
               </FieldLabel>
               <Input
                 id="identifier"
-                type="text"
+                name="identifier"
+                type="tel"
+                inputMode="tel"
                 dir="ltr"
-                autoComplete="username"
+                autoComplete="tel"
                 placeholder={t("identifierPlaceholder")}
-                value={identifier}
-                onChange={(event) => setIdentifier(event.target.value)}
+                defaultValue={requestState.identifier}
                 required
               />
             </Field>
-          ) : (
-            <>
+
+            {requestState.errorKey && (
+              <FieldError>{tErr(requestState.errorKey)}</FieldError>
+            )}
+
+            <Field>
+              <input type="hidden" name="intent" value="request" />
+              <Button type="submit" disabled={isRequesting}>
+                {isRequesting ? t("sending") : t("sendCode")}
+              </Button>
+            </Field>
+          </FieldGroup>
+        </form>
+      ) : (
+        <div className="grid w-full gap-4">
+          <form ref={verifyFormRef} action={verifyFormAction}>
+            <FieldGroup>
               <Field>
                 <FieldLabel htmlFor="code">{t("codeLabel")}</FieldLabel>
-                <Input
-                  id="code"
-                  type="text"
-                  dir="ltr"
-                  inputMode="numeric"
-                  autoComplete="one-time-code"
-                  maxLength={6}
-                  placeholder={t("codePlaceholder")}
-                  value={code}
-                  onChange={(event) => setCode(event.target.value)}
-                  required
+                <div dir="ltr" className="flex justify-center">
+                  <InputOTP
+                    id="code"
+                    maxLength={6}
+                    pattern={REGEXP_ONLY_DIGITS}
+                    autoFocus
+                    value={code}
+                    onChange={setCode}
+                    onComplete={() => verifyFormRef.current?.requestSubmit()}
+                  >
+                    <InputOTPGroup>
+                      <InputOTPSlot index={0} />
+                      <InputOTPSlot index={1} />
+                      <InputOTPSlot index={2} />
+                    </InputOTPGroup>
+                    <InputOTPSeparator />
+                    <InputOTPGroup>
+                      <InputOTPSlot index={3} />
+                      <InputOTPSlot index={4} />
+                      <InputOTPSlot index={5} />
+                    </InputOTPGroup>
+                  </InputOTP>
+                </div>
+                <input type="hidden" name="code" value={code} />
+                <input
+                  type="hidden"
+                  name="identifier"
+                  value={requestState.identifier}
                 />
-                <FieldDescription>{identifier}</FieldDescription>
+                <input type="hidden" name="callbackUrl" value={callbackUrl} />
+                <FieldDescription className="text-center">
+                  {requestState.identifier}
+                </FieldDescription>
               </Field>
-              {codeSent && (
+
+              {requestState.codeSent && (
                 <p className="text-center text-sm text-emerald-600 dark:text-emerald-400">
                   {t("codeSent")}
                 </p>
               )}
-            </>
-          )}
 
-          {errorKey && <FieldError>{tErr(errorKey)}</FieldError>}
+              {requestState.errorKey && (
+                <FieldError className="text-center">
+                  {tErr(requestState.errorKey)}
+                </FieldError>
+              )}
+              {verifyState.errorKey && (
+                <FieldError className="text-center">
+                  {tErr(verifyState.errorKey)}
+                </FieldError>
+              )}
 
-          <Field>
-            <Button type="submit" disabled={pending}>
-              {step === "identifier"
-                ? pending
-                  ? t("sending")
-                  : t("sendCode")
-                : pending
-                  ? t("verifying")
-                  : t("verify")}
-            </Button>
-          </Field>
+              <Field>
+                <Button
+                  type="submit"
+                  disabled={isVerifying || isRequesting || code.length !== 6}
+                >
+                  {isVerifying ? t("verifying") : t("verify")}
+                </Button>
+              </Field>
+            </FieldGroup>
+          </form>
 
-          {step === "code" && (
-            <div className="flex items-center justify-between text-sm">
+          <div className="flex items-center justify-between text-sm">
+            <form action={requestFormAction}>
+              <input type="hidden" name="intent" value="reset" />
               <Button
-                type="button"
+                type="submit"
                 variant="link"
                 className="px-0"
-                disabled={pending}
-                onClick={() => {
-                  setStep("identifier");
-                  setCode("");
-                  setErrorKey(null);
-                }}
+                disabled={isRequesting || isVerifying}
               >
                 {t("changeIdentifier")}
               </Button>
+            </form>
+            <form action={requestFormAction}>
+              <input type="hidden" name="intent" value="resend" />
+              <input
+                type="hidden"
+                name="identifier"
+                value={requestState.identifier}
+              />
               <Button
-                type="button"
+                type="submit"
                 variant="link"
                 className="px-0"
-                disabled={pending}
-                onClick={() => void requestCode()}
+                disabled={isRequesting || isVerifying}
               >
                 {t("resendCode")}
               </Button>
-            </div>
-          )}
-        </FieldGroup>
-      </form>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {!onCodeStep && (
+        <FieldDescription className="px-6 text-center">
+          {t.rich("termsNotice", {
+            terms: (chunks) => (
+              <a href="#" className="underline underline-offset-4 hover:text-foreground">
+                {chunks}
+              </a>
+            ),
+            privacy: (chunks) => (
+              <a href="#" className="underline underline-offset-4 hover:text-foreground">
+                {chunks}
+              </a>
+            ),
+          })}
+        </FieldDescription>
+      )}
     </div>
   );
 }
