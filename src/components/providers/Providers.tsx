@@ -4,6 +4,8 @@ import { useState } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { SessionProvider } from "next-auth/react";
 import { NextIntlClientProvider } from "next-intl";
+import StoreProvider from "@/components/providers/StoreProvider";
+import { Toaster } from "@/components/ui/toast";
 
 type Props = {
   children: React.ReactNode;
@@ -26,12 +28,15 @@ export default function Providers({ children, locale, messages }: Props) {
   );
 
   return (
-    <SessionProvider>
-      <QueryClientProvider client={queryClient}>
-        <NextIntlClientProvider locale={locale} messages={messages}>
-          {children}
-        </NextIntlClientProvider>
-      </QueryClientProvider>
-    </SessionProvider>
+    <StoreProvider>
+      <SessionProvider>
+        <QueryClientProvider client={queryClient}>
+          <NextIntlClientProvider locale={locale} messages={messages}>
+            {children}
+            <Toaster />
+          </NextIntlClientProvider>
+        </QueryClientProvider>
+      </SessionProvider>
+    </StoreProvider>
   );
 }
