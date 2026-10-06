@@ -6,7 +6,7 @@ import { useLocale, useTranslations } from "next-intl";
 import { Link } from "@/i18n/routing";
 import StarRating from "@/components/StarRating";
 import CountdownTimer from "@/components/CountdownTimer";
-import { formatPrice, getTargetDate, type PriceLocale } from "@/utils/format";
+import { formatPrice, getTargetDate, type Locale } from "@/utils/format";
 import type { Product } from "@/features/products/types/product";
 
 interface FeaturedProductCardProps {
@@ -15,7 +15,7 @@ interface FeaturedProductCardProps {
 
 export default function FeaturedProductCard({ product }: FeaturedProductCardProps) {
   // Locale-aware formatting and catalog labels; parent grid is already client-rendered
-  const locale = useLocale() as PriceLocale;
+  const locale = useLocale() as Locale;
   const t = useTranslations("product");
   // Shared mock deadline keeps the featured countdown consistent with regular cards.
   // Memoized so CountdownTimer's interval effect isn't reset on every parent render.

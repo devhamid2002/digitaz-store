@@ -4,7 +4,7 @@ import Image from "next/image";
 import { useLocale, useTranslations } from "next-intl";
 import { Link } from "@/i18n/routing";
 import StarRating from "@/components/StarRating";
-import { formatPrice, type PriceLocale } from "@/utils/format";
+import { formatPrice, type Locale } from "@/utils/format";
 import type { Product } from "@/features/products/types/product";
 
 interface ProductCardProps {
@@ -13,7 +13,7 @@ interface ProductCardProps {
 
 export default function ProductCard({ product }: ProductCardProps) {
   // Locale-aware formatting and catalog labels; parent grid is already client-rendered
-  const locale = useLocale() as PriceLocale;
+  const locale = useLocale() as Locale;
   const t = useTranslations("product");
   return (
     // locale-aware Link keeps the /[locale] prefix; plain next/link would drop it
@@ -31,7 +31,7 @@ export default function ProductCard({ product }: ProductCardProps) {
         />
       </div>
 
-      <div className="w-full text-right flex flex-col flex-1">
+      <div className="w-full text-start flex flex-col flex-1">
         <p className="text-gray-400 dark:text-gray-500 text-xs mb-1">
           {product.category}
         </p>
