@@ -2,11 +2,21 @@ import { readFile } from "node:fs/promises";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { PrismaBetterSqlite3 } from "@prisma/adapter-better-sqlite3";
-import { PrismaClient } from "../src/generated/prisma/client.js";
+import { Prisma, PrismaClient } from "../src/generated/prisma/client.js";
 
 const rootDir = join(dirname(fileURLToPath(import.meta.url)), "..");
 const adapter = new PrismaBetterSqlite3({ url: join(rootDir, "dev.db") });
 const prisma = new PrismaClient({ adapter });
+
+interface ProductColorSeed {
+  name: string;
+  hex: string;
+}
+
+interface ProductSpecificationsSeed {
+  colors?: ProductColorSeed[];
+  sizes?: string[];
+}
 
 interface ProductSeed {
   slug: string;
@@ -23,6 +33,29 @@ interface ProductSeed {
   ratingCount: number;
   viewCount?: number;
   isFeatured?: boolean;
+  specifications?: ProductSpecificationsSeed;
+}
+
+// Fallback variants keep reseeds consistent when data.json omits them
+const DEFAULT_SPECIFICATIONS: Required<ProductSpecificationsSeed> = {
+  colors: [
+    { name: "خاکستری ذغالی", hex: "#3a3f44" },
+    { name: "خاکستری روشن", hex: "#d1d5db" },
+    { name: "بژ", hex: "#f3e8d3" },
+    { name: "مشکی", hex: "#111111" },
+  ],
+  sizes: ["S", "M", "L", "XL", "XXL"],
+};
+
+function toSpecifications(
+  specifications?: ProductSpecificationsSeed,
+): Prisma.InputJsonValue {
+  // Plain seed objects lack Prisma's Json index signatures, so assert the
+  // runtime JSON shape instead of restructuring the seed types.
+  return {
+    colors: specifications?.colors ?? DEFAULT_SPECIFICATIONS.colors,
+    sizes: specifications?.sizes ?? DEFAULT_SPECIFICATIONS.sizes,
+  } as unknown as Prisma.InputJsonValue;
 }
 
 async function main() {
@@ -47,6 +80,7 @@ async function main() {
         ratingCount: p.ratingCount,
         viewCount: p.viewCount ?? 0,
         isFeatured: p.isFeatured ?? false,
+        specifications: toSpecifications(p.specifications),
       },
       create: {
         slug: p.slug,
@@ -63,6 +97,7 @@ async function main() {
         ratingCount: p.ratingCount,
         viewCount: p.viewCount ?? 0,
         isFeatured: p.isFeatured ?? false,
+        specifications: toSpecifications(p.specifications),
       },
     });
   }

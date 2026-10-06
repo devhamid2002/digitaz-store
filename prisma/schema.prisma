@@ -25,6 +25,9 @@ model Product {
   ratingCount   Int
   viewCount     Int      @default(0)
   isFeatured    Boolean  @default(false)
+  // Variant options and other product-specific attributes served to the
+  // storefront; empty arrays hide the corresponding selectors
+  specifications Json     @default("{}")
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
 }
