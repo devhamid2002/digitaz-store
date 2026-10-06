@@ -1,17 +1,17 @@
 "use client";
 
-import { useQuery } from "@tanstack/react-query";
 import { getProducts } from "@/features/products/actions/product.action";
+import { useActionQuery } from "@/hooks/useActionQuery";
 import ProductCard from "./ProductCard";
 import FeaturedProductCard from "./FeaturedProductCard";
 import ProductGridSkeleton from "./ProductGridSkeleton";
 
 export default function ProductGrid() {
-  // Subscribe to the shared catalog; loading shows skeletons while errors propagate to the boundary
-  const { data: products = [], isLoading } = useQuery({
-    queryKey: ["products"],
-    queryFn: getProducts,
-  });
+  // Subscribe to the shared catalog; loading shows skeletons and failures toast
+  const { data: products = [], isLoading } = useActionQuery(
+    ["products"],
+    getProducts
+  );
 
   if (isLoading) {
     return (
@@ -35,11 +35,6 @@ export default function ProductGrid() {
           {regular.slice(0, 8).map((product, index) => (
             <div
               key={product.id}
-              className={
-                index < 4
-                  ? "col-start-1"
-                  : "col-start-4"
-              }
               style={{
                 gridColumnStart: index % 4 < 2 ? 1 + (index % 4) : 4 + (index % 4 - 2),
                 gridRowStart: Math.floor(index / 4) + 1,
