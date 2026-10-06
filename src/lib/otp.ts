@@ -80,9 +80,7 @@ export async function requestOtp(rawIdentifier: string) {
 
   if (recent) {
     const elapsed = (now.getTime() - recent.createdAt.getTime()) / 1000;
-    const cooldown = OTP_TTL_SECONDS - OTP_RESEND_COOLDOWN_SECONDS;
-    // recent.createdAt within cooldown window -> too soon
-    // e.g. TTL 120, cooldown 60 => allow resend only if code is older than 60s
+    // Allow a resend only once the existing code is older than the cooldown
     if (elapsed < OTP_RESEND_COOLDOWN_SECONDS) {
       throw new OtpError(
         "OTP_RATE_LIMITED",
@@ -90,7 +88,6 @@ export async function requestOtp(rawIdentifier: string) {
         429,
       );
     }
-    void cooldown;
   }
 
   const code = generateCode();
