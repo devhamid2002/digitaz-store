@@ -5,8 +5,6 @@ import { notFound } from "next/navigation";
 import { routing } from "@/i18n/routing";
 import Providers from "@/components/providers/Providers";
 import ThemeProvider from "@/components/providers/ThemeProvider";
-import Header from "@/components/shared/header/Header";
-import Footer from "@/components/shared/footer/Footer";
 
 const vazirmatn = localFont({
   src: [
@@ -68,9 +66,7 @@ export default async function LocaleLayout({ children, params }: Props) {
       <body className={`${vazirmatn.variable} ${vazirmatn.className} min-h-full flex flex-col overflow-x-hidden`}>
         <ThemeProvider>
           <Providers locale={locale} messages={messages}>
-            <Header locale={locale as "en" | "fa"} />
             {children}
-            <Footer locale={locale as "en" | "fa"} />
           </Providers>
         </ThemeProvider>
       </body>
