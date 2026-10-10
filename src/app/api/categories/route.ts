@@ -1,6 +1,6 @@
-import { NextResponse } from "next/server";
 import { readFile } from "fs/promises";
 import { join } from "path";
+import { jsonData, jsonError } from "@/lib/apiResponse";
 
 // GET /api/categories: mock source is data/data.json until the real backend exists
 export async function GET() {
@@ -9,12 +9,13 @@ export async function GET() {
     const raw = await readFile(filePath, "utf-8");
     const data = JSON.parse(raw);
 
-    return NextResponse.json(data);
+    return jsonData({ categories: data.categories });
   } catch (error) {
     console.error("GET /api/categories failed:", error);
-    return NextResponse.json(
-      { code: "CATEGORIES_FETCH_FAILED" },
-      { status: 500 }
+    return jsonError(
+      "CATEGORIES_FETCH_FAILED",
+      "Failed to fetch categories.",
+      500
     );
   }
 }

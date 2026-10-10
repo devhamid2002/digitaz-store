@@ -1,39 +1,32 @@
-import { NextResponse } from "next/server";
 import { OtpError, requestOtp } from "@/lib/otp";
+import { jsonData, jsonError } from "@/lib/apiResponse";
 
 export async function POST(req: Request) {
   let body: { identifier?: string };
   try {
     body = (await req.json()) as { identifier?: string };
   } catch {
-    return NextResponse.json(
-      { ok: false, error: "OTP_INVALID", message: "Invalid JSON body." },
-      { status: 400 },
-    );
+    return jsonError("OTP_INVALID", "Invalid JSON body.", 400);
   }
 
   const identifier = body.identifier?.toString() ?? "";
   if (!identifier.trim()) {
-    return NextResponse.json(
-      { ok: false, error: "OTP_MISSING", message: "Phone number or email is required." },
-      { status: 400 },
-    );
+    return jsonError("OTP_MISSING", "Phone number is required.", 422, [
+      {
+        field: "identifier",
+        message: "Phone number is required.",
+      },
+    ]);
   }
 
   try {
     const { expiresAt } = await requestOtp(identifier);
-    return NextResponse.json({ ok: true, expiresAt });
+    return jsonData({ expiresAt });
   } catch (err) {
     if (err instanceof OtpError) {
-      return NextResponse.json(
-        { ok: false, error: err.code, message: err.message },
-        { status: err.status },
-      );
+      return jsonError(err.code, err.message, err.status);
     }
     console.error("[otp] request failed", err);
-    return NextResponse.json(
-      { ok: false, error: "OTP_FAILED", message: "Could not send verification code." },
-      { status: 500 },
-    );
+    return jsonError("OTP_FAILED", "Could not send verification code.", 500);
   }
 }

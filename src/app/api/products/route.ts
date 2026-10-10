@@ -1,5 +1,5 @@
-import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { jsonData, jsonError } from "@/lib/apiResponse";
 import type { ProductSpecifications } from "@/features/products/types/product";
 
 export async function GET() {
@@ -28,12 +28,9 @@ export async function GET() {
       specifications: p.specifications as unknown as ProductSpecifications,
     }));
 
-    return NextResponse.json({ products });
+    return jsonData({ products });
   } catch (error) {
     console.error("GET /api/products failed:", error);
-    return NextResponse.json(
-      { code: "PRODUCTS_FETCH_FAILED" },
-      { status: 500 }
-    );
+    return jsonError("PRODUCTS_FETCH_FAILED", "Failed to fetch products.", 500);
   }
 }

@@ -1,6 +1,6 @@
-import { NextResponse } from "next/server";
 import { readFile } from "fs/promises";
 import { join } from "path";
+import { jsonData, jsonError } from "@/lib/apiResponse";
 
 export async function GET() {
   try {
@@ -8,12 +8,9 @@ export async function GET() {
     const raw = await readFile(filePath, "utf-8");
     const data = JSON.parse(raw);
 
-    return NextResponse.json({ banners: data.banners });
+    return jsonData({ banners: data.banners });
   } catch (error) {
     console.error("GET /api/banners failed:", error);
-    return NextResponse.json(
-      { code: "BANNERS_FETCH_FAILED" },
-      { status: 500 }
-    );
+    return jsonError("BANNERS_FETCH_FAILED", "Failed to fetch banners.", 500);
   }
 }

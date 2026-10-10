@@ -1,5 +1,5 @@
-import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { jsonData, jsonError } from "@/lib/apiResponse";
 import type { ProductSpecifications } from "@/features/products/types/product";
 
 interface Params {
@@ -13,13 +13,10 @@ export async function GET(_request: Request, { params }: Params) {
     const p = await prisma.product.findUnique({ where: { slug } });
 
     if (!p) {
-      return NextResponse.json(
-        { code: "PRODUCT_NOT_FOUND" },
-        { status: 404 }
-      );
+      return jsonError("PRODUCT_NOT_FOUND", "Product not found.", 404);
     }
 
-    return NextResponse.json({
+    return jsonData({
       id: p.id,
       slug: p.slug,
       name: p.name,
@@ -40,9 +37,6 @@ export async function GET(_request: Request, { params }: Params) {
     });
   } catch (error) {
     console.error("GET /api/products/[slug] failed:", error);
-    return NextResponse.json(
-      { code: "PRODUCT_FETCH_FAILED" },
-      { status: 500 }
-    );
+    return jsonError("PRODUCT_FETCH_FAILED", "Failed to fetch product.", 500);
   }
 }
