@@ -258,10 +258,16 @@ Do not claim a change works without verification.
 * Persian/English storefront (`fa` default locale) built with `next-intl`.
 * OTP-only authentication via NextAuth credentials provider; login and signup
   share one verify step that auto-creates the user (`src/lib/auth.ts`,
-  `src/lib/otp.ts`, `POST /api/auth/otp/request`).
-* Single localized sign-in page at `src/app/[locale]/auth/sign-in` with the
-  two-step OTP `SignInForm` in `src/features/auth/`; the header account
-  button links there. The form uses shadcn-style primitives from
+  `src/lib/otp.ts`, `POST /api/auth/otp/request`). While the OTP backend is not
+  wired up, `verifyOtp` accepts the fixed `BETA_OTP_CODE` (`123456`) — remove
+  this bypass once real delivery exists.
+* Single localized sign-in page at `src/app/[locale]/auth/sign-in`. The flow is
+  split into two single-API forms under
+  `src/features/auth/components/forms/`: `RequestOtpForm` calls the
+  `requestOtp` server action (which goes through `fetchInstance` to
+  `POST /api/auth/otp/request`), and `VerifyOtpForm` submits the code through
+  NextAuth; `SignInForm` is the container that swaps between them. The header
+  account button links there. The forms use shadcn-style primitives from
   `src/components/ui/` (`button`, `field`, `input`, ...) with `data-slot`
   attributes and `cn` class merging.
 * SQLite + Prisma 7 in development (`prisma/schema.prisma`).
@@ -287,9 +293,9 @@ Conventions:
   `fetchInstance` and return validated domain data. Name files
   `<domain>.action.ts` (singular `action`, e.g. `product.action.ts`).
 * Every `types/<name>.ts` has a matching `types/<name>.validator.ts` with
-  `is<Name>` / `is<Name>sResponse` type guards. Validators share the tiny
-  primitives in `src/utils/guards.ts`; no validation dependency is installed,
-  so do not add one for this.
+  `is<Name>` / `is<Name>sResponse` type guards. Validators are built on Zod
+  schemas (`zod`, installed) and the guards delegate to `safeParse`; keep the
+  schemas next to the matching types.
 * Read actions validate API payloads before returning them. Shape mismatches
   throw the mapped `*_FETCH_FAILED` code so `src/utils/apiErrors.ts` resolves
   the existing localized `errors` message; single-item lookups resolve to
