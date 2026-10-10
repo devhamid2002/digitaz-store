@@ -126,15 +126,16 @@
       "fetchProducts": "Failed to load products",
       "fetchBanners": "Failed to load banners",
       "fetchCategories": "Failed to load categories",
+      "productNotFound": "Product not found",
       "unexpected": "Something went wrong",
       "otpNotFound": "No verification code found. Request a new one.",
       "otpExpired": "Verification code has expired. Request a new one.",
       "otpInvalid": "Incorrect verification code.",
       "otpMaxAttempts": "Too many attempts. Request a new code.",
       "otpRateLimited": "Please wait a moment before requesting a new code.",
-      "otpMissing": "Phone number or email is required.",
+      "otpMissing": "Phone number is required.",
       "otpFailed": "Could not send verification code. Please try again.",
-      "invalidIdentifier": "Enter a valid phone number or email address.",
+      "invalidIdentifier": "Enter a valid phone number.",
       "signInFailed": "Sign in failed. Please try again."
     },
 
