@@ -142,6 +142,11 @@
   body {
     @apply bg-background text-foreground font-sans;
   }
+  /* Single source for the page surface: every <main> shares the
+     product-details background (white / neutral-900). */
+  main {
+    @apply bg-white dark:bg-neutral-900;
+  }
 }
 
 /* Override Swiper defaults: force white for contrast over product imagery */
