@@ -13,7 +13,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale, slug } = await params;
   setRequestLocale(locale);
   // Reuse the catalog fetch so metadata matches the rendered product, falling back to slug
-  const product = await getProductBySlug(slug);
+  const result = await getProductBySlug(slug);
+  const product = "data" in result ? result.data : null;
 
   return {
     title: product?.name ?? slug,
@@ -25,15 +26,17 @@ export default async function ProductPage({ params }: Props) {
   const { locale, slug } = await params;
   setRequestLocale(locale);
 
-  const product = await getProductBySlug(slug);
+  const result = await getProductBySlug(slug);
 
   // Unknown slugs render the locale not-found boundary instead of an empty page
-  if (!product) {
+  if ("error" in result) {
     notFound();
   }
 
+  const product = result.data;
+
   return (
-    <main className="mx-auto my-4 w-full max-w-[1600px] rounded-2xl bg-white shadow dark:bg-neutral-900">
+    <main className="mx-auto my-4 w-full max-w-[1440px] rounded-2xl shadow">
       <div className="mx-auto px-4 py-8">
         <div className="grid grid-cols-1 gap-10 lg:grid-cols-2">
           <ProductGallery image={product.image} name={product.name} />
