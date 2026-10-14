@@ -6,6 +6,10 @@ export const OTP_TTL_SECONDS = 120;
 export const OTP_MAX_ATTEMPTS = 5;
 export const OTP_RESEND_COOLDOWN_SECONDS = 60;
 
+// Beta-only fixed code: there is no SMS/backend yet, so this code always signs
+// in. Remove once real OTP delivery is wired up.
+export const BETA_OTP_CODE = "123456";
+
 export class OtpError extends Error {
   code:
     | "OTP_NOT_FOUND"
@@ -26,22 +30,13 @@ export class OtpError extends Error {
   }
 }
 
-export function isEmailIdentifier(identifier: string): boolean {
-  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(identifier);
-}
-
+// Identifier is a phone number: keep digits and a leading +, strip separators.
 export function normalizeIdentifier(raw: string): string {
-  const trimmed = raw.trim();
-  if (isEmailIdentifier(trimmed)) return trimmed.toLowerCase();
-  // Phone: keep digits and leading +, strip spaces/dashes
-  const phone = trimmed.replace(/[\s\-()]/g, "");
-  if (/^\+?\d{7,15}$/.test(phone)) return phone;
-  return trimmed;
+  return raw.trim().replace(/[\s\-()]/g, "");
 }
 
 export function isValidIdentifier(raw: string): boolean {
-  const v = raw.trim();
-  return isEmailIdentifier(v) || /^\+?\d{7,15}$/.test(v.replace(/[\s\-()]/g, ""));
+  return /^\+?\d{7,15}$/.test(normalizeIdentifier(raw));
 }
 
 function hashCode(identifier: string, code: string): string {
@@ -63,7 +58,7 @@ export async function requestOtp(rawIdentifier: string) {
   const identifier = normalizeIdentifier(rawIdentifier);
 
   if (!isValidIdentifier(rawIdentifier)) {
-    throw new OtpError("OTP_INVALID", "Invalid phone number or email address.", 400);
+    throw new OtpError("OTP_INVALID", "Invalid phone number.", 422);
   }
 
   const now = new Date();
@@ -107,7 +102,7 @@ export async function requestOtp(rawIdentifier: string) {
     },
   });
 
-  // TODO: plug in your SMS / email provider here.
+  // TODO: plug in your SMS provider here.
   // Dev-only: log the code so OTP login is testable without a provider.
   if (process.env.NODE_ENV !== "production") {
     console.log(`[otp] code for ${identifier}: ${code} (expires in ${OTP_TTL_SECONDS}s)`);
@@ -119,6 +114,11 @@ export async function requestOtp(rawIdentifier: string) {
 export async function verifyOtp(rawIdentifier: string, code: string) {
   const identifier = normalizeIdentifier(rawIdentifier);
   const now = new Date();
+
+  // Beta bypass: accept the fixed code without a stored OTP record.
+  if (code.trim() === BETA_OTP_CODE) {
+    return { identifier };
+  }
 
   const record = await prisma.otpCode.findFirst({
     where: { identifier, consumedAt: null },

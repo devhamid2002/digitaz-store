@@ -3,28 +3,18 @@ import { getServerSession } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { prisma } from "./prisma";
 import {
-  isEmailIdentifier,
   normalizeIdentifier,
   OtpError,
   verifyOtp,
 } from "./otp";
 
-/**
- * OTP-only auth (next-auth v4).
- *
- * Flow:
- *  1. Client calls POST /api/auth/otp/request with { identifier } (phone or email).
- *  2. Client calls signIn("otp", { identifier, code, callbackUrl }) —
- *     `authorize` below verifies the code and auto-creates the user on
- *     first successful verification, so login and signup share one step.
- */
 export const authOptions: NextAuthOptions = {
   providers: [
     CredentialsProvider({
       id: "otp",
       name: "One-Time Code",
       credentials: {
-        identifier: { label: "Phone or email", type: "text" },
+        identifier: { label: "Phone", type: "text" },
         code: { label: "Code", type: "text" },
       },
       async authorize(credentials) {
@@ -47,18 +37,14 @@ export const authOptions: NextAuthOptions = {
           throw error;
         }
 
-        const isEmail = isEmailIdentifier(identifier);
-
-        let user = await prisma.user.findFirst({
-          where: isEmail ? { email: identifier } : { phone: identifier },
+        let user = await prisma.user.findUnique({
+          where: { phone: identifier },
         });
 
         // First successful OTP verification == signup: auto-create the user.
         if (!user) {
           user = await prisma.user.create({
-            data: isEmail
-              ? { email: identifier, name: "NO_NAME" }
-              : { phone: identifier, name: "NO_NAME" },
+            data: { phone: identifier, name: "NO_NAME" },
           });
         }
 
@@ -66,6 +52,7 @@ export const authOptions: NextAuthOptions = {
           id: user.id,
           name: user.name,
           email: user.email,
+          image: user.image,
         };
       },
     }),
@@ -74,12 +61,19 @@ export const authOptions: NextAuthOptions = {
     async jwt({ token, user }) {
       if (user) {
         token.id = user.id;
+        // Carry the avatar through the JWT so the session can expose it.
+        if (typeof user.image === "string") {
+          token.picture = user.image;
+        }
       }
       return token;
     },
     async session({ session, token }) {
       if (session.user && token.sub) {
         session.user.id = (token.id as string | undefined) ?? token.sub;
+        if (typeof token.picture === "string") {
+          session.user.image = token.picture;
+        }
       }
       return session;
     },
