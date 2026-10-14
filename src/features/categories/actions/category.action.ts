@@ -2,12 +2,13 @@
 
 import { getLocale } from "next-intl/server";
 import { fetchInstance } from "@/utils/fetchInstance";
-import { toLocalizedError } from "@/utils/apiErrors";
+import { toActionError } from "@/utils/actionError";
+import type { ActionResult } from "@/utils/actionResult";
 import type { Category, CategoriesResponse } from "../types/category";
 import { isCategoriesResponse } from "../types/category.validator";
 
-// Fetch the localized category tree; failures surface a localized catalog error
-export async function getCategories(): Promise<Category[]> {
+// Fetch the localized category tree; failures are returned for the caller to surface.
+export async function getCategories(): Promise<ActionResult<Category[]>> {
   try {
     // Backend localizes category names via Accept-Language
     const locale = await getLocale();
@@ -16,52 +17,14 @@ export async function getCategories(): Promise<Category[]> {
         "Accept-Language": locale,
       },
     });
-    if (!isCategoriesResponse(data)) throw new Error("CATEGORIES_FETCH_FAILED");
-    return data.categories;
+
+    if (!isCategoriesResponse(data)) {
+      return toActionError(null, "CATEGORIES_FETCH_FAILED");
+    }
+
+    return { data: data.categories };
   } catch (error) {
     console.error("Failed to fetch categories:", error);
-    return toLocalizedError(error, "fetchCategories");
+    return toActionError(error, "CATEGORIES_FETCH_FAILED");
   }
-}
-
-// Single-category lookup resolves to null so callers can handle unknown slugs
-export async function getCategoryBySlug(
-  slug: string
-): Promise<Category | null> {
-  try {
-    const locale = await getLocale();
-    const data = await fetchInstance<Category>(`/categories/${slug}`, {
-      headers: {
-        "Accept-Language": locale,
-      },
-    });
-    return data;
-  } catch {
-    return null;
-  }
-}
-
-export async function createCategory(
-  category: Omit<Category, "id">
-): Promise<Category> {
-  return fetchInstance<Category>("/categories", {
-    method: "POST",
-    body: category,
-  });
-}
-
-export async function updateCategory(
-  id: string,
-  category: Partial<Category>
-): Promise<Category> {
-  return fetchInstance<Category>(`/categories/${id}`, {
-    method: "PUT",
-    body: category,
-  });
-}
-
-export async function deleteCategory(id: string): Promise<void> {
-  await fetchInstance(`/categories/${id}`, {
-    method: "DELETE",
-  });
 }

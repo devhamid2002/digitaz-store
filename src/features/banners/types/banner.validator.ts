@@ -1,17 +1,21 @@
-import { isRecord, isString } from "@/utils/guards";
+import { z } from "zod";
 import type { Banner, BannersResponse } from "./banner";
 
 // Runtime shape checks for slider API payloads.
+export const bannerSchema: z.ZodType<Banner> = z.object({
+  id: z.string(),
+  image: z.string(),
+  alt: z.string(),
+});
+
+export const bannersResponseSchema: z.ZodType<BannersResponse> = z.object({
+  banners: z.array(bannerSchema),
+});
+
 export function isBanner(value: unknown): value is Banner {
-  return (
-    isRecord(value) && isString(value.id) && isString(value.image) && isString(value.alt)
-  );
+  return bannerSchema.safeParse(value).success;
 }
 
 export function isBannersResponse(value: unknown): value is BannersResponse {
-  return (
-    isRecord(value) &&
-    Array.isArray(value.banners) &&
-    value.banners.every(isBanner)
-  );
+  return bannersResponseSchema.safeParse(value).success;
 }
