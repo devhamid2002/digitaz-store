@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { useSession } from "next-auth/react";
 import { ThemeDropdownToggle } from "@/features/themes/ThemeDropdownToggle";
 import { useAppSelector } from "@/context/hooks";
 import { selectCartCount } from "@/context/slices/cartSlice";
@@ -30,6 +31,8 @@ interface Props {
     blog: string;
     contact: string;
     specialOffer: string;
+    account: string;
+    login: string;
   };
   isRTL?: boolean;
   locale?: string;
@@ -38,6 +41,7 @@ interface Props {
 export default function MainHeader({ messages, isRTL = true, locale = "fa" }: Props) {
   const [menuOpen, setMenuOpen] = useState(false);
   const cartCount = useAppSelector(selectCartCount);
+  const { data: session, status } = useSession();
 
   return (
     <div
@@ -96,13 +100,39 @@ export default function MainHeader({ messages, isRTL = true, locale = "fa" }: Pr
             }}
           />
 
-          <Link
-            href={`/${locale}/auth/sign-in`}
-            aria-label="Account"
-            className="text-neutral-700 transition-colors hover:text-neutral-900 dark:text-neutral-300 dark:hover:text-white"
-          >
-            <UserRound size={23} strokeWidth={1.8} />
-          </Link>
+          {status === "authenticated" ? (
+            <Link
+              href={`/${locale}`}
+              aria-label={messages.account}
+              title={session.user?.name ?? messages.account}
+              className="text-neutral-700 transition-colors hover:text-neutral-900 dark:text-neutral-300 dark:hover:text-white"
+            >
+              {session.user?.image ? (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img
+                  src={session.user.image}
+                  alt={session.user.name ?? messages.account}
+                  className="h-7 w-7 rounded-full object-cover"
+                />
+              ) : (
+                <UserRound size={23} strokeWidth={1.8} />
+              )}
+            </Link>
+          ) : status === "loading" ? (
+            <span
+              aria-hidden="true"
+              className="text-neutral-700 dark:text-neutral-300"
+            >
+              <UserRound size={23} strokeWidth={1.8} />
+            </span>
+          ) : (
+            <Link
+              href={`/${locale}/auth/sign-in`}
+              className="inline-flex h-9 items-center justify-center rounded-full bg-brand px-4 text-sm font-medium text-white transition-colors hover:bg-brand-hover"
+            >
+              {messages.login}
+            </Link>
+          )}
 
           <button
             type="button"
