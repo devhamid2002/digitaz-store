@@ -1,86 +1,69 @@
 "use server";
 
-import { OtpError, isValidIdentifier, requestOtp } from "@/lib/otp";
+import { fetchInstance } from "@/utils/fetchInstance";
+import { toActionError } from "@/utils/actionError";
+import type { ActionResult } from "@/utils/actionResult";
+import { isValidIdentifier } from "@/lib/otp";
+import type { OtpRequestResponse } from "../types/otp";
+import { isOtpRequestResponse } from "../types/otp.validator";
 
-// Message keys in the `errors` namespace (src/messages/*.json)
-const ERROR_KEYS = {
-  OTP_NOT_FOUND: "otpNotFound",
-  OTP_EXPIRED: "otpExpired",
-  OTP_INVALID: "otpInvalid",
-  OTP_MAX_ATTEMPTS: "otpMaxAttempts",
-  OTP_RATE_LIMITED: "otpRateLimited",
-  OTP_MISSING: "otpMissing",
-  OTP_FAILED: "otpFailed",
-} as const;
-
-export type AuthStep = "identifier" | "code";
-
-export type AuthRequestState = {
-  step: AuthStep;
+// State consumed by useActionState in RequestOtpForm.
+export type RequestOtpState = {
   identifier: string;
   codeSent: boolean;
-  errorKey: string | null;
+  error: string | null;
 };
 
-export const INITIAL_AUTH_REQUEST_STATE: AuthRequestState = {
-  step: "identifier",
+export const INITIAL_REQUEST_OTP_STATE: RequestOtpState = {
   identifier: "",
   codeSent: false,
-  errorKey: null,
+  error: null,
 };
 
-function toErrorKey(error: unknown): string {
-  if (error instanceof OtpError && error.code in ERROR_KEYS) {
-    return ERROR_KEYS[error.code];
-  }
-  return ERROR_KEYS.OTP_FAILED;
-}
-
-// Single form action for the identifier step. The `intent` field selects the
-// behavior so request, resend, and back all work with progressive enhancement:
-//
-// - intent=request/resend: validate + send a code, advance to the OTP step
-// - intent=reset: go back to the identifier step (change number)
-export async function authRequestAction(
-  prevState: AuthRequestState,
-  formData: FormData,
-): Promise<AuthRequestState> {
-  const intent = formData.get("intent")?.toString() ?? "request";
-
-  if (intent === "reset") {
-    return INITIAL_AUTH_REQUEST_STATE;
+// Plain API action: validation, shape check, and failures normalized into the
+// shared `{ data }` / `{ error }` envelope. Reused by the form action below and
+// by the verify form's resend button.
+export async function requestOtp(
+  identifier: string,
+): Promise<ActionResult<OtpRequestResponse>> {
+  if (!identifier.trim()) {
+    return toActionError(null, "OTP_MISSING");
   }
 
-  const rawIdentifier =
-    formData.get("identifier")?.toString() ?? prevState.identifier;
-
-  if (!rawIdentifier.trim()) {
-    return {
-      step: "identifier",
-      identifier: "",
-      codeSent: false,
-      errorKey: ERROR_KEYS.OTP_MISSING,
-    };
-  }
-
-  if (!isValidIdentifier(rawIdentifier)) {
-    return {
-      step: "identifier",
-      identifier: rawIdentifier,
-      codeSent: false,
-      errorKey: "invalidIdentifier",
-    };
+  if (!isValidIdentifier(identifier)) {
+    return toActionError(null, "INVALID_IDENTIFIER");
   }
 
   try {
-    const { identifier } = await requestOtp(rawIdentifier);
-    return { step: "code", identifier, codeSent: true, errorKey: null };
+    const data = await fetchInstance<OtpRequestResponse>(
+      "/api/auth/otp/request",
+      { method: "POST", body: { identifier } },
+    );
+
+    if (!isOtpRequestResponse(data)) {
+      return toActionError(null, "OTP_FAILED");
+    }
+
+    return { data };
   } catch (error) {
-    return {
-      step: intent === "resend" ? "code" : "identifier",
-      identifier: intent === "resend" ? prevState.identifier : rawIdentifier,
-      codeSent: intent === "resend" ? prevState.codeSent : false,
-      errorKey: toErrorKey(error),
-    };
+    console.error("Failed to request OTP:", error);
+    return toActionError(error, "OTP_FAILED");
   }
+}
+
+// useActionState wrapper for the request-code form.
+export async function requestOtpAction(
+  prevState: RequestOtpState,
+  formData: FormData,
+): Promise<RequestOtpState> {
+  const identifier =
+    formData.get("identifier")?.toString() ?? prevState.identifier;
+
+  const result = await requestOtp(identifier);
+
+  if ("error" in result) {
+    return { identifier, codeSent: false, error: result.error.message };
+  }
+
+  return { identifier: identifier.trim(), codeSent: true, error: null };
 }
