@@ -20,7 +20,7 @@ export default async function FeaturesBar() {
   const t = await getTranslations("features");
 
   return (
-    <div className="w-full bg-white dark:bg-gray-900 py-8 border-b border-gray-100 dark:border-gray-800">
+    <div className="w-full py-8 border-b border-gray-100 dark:border-neutral-800">
       <div className="max-w-7xl mx-auto px-4">
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
           {featureKeys.map((key, index) => {
