@@ -19,7 +19,7 @@ export default async function PromoBanners() {
   const t = await getTranslations("promoBanners");
 
   return (
-    <div className="w-full bg-white dark:bg-gray-900 py-8">
+    <div className="w-full py-8">
       <div className="max-w-7xl mx-auto px-4">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {bannerKeys.map((key, index) => (

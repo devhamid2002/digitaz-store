@@ -19,7 +19,7 @@ export default function ProductCard({ product }: ProductCardProps) {
     // locale-aware Link keeps the /[locale] prefix; plain next/link would drop it
     <Link
       href={`/product/${product.slug}`}
-      className="group flex flex-col bg-white dark:bg-gray-800 rounded-xl border border-gray-100 dark:border-gray-700 p-4 transition-all duration-300 hover:shadow-md h-full"
+      className="group flex flex-col bg-white dark:bg-neutral-900 rounded-xl border shadow-md dark:border-neutral-800 p-4 transition-all duration-300 hover:shadow-md h-full"
     >
       <div className="relative w-full h-36 mb-3">
         <Image

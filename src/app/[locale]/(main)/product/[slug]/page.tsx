@@ -36,8 +36,8 @@ export default async function ProductPage({ params }: Props) {
   const product = result.data;
 
   return (
-    <main className="mx-auto my-4 w-full max-w-[1440px] rounded-2xl shadow">
-      <div className="mx-auto px-4 py-8">
+    <main className="mx-auto my-4 w-full max-w-[1440px]">
+      <div className="mx-auto px-4 py-8 rounded-2xl shadow dark:bg-neutral-900">
         <div className="grid grid-cols-1 gap-10 lg:grid-cols-2">
           <ProductGallery image={product.image} name={product.name} />
           <ProductDetails
