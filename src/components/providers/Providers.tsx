@@ -1,11 +1,15 @@
 "use client";
 
 import { useState } from "react";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import {
+  QueryCache,
+  QueryClient,
+  QueryClientProvider,
+} from "@tanstack/react-query";
 import { SessionProvider } from "next-auth/react";
 import { NextIntlClientProvider } from "next-intl";
 import StoreProvider from "@/components/providers/StoreProvider";
-import { Toaster } from "@/components/ui/toast";
+import { Toaster, toast } from "@/components/ui/toast";
 
 type Props = {
   children: React.ReactNode;
@@ -17,6 +21,16 @@ export default function Providers({ children, locale, messages }: Props) {
   const [queryClient] = useState(
     () =>
       new QueryClient({
+        // Surface failed action queries once, using the message the action resolved
+        queryCache: new QueryCache({
+          onError: (error) => {
+            const title =
+              error instanceof Error && error.message
+                ? error.message
+                : "Unexpected error";
+            toast.add({ type: "error", title });
+          },
+        }),
         defaultOptions: {
           queries: {
             // Cache catalog reads for a minute and avoid refetch churn on focus
