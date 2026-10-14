@@ -1,55 +1,61 @@
-import { isNullable, isNumber, isOptional, isRecord, isString } from "@/utils/guards";
-import type { Product, ProductColor, ProductSpecifications, ProductsResponse } from "./product";
-
-function isStringArray(value: unknown): value is string[] {
-  return Array.isArray(value) && value.every(isString);
-}
+import { z } from "zod";
+import type {
+  Product,
+  ProductColor,
+  ProductSpecifications,
+  ProductsResponse,
+} from "./product";
 
 // Runtime shape checks for catalog API payloads; actions reject unknown shapes
 // so components only ever render validated products.
+export const productColorSchema: z.ZodType<ProductColor> = z.object({
+  name: z.string(),
+  hex: z.string(),
+});
+
+export const productSpecificationsSchema: z.ZodType<ProductSpecifications> =
+  z.object({
+    colors: z.array(productColorSchema),
+    sizes: z.array(z.string()),
+  });
+
+export const productSchema: z.ZodType<Product> = z.object({
+  id: z.string(),
+  slug: z.string(),
+  name: z.string(),
+  category: z.string(),
+  description: z.string(),
+  image: z.string(),
+  price: z.number(),
+  originalPrice: z.number().nullish(),
+  discount: z.number().nullish(),
+  brand: z.string(),
+  stock: z.number(),
+  rating: z.number(),
+  ratingCount: z.number(),
+  viewCount: z.number(),
+  isFeatured: z.boolean().optional(),
+  specifications: productSpecificationsSchema,
+});
+
+export const productsResponseSchema: z.ZodType<ProductsResponse> = z.object({
+  products: z.array(productSchema),
+});
+
 export function isProductColor(value: unknown): value is ProductColor {
-  return (
-    isRecord(value) && isString(value.name) && isString(value.hex)
-  );
+  return productColorSchema.safeParse(value).success;
 }
 
 export function isProductSpecifications(
   value: unknown,
 ): value is ProductSpecifications {
-  return (
-    isRecord(value) &&
-    Array.isArray(value.colors) &&
-    value.colors.every(isProductColor) &&
-    isStringArray(value.sizes)
-  );
+  return productSpecificationsSchema.safeParse(value).success;
 }
 
 export function isProduct(value: unknown): value is Product {
-  if (!isRecord(value)) return false;
-  return (
-    isString(value.id) &&
-    isString(value.slug) &&
-    isString(value.name) &&
-    isString(value.category) &&
-    isString(value.description) &&
-    isString(value.image) &&
-    isNumber(value.price) &&
-    isNullable(value.originalPrice, isNumber) &&
-    isNullable(value.discount, isNumber) &&
-    isString(value.brand) &&
-    isNumber(value.stock) &&
-    isNumber(value.rating) &&
-    isNumber(value.ratingCount) &&
-    isNumber(value.viewCount) &&
-    isOptional(value.isFeatured, (v): v is boolean => typeof v === "boolean") &&
-    isProductSpecifications(value.specifications)
-  );
+  return productSchema.safeParse(value).success;
 }
 
 export function isProductsResponse(value: unknown): value is ProductsResponse {
-  return (
-    isRecord(value) &&
-    Array.isArray(value.products) &&
-    value.products.every(isProduct)
-  );
+  return productsResponseSchema.safeParse(value).success;
 }
