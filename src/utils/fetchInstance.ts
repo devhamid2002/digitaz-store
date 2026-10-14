@@ -1,5 +1,7 @@
 "use server"
 
+import { ApiError } from "@/utils/actionResult";
+
 type HttpMethod = "GET" | "POST" | "PUT" | "DELETE" | "PATCH";
 
 interface FetchOptions {
@@ -53,21 +55,41 @@ export async function fetchInstance<T>(
   const res = await fetch(finalUrl, buildFetchOptions(token));
 
   if (!res.ok) {
-    // Surface the backend message while preserving the HTTP failure as an exception
-    let message = res.statusText;
+    // Errors follow the `{ error: { code, message, details? } }` envelope; keep
+    // both the stable code and the backend message for the action to resolve.
+    let code: string | null = null;
+    let backendMessage: string | null = null;
+
     try {
-      const errorBody = await res.json();
-      message = errorBody?.message || message;
+      const body = await res.json();
+      const errorBody = body?.error;
+      if (errorBody && typeof errorBody === "object") {
+        if (typeof errorBody.code === "string") {
+          code = errorBody.code;
+        }
+        if (typeof errorBody.message === "string" && errorBody.message) {
+          backendMessage = errorBody.message;
+        }
+      }
     } catch {
       const text = await res.text();
-      message = text || message;
+      backendMessage = text || null;
     }
-    throw new Error(message);
+
+    throw new ApiError(backendMessage ?? res.statusText, {
+      code,
+      backendMessage,
+      status: res.status,
+    });
   }
 
   // 204 has no body; null satisfies the generic contract
   if (res.status === 204) return null as T;
 
-  const data = await res.json();
-  return data as T;
+  // Success follows the `{ data }` envelope; unwrap the payload when present.
+  const payload = await res.json();
+  if (payload && typeof payload === "object" && "data" in payload) {
+    return (payload as { data: T }).data;
+  }
+  return payload as T;
 }
