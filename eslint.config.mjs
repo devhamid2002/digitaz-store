@@ -10,6 +10,8 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // Skill docs (installed under .agents/) are reference material, not project code
+    ".agents/**",
   ]),
 ]);
 
