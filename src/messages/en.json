@@ -136,7 +136,10 @@
       "otpMissing": "Phone number is required.",
       "otpFailed": "Could not send verification code. Please try again.",
       "invalidIdentifier": "Enter a valid phone number.",
-      "signInFailed": "Sign in failed. Please try again."
+      "signInFailed": "Sign in failed. Please try again.",
+      "cartItemInvalid": "Invalid cart item.",
+      "cartSaveFailed": "Could not add to cart. Please try again.",
+      "cartRemoveFailed": "Could not remove from cart. Please try again."
     },
 
     "auth": {
@@ -166,6 +169,8 @@
       "addingToCart": "Adding...",
       "addedToCart": "Added to cart",
       "addToCartError": "Could not add to cart. Please try again.",
+      "increaseQuantity": "Increase quantity",
+      "decreaseQuantity": "Decrease quantity",
       "wishlist": "Wishlist",
       "reviews": "Reviews",
       "brand": "Brand",

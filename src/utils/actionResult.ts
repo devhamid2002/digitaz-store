@@ -15,6 +15,9 @@ export const ERROR_MESSAGE_KEYS: Record<string, string> = {
   OTP_MISSING: "otpMissing",
   OTP_FAILED: "otpFailed",
   INVALID_IDENTIFIER: "invalidIdentifier",
+  INVALID_CART_ITEM: "cartItemInvalid",
+  CART_SAVE_FAILED: "cartSaveFailed",
+  CART_REMOVE_FAILED: "cartRemoveFailed",
 };
 
 // Thrown inside the server layer by fetchInstance so actions can read the
