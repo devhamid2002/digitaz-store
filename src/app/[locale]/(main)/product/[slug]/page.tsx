@@ -4,6 +4,7 @@ import type { Metadata } from "next";
 import { getProductBySlug } from "@/features/products/actions/product.action";
 import ProductGallery from "@/features/products/components/ProductGallery";
 import ProductDetails from "@/features/products/components/ProductDetails";
+import { getMyCart } from "@/features/cart/actions/cart.action";
 
 type Props = {
   params: Promise<{ locale: string; slug: string }>;
@@ -35,6 +36,9 @@ export default async function ProductPage({ params }: Props) {
 
   const product = result.data;
 
+  // Missing cookie on a first visit means "no cart yet" — don't fail the page
+  const cart = await getMyCart().catch(() => undefined);
+
   return (
     <main className="mx-auto my-4 w-full max-w-[1440px]">
       <div className="mx-auto px-4 py-8 rounded-2xl shadow dark:bg-neutral-900">
@@ -43,6 +47,7 @@ export default async function ProductPage({ params }: Props) {
           <ProductDetails
             product={product}
             locale={locale as "fa" | "en"}
+            cart={cart}
           />
         </div>
       </div>
