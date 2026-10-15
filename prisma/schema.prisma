@@ -47,6 +47,7 @@ model User {
   updateAt DateTime @updatedAt
   account Account[]
   session Session[]
+  Cart Cart[]
 }
 
 model Account {
@@ -100,4 +101,16 @@ model OtpCode {
 
   @@index([identifier])
   @@map("otp_codes")
+}
+
+model Cart {
+  id String @id @default(uuid())
+  userId String? @default(uuid())
+  sessionCartId String
+  items Json
+  itemsPrice Int @default(0)
+  totalPrice Int @default(0)
+  shippingPrice Int @default(0)
+  createdAt DateTime @default(now())
+  user User? @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
