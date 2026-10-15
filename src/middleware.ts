@@ -8,6 +8,38 @@ const intlMiddleware = createMiddleware(routing);
 // Matches the sign-in route with or without a locale prefix.
 const SIGN_IN_PATH = /^\/(?:en|fa)?\/?auth\/sign-in\/?$/;
 
+// Session-cart cookie: mint a sessionCartId when a request lacks one.
+// Originally written as a callbacks.authorize snippet, but next-auth v4 never
+// invokes that callback — this middleware helper is its runnable form.
+// Returns null when the cookie is already present.
+export function ensureSessionCartCookie(
+  request: NextRequest
+): NextResponse | null {
+  if (request.cookies.get("sessionCartId")) {
+    return null;
+  }
+
+  const sessionCartId = crypto.randomUUID();
+
+  const newReaquestHeaders = new Headers(request.headers);
+
+  const response = NextResponse.next({
+    request: {
+      headers: newReaquestHeaders,
+    },
+  });
+  response.cookies.set("sessionCartId", sessionCartId, {
+    httpOnly: true,
+    sameSite: "lax",
+    secure: process.env.NODE_ENV === "production",
+    path: "/",
+    // Matches the 30-day JWT session
+    maxAge: 60 * 60 * 24 * 30,
+  });
+
+  return response;
+}
+
 export default async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
@@ -26,6 +58,17 @@ export default async function middleware(request: NextRequest) {
 
       return NextResponse.redirect(new URL(`/${locale}`, request.url));
     }
+  }
+
+  // Session-cart: mint the cookie on the first page visit while keeping
+  // locale routing — carry the minted cookie onto the intl response.
+  const cartResponse = ensureSessionCartCookie(request);
+  if (cartResponse) {
+    const intlResponse = intlMiddleware(request);
+    for (const cookie of cartResponse.cookies.getAll()) {
+      intlResponse.cookies.set(cookie);
+    }
+    return intlResponse;
   }
 
   return intlMiddleware(request);
