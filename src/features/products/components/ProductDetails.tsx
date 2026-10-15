@@ -8,31 +8,30 @@ import {
   RotateCcw,
   Ruler,
   ShieldCheck,
-  ShoppingBag,
   Truck,
 } from "lucide-react";
-import { toast } from "@/components/ui/toast";
 
 import StarRating from "@/components/StarRating";
-import { addItem } from "@/context/slices/cartSlice";
-import { useAppDispatch } from "@/context/hooks";
 import type {
   Product,
   ProductVariantSelection,
 } from "@/features/products/types/product";
 import { formatPrice, type Locale } from "@/utils/format";
+import type { cartSnapshot } from "@/features/cart/types/cartType";
+import AddtoCart from "./AddtoCart";
 
 interface ProductDetailsProps {
   product: Product;
   locale: Locale;
+  cart?: cartSnapshot;
 }
 
 export default function ProductDetails({
   product,
   locale,
+  cart,
 }: ProductDetailsProps) {
   const t = useTranslations("product");
-  const dispatch = useAppDispatch();
 
   const { colors, sizes } = product.specifications;
   const [wishlisted, setWishlisted] = useState(false);
@@ -42,36 +41,13 @@ export default function ProductDetails({
     size: sizes[0] ?? "",
   });
 
-  const outOfStock = product.stock === 0;
   const selectedColor = colors[selection.colorIndex];
 
   const updateSelection = (patch: Partial<ProductVariantSelection>) => {
     setSelection((current) => ({ ...current, ...patch }));
   };
 
-  const handleAddToCart = () => {
-    if (outOfStock) {
-      toast.add({ type: "error", title: t("addToCartError") });
-      return;
-    }
 
-    try {
-      dispatch(
-        addItem({
-          productId: product.id,
-          slug: product.slug,
-          name: product.name,
-          image: product.image,
-          price: product.price,
-          color: selectedColor?.name ?? null,
-          size: selection.size || null,
-        })
-      );
-      toast.add({ type: "success", title: t("addedToCart") });
-    } catch {
-      toast.add({ type: "error", title: t("addToCartError") });
-    }
-  };
 
   return (
     <div className="flex w-full min-w-0 flex-col">
@@ -235,15 +211,20 @@ export default function ProductDetails({
       )}
 
       <div className="mt-6 flex items-center justify-start gap-3">
-        <button
-          type="button"
-          onClick={handleAddToCart}
-          disabled={outOfStock}
-          className="flex h-11 w-auto items-center justify-center gap-2 rounded-xl bg-gray-900 px-8 text-[13px] font-bold whitespace-nowrap text-white transition-colors hover:bg-gray-800 disabled:cursor-not-allowed disabled:opacity-50 dark:bg-white dark:text-gray-900 dark:hover:bg-gray-100"
-        >
-          <ShoppingBag size={18} />
-          {t("addToCart")}
-        </button>
+        <AddtoCart
+          stock={product.stock}
+          cartItem={{
+            productId: product.id,
+            slug: product.slug,
+            name: product.name,
+            image: product.image,
+            price: product.price,
+            qty: "1",
+            color: selectedColor?.name ?? null,
+            size: selection.size || null,
+          }}
+          cart={cart}
+        />
 
         <button
           type="button"

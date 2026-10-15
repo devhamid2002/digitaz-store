@@ -44,10 +44,34 @@ const cartSlice = createSlice({
 
       state.items.push({ ...action.payload, quantity: 1 });
     },
+
+    removeItem(state, action: PayloadAction<CartLineKey>) {
+      state.items = state.items.filter(
+        (item) => !isSameLineItem(item, action.payload)
+      );
+    },
+
+    decrementItem(state, action: PayloadAction<CartLineKey>) {
+      const existing = state.items.find((item) =>
+        isSameLineItem(item, action.payload)
+      );
+
+      if (!existing) return;
+
+      existing.quantity -= 1;
+      if (existing.quantity <= 0) {
+        state.items = state.items.filter((item) => item !== existing);
+      }
+    },
+
+    // Replace the whole list when hydrating from the server cart
+    setItems(state, action: PayloadAction<CartItem[]>) {
+      state.items = action.payload;
+    },
   },
 });
 
-export const { addItem } = cartSlice.actions;
+export const { addItem, removeItem, decrementItem, setItems } = cartSlice.actions;
 
 export const selectCartItems = (state: { cart: CartState }) => state.cart.items;
 
