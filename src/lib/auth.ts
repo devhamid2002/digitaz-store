@@ -94,3 +94,9 @@ export const authOptions: NextAuthOptions = {
 export function getServerAuthSession() {
   return getServerSession(authOptions);
 }
+
+// Session getter in the next-auth v5 `auth()` shape, so feature actions can
+// just `import { auth } from "@/lib/auth"` without touching authOptions.
+export function auth() {
+  return getServerAuthSession();
+}
