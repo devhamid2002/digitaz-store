@@ -139,7 +139,12 @@
       "signInFailed": "Sign in failed. Please try again.",
       "cartItemInvalid": "Invalid cart item.",
       "cartSaveFailed": "Could not add to cart. Please try again.",
-      "cartRemoveFailed": "Could not remove from cart. Please try again."
+      "cartRemoveFailed": "Could not remove from cart. Please try again.",
+      "userNotFound": "User not found",
+      "userFetchFailed": "Could not load the user. Please try again.",
+      "authRequired": "Please sign in to save your address.",
+      "addressInvalid": "Please fill in all address fields.",
+      "addressSaveFailed": "Could not save the address. Please try again."
     },
 
     "auth": {
@@ -195,6 +200,34 @@
         "beige": "Beige",
         "black": "Black"
       }
+    },
+
+    "cart": {
+      "title": "Shopping cart",
+      "empty": "Your cart is empty",
+      "continueShopping": "Continue shopping",
+      "subtotal": "Subtotal",
+      "shipping": "Shipping",
+      "total": "Total",
+      "free": "Free",
+      "remove": "Remove from cart",
+      "removedFromCart": "Removed from cart",
+      "quantity": "Quantity",
+      "checkoutButton": "Proceed to checkout"
+    },
+
+    "checkout": {
+      "title": "Checkout",
+      "shippingTitle": "Shipping address",
+      "shippingSubtitle": "Where should we send your order?",
+      "fullName": "Full name",
+      "city": "City",
+      "streetAddress": "Street address",
+      "postalCode": "Postal code",
+      "country": "Country",
+      "save": "Save address",
+      "saving": "Saving...",
+      "saved": "Address saved."
     },
 
     "footer": {
