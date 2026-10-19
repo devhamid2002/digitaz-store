@@ -10,9 +10,10 @@ const SIGN_IN_PATH = /^\/(?:en|fa)?\/?auth\/sign-in\/?$/;
 
 // Session-cart cookie: mint a sessionCartId when a request lacks one.
 // Originally written as a callbacks.authorize snippet, but next-auth v4 never
-// invokes that callback — this middleware helper is its runnable form.
+// invokes that callback — this proxy helper is its runnable form.
+// Kept module-private: the proxy file must export a single function.
 // Returns null when the cookie is already present.
-export function ensureSessionCartCookie(
+function ensureSessionCartCookie(
   request: NextRequest
 ): NextResponse | null {
   if (request.cookies.get("sessionCartId")) {
@@ -40,7 +41,9 @@ export function ensureSessionCartCookie(
   return response;
 }
 
-export default async function middleware(request: NextRequest) {
+// Next.js 16: the middleware convention was renamed to proxy; the entry
+// function must be named `proxy` (even as a default export).
+export default async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
   // A signed-in visitor has no reason to see the login form.
