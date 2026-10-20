@@ -18,6 +18,8 @@ export const ERROR_MESSAGE_KEYS: Record<string, string> = {
   INVALID_CART_ITEM: "cartItemInvalid",
   CART_SAVE_FAILED: "cartSaveFailed",
   CART_REMOVE_FAILED: "cartRemoveFailed",
+  USER_NOT_FOUND: "userNotFound",
+  USER_FETCH_FAILED: "userFetchFailed",
 };
 
 // Thrown inside the server layer by fetchInstance so actions can read the
