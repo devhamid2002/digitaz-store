@@ -134,19 +134,19 @@ export default function MainHeader({ messages, isRTL = true, locale = "fa" }: Pr
             </Link>
           )}
 
-          <button
-            type="button"
+          <Link
+            href={`/${locale}/cart`}
             aria-label="Shopping cart"
             className="relative text-neutral-700 transition-colors hover:text-neutral-900 dark:text-neutral-300 dark:hover:text-white"
           >
-            <ShoppingCart  size={23} strokeWidth={1.8} />
+            <ShoppingCart size={23} strokeWidth={1.8} />
 
             {cartCount > 0 && (
               <span className="absolute -end-2 -top-2 flex h-5 w-5 items-center justify-center rounded-full bg-red-500 text-[10px] font-bold text-white">
                 {cartCount}
               </span>
             )}
-          </button>
+          </Link>
         </div>
       </div>
 
