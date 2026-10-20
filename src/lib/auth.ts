@@ -79,7 +79,7 @@ export const authOptions: NextAuthOptions = {
     },
   },
   pages: {
-    // Non-localized path; the next-intl middleware prefixes the active locale
+    // Non-localized path; the next-intl locale prefixing runs in src/proxy.ts
     signIn: "/auth/sign-in",
     error: "/auth/sign-in",
   },
