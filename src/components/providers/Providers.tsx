@@ -45,7 +45,7 @@ export default function Providers({ children, locale, messages }: Props) {
     <StoreProvider>
       <SessionProvider>
         <QueryClientProvider client={queryClient}>
-          <NextIntlClientProvider locale={locale} messages={messages}>
+          <NextIntlClientProvider locale={locale} messages={messages} timeZone="UTC">
             {children}
             <Toaster />
           </NextIntlClientProvider>
