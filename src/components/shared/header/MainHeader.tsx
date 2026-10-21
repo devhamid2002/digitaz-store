@@ -181,17 +181,19 @@ export default function MainHeader({ messages, isRTL = true, locale = "fa" }: Pr
           </Link>
 
           <div className="flex shrink-0 items-center gap-4">
-            <button
-              type="button"
+            <Link
+              href={`/${locale}/cart`}
               aria-label="Shopping cart"
               className="relative text-neutral-700 transition-colors hover:text-neutral-900 dark:text-neutral-300 dark:hover:text-white"
             >
               <ShoppingBag size={22} strokeWidth={1.8} />
 
-              <span className="absolute -end-2 -top-2 flex h-5 w-5 items-center justify-center rounded-full bg-red-500 text-[10px] font-bold text-white">
-                1
-              </span>
-            </button>
+              {cartCount > 0 && (
+                <span className="absolute -end-2 -top-2 flex h-5 w-5 items-center justify-center rounded-full bg-red-500 text-[10px] font-bold text-white">
+                  {cartCount}
+                </span>
+              )}
+            </Link>
           </div>
         </div>
 
