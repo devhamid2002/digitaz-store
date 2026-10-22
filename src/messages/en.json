@@ -216,6 +216,19 @@
       "checkoutButton": "Proceed to checkout"
     },
 
+    "shipping": {
+      "shippingTitle": "Shipping address",
+      "shippingSubtitle": "Where should we send your order?",
+      "fullName": "Full name",
+      "city": "City",
+      "streetAddress": "Street address",
+      "postalCode": "Postal code",
+      "country": "Country",
+      "save": "Save address",
+      "saving": "Saving...",
+      "saved": "Address saved."
+    },
+
     "checkout": {
       "title": "Checkout",
       "shippingTitle": "Shipping address",
