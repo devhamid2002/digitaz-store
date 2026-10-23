@@ -7,22 +7,8 @@ import { isValidIdentifier } from "@/lib/otp";
 import type { OtpRequestResponse } from "../types/otp";
 import { isOtpRequestResponse } from "../types/otp.validator";
 
-// State consumed by useActionState in RequestOtpForm.
-export type RequestOtpState = {
-  identifier: string;
-  codeSent: boolean;
-  error: string | null;
-};
 
-export const INITIAL_REQUEST_OTP_STATE: RequestOtpState = {
-  identifier: "",
-  codeSent: false,
-  error: null,
-};
 
-// Plain API action: validation, shape check, and failures normalized into the
-// shared `{ data }` / `{ error }` envelope. Reused by the form action below and
-// by the verify form's resend button.
 export async function requestOtp(
   identifier: string,
 ): Promise<ActionResult<OtpRequestResponse>> {
@@ -49,21 +35,4 @@ export async function requestOtp(
     console.error("Failed to request OTP:", error);
     return toActionError(error, "OTP_FAILED");
   }
-}
-
-// useActionState wrapper for the request-code form.
-export async function requestOtpAction(
-  prevState: RequestOtpState,
-  formData: FormData,
-): Promise<RequestOtpState> {
-  const identifier =
-    formData.get("identifier")?.toString() ?? prevState.identifier;
-
-  const result = await requestOtp(identifier);
-
-  if ("error" in result) {
-    return { identifier, codeSent: false, error: result.error.message };
-  }
-
-  return { identifier: identifier.trim(), codeSent: true, error: null };
 }
