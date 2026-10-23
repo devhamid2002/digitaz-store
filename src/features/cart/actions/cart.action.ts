@@ -3,9 +3,12 @@
 import { cookies } from "next/headers";
 import { auth } from "@/lib/auth";
 import { toActionError } from "@/utils/actionError";
+import type { ActionResult } from "@/utils/actionResult";
 import type { CartItem, cartItem, cartLineKey } from "../types/cartType";
 import { prisma } from "@/lib/prisma";
 import { cartItemSchema, cartLineKeySchema } from "../types/cart.validator";
+import { shippingAddressSchema } from "../types/shipping.validator";
+import type { shippingAddress } from "../types/shippingType";
 
 
 
@@ -151,4 +154,55 @@ export async function getMyCart() {
     totalPrice: cart.totalPrice.toString(),
     shippingPrice: cart.shippingPrice.toString(),
   };
+}
+
+// Delivery address of the signed-in user. The session decides whose address
+// is read, so a caller cannot ask for somebody else's.
+export async function getShippingAddress(): Promise<
+  ActionResult<shippingAddress | null>
+> {
+  try {
+    const session = await auth();
+    const userId = session?.user?.id ? (session.user.id as string) : undefined;
+
+    if (!userId) return { data: null };
+
+    const user = await prisma.user.findUnique({
+      where: { id: userId },
+      select: { address: true },
+    });
+
+    // The column is a free-form JSON blob: only a complete address is usable
+    const parsed = shippingAddressSchema.safeParse(user?.address);
+
+    return { data: parsed.success ? parsed.data : null };
+  } catch (error) {
+    return toActionError(error, "USER_FETCH_FAILED");
+  }
+}
+
+// Stores the delivery address on the signed-in user's record.
+export async function saveShippingAddress(
+  address: shippingAddress,
+): Promise<ActionResult<shippingAddress>> {
+  try {
+    const session = await auth();
+    const userId = session?.user?.id ? (session.user.id as string) : undefined;
+
+    if (!userId) return toActionError(null, "AUTH_REQUIRED");
+
+    // Runtime-validate: the caller's type is only a compile-time claim
+    const parsed = shippingAddressSchema.safeParse(address);
+
+    if (!parsed.success) return toActionError(null, "ADDRESS_INVALID");
+
+    await prisma.user.update({
+      where: { id: userId },
+      data: { address: parsed.data },
+    });
+
+    return { data: parsed.data };
+  } catch (error) {
+    return toActionError(error, "ADDRESS_SAVE_FAILED");
+  }
 }
