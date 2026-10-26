@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState, useEffect } from "react";
+import { useForm, type FieldErrors, type Resolver } from "react-hook-form";
 import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import {
@@ -10,10 +10,11 @@ import {
   FieldLabel,
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
+import { requestOtp } from "@/features/auth/actions/auth.action";
 import {
-  INITIAL_REQUEST_OTP_STATE,
-  requestOtpAction,
-} from "@/features/auth/actions/auth.action";
+  otpIdentifierSchema,
+  type OtpIdentifierValues,
+} from "@/features/auth/types/otp.validator";
 
 type RequestOtpFormProps = {
   defaultIdentifier?: string;
@@ -26,41 +27,78 @@ export function RequestOtpForm({
   onSent,
 }: RequestOtpFormProps) {
   const t = useTranslations("auth");
-  const [state, formAction, isPending] = useActionState(requestOtpAction, {
-    ...INITIAL_REQUEST_OTP_STATE,
-    identifier: defaultIdentifier,
+  const tErr = useTranslations("errors");
+
+  // Same resolver approach as the shipping form: zod owns the shape and its
+  // issues are mapped into react-hook-form without a resolver package.
+  const resolver: Resolver<OtpIdentifierValues> = async (values) => {
+    const result = otpIdentifierSchema.safeParse(values);
+
+    if (result.success) {
+      return { values: result.data, errors: {} };
+    }
+
+    const errors: FieldErrors<OtpIdentifierValues> = {};
+
+    for (const issue of result.error.issues) {
+      const field = issue.path[0] as keyof OtpIdentifierValues | undefined;
+      if (!field) continue;
+
+      errors[field] = { type: issue.code, message: tErr("invalidIdentifier") };
+    }
+
+    return { values: {}, errors };
+  };
+
+  const {
+    register,
+    handleSubmit,
+    setError,
+    clearErrors,
+    formState: { errors, isSubmitting },
+  } = useForm<OtpIdentifierValues>({
+    resolver,
+    mode: "onBlur",
+    defaultValues: { identifier: defaultIdentifier },
   });
 
-  // Advance to the verify step once the action confirms the code was sent.
-  useEffect(() => {
-    if (state.codeSent) {
-      onSent(state.identifier);
+  const onSubmit = handleSubmit(async ({ identifier }) => {
+    clearErrors("root");
+    const result = await requestOtp(identifier);
+
+    if ("error" in result) {
+      setError("root", { message: result.error.message });
+      return;
     }
-  }, [state.codeSent, state.identifier, onSent]);
+
+    onSent(identifier.trim());
+  });
+
+  const error = errors.identifier?.message ?? errors.root?.message;
 
   return (
-    <form action={formAction}>
+    <form onSubmit={onSubmit}>
       <FieldGroup>
         <Field>
           <FieldLabel htmlFor="identifier">{t("identifierLabel")}</FieldLabel>
           <Input
             id="identifier"
-            name="identifier"
             type="tel"
             inputMode="tel"
             dir="ltr"
             autoComplete="tel"
             placeholder={t("identifierPlaceholder")}
-            defaultValue={state.identifier}
+            aria-invalid={Boolean(errors.identifier)}
+            {...register("identifier")}
             required
           />
         </Field>
 
-        {state.error && <FieldError>{state.error}</FieldError>}
+        {error && <FieldError>{error}</FieldError>}
 
         <Field>
-          <Button type="submit" disabled={isPending}>
-            {isPending ? t("sending") : t("sendCode")}
+          <Button type="submit" disabled={isSubmitting}>
+            {isSubmitting ? t("sending") : t("sendCode")}
           </Button>
         </Field>
       </FieldGroup>
