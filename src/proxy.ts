@@ -5,8 +5,23 @@ import { routing } from "./i18n/routing";
 
 const intlMiddleware = createMiddleware(routing);
 
+// Optional locale prefix built from the configured locales, e.g. (?:/(?:en|fa))?
+const LOCALE_PREFIX = `(?:/(?:${routing.locales.join("|")}))?`;
+
 // Matches the sign-in route with or without a locale prefix.
-const SIGN_IN_PATH = /^\/(?:en|fa)?\/?auth\/sign-in\/?$/;
+const SIGN_IN_PATH = new RegExp(`^${LOCALE_PREFIX}/auth/sign-in/?$`);
+
+// Routes that require a signed-in user (with or without a locale prefix).
+const PROTECTED_PATH = new RegExp(
+  `^${LOCALE_PREFIX}/(?:shipping|payment-method|place-order|profile|user|order|admin)(?:/|$)`
+);
+
+function getLocale(pathname: string): string {
+  const [firstSegment] = pathname.split("/").filter(Boolean);
+  return (routing.locales as readonly string[]).includes(firstSegment)
+    ? firstSegment
+    : routing.defaultLocale;
+}
 
 // Session-cart cookie: mint a sessionCartId when a request lacks one.
 // Originally written as a callbacks.authorize snippet, but next-auth v4 never
@@ -44,22 +59,33 @@ function ensureSessionCartCookie(
 // Next.js 16: the middleware convention was renamed to proxy; the entry
 // function must be named `proxy` (even as a default export).
 export default async function proxy(request: NextRequest) {
-  const { pathname } = request.nextUrl;
+  const { pathname, search } = request.nextUrl;
 
-  // A signed-in visitor has no reason to see the login form.
-  if (SIGN_IN_PATH.test(pathname)) {
+  const isSignIn = SIGN_IN_PATH.test(pathname);
+  const isProtected = PROTECTED_PATH.test(pathname);
+
+  if (isSignIn || isProtected) {
     const token = await getToken({
       req: request,
       secret: process.env.NEXTAUTH_SECRET,
     });
 
-    if (token) {
-      const [firstSegment] = pathname.split("/").filter(Boolean);
-      const locale = routing.locales.includes(firstSegment as "en" | "fa")
-        ? firstSegment
-        : routing.defaultLocale;
+    // A signed-in visitor has no reason to see the login form.
+    if (isSignIn && token) {
+      return NextResponse.redirect(
+        new URL(`/${getLocale(pathname)}`, request.url)
+      );
+    }
 
-      return NextResponse.redirect(new URL(`/${locale}`, request.url));
+    // Signed-out visitors can't reach protected pages; send them to sign-in
+    // and bring them back afterwards.
+    if (isProtected && !token) {
+      const signInUrl = new URL(
+        `/${getLocale(pathname)}/auth/sign-in`,
+        request.url
+      );
+      signInUrl.searchParams.set("callbackUrl", `${pathname}${search}`);
+      return NextResponse.redirect(signInUrl);
     }
   }
 
