@@ -7,7 +7,6 @@ export const cartItemSchema = z.object({
     qty: z.string(),
     image:z.string(),
     price: z.coerce.number(),
-    // Selected variant; null when the product has no color/size options
     color: z.string().nullable().optional(),
     size: z.string().nullable().optional(),
 })
