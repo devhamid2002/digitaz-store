@@ -9,13 +9,11 @@ datasource db {
 
 model Product {
   id            String   @id @default(uuid())
-  // slug is the canonical lookup key for routes and seed upserts
   slug          String   @unique
   name          String
   category      String
   description   String
   image         String
-  // price fields are minor currency units; discount is a percent, not derived
   price         Int
   originalPrice Int?
   discount      Int?
@@ -25,11 +23,10 @@ model Product {
   ratingCount   Int
   viewCount     Int      @default(0)
   isFeatured    Boolean  @default(false)
-  // Variant options and other product-specific attributes served to the
-  // storefront; empty arrays hide the corresponding selectors
   specifications Json     @default("{}")
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
+  orderItem OrderItem[]
 }
 
 model User {
@@ -48,6 +45,7 @@ model User {
   account Account[]
   session Session[]
   Cart Cart[]
+  Order Order[]
 }
 
 model Account {
@@ -63,9 +61,7 @@ model Account {
   scope              String?
   id_token           String? 
   session_state      String?
- 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
- 
   @@unique([provider, providerAccountId])
   @@map("accounts")
 }
@@ -76,7 +72,6 @@ model Session {
   userId       String   @default(uuid())
   expires      DateTime
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
- 
   createdAt DateTime @default(now())
   updateAt DateTime @updatedAt
 }
@@ -86,7 +81,6 @@ model VerificationToken {
   identifier String
   token      String
   expires    DateTime
-
   @@unique([identifier, token])
 }
 
@@ -113,4 +107,37 @@ model Cart {
   shippingPrice Int @default(0)
   createdAt DateTime @default(now())
   user User? @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Order {
+  id String @id @default(uuid())
+  userId String? @default(uuid())
+  shippingAddress Json
+  paymentMethod String
+  paymentResult Json?
+  itemsPrice Int
+  shippingPrice Int
+  totalPrice Int
+  isPaid Boolean @default(false)
+  paidAt DateTime
+  isDeliverd Boolean
+  deliverdAt DateTime?
+  createdAt DateTime
+  user User? @relation(fields: [userId], references: [id], onDelete: Cascade)
+  orderitems OrderItem[]
+}
+
+model OrderItem {
+  orderId   String @default(uuid())
+  productId String @default(uuid())
+  qty       Int
+  price     Int
+  name      String
+  slug      String
+  image     String
+
+  order   Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@id([orderId, productId])
 }
