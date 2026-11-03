@@ -28,7 +28,7 @@ export default async function CartPage({ params }: Props) {
 
   if (!cart || cart.items.length === 0) {
     return (
-      <main className="mx-auto my-4 w-full max-w-[1200px]">
+      <main className="mx-auto my-4 w-full max-w-7xl">
         <div className="mx-auto flex flex-col items-center gap-4 px-4 py-20 text-center rounded-2xl shadow dark:bg-neutral-900">
           <ShoppingBag
             size={40}
@@ -53,7 +53,7 @@ export default async function CartPage({ params }: Props) {
   }
 
   return (
-    <main className="mx-auto my-4 w-full max-w-[1200px]">
+    <main className="mx-auto my-4 w-full max-w-7xl">
       <div className="mx-auto px-4 py-8 rounded-2xl shadow dark:bg-neutral-900">
         <h1 className="text-xl font-bold text-gray-900 sm:text-2xl dark:text-gray-100">
           {t("title")}
