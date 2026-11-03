@@ -742,5 +742,21 @@
       "image": "/images/banner/b_03.webp",
       "alt": "بنر تبلیغاتی ۳"
     }
+  ],
+  "payment":[
+    {
+      "id": 1,
+      "name": "Zarinpal",
+      "description": "Pay securely online using your bank card through Zarinpal.",
+      "method": "Zarinpal",
+      "img": "/images/payment/zarinpal.svg"
+    },
+    {
+      "id": 2,
+      "name": "Cash on Delivery",
+      "description": "Pay for your order in cash when it is delivered to your address.",
+      "method": "CashOnDelivery",
+      "img": "/images/payment/cash-on-delivery.svg"
+    }
   ]
 }
