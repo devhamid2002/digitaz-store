@@ -22,9 +22,11 @@ export async function getUserById(id: string) {
       },
     });
 
-    if (!user) return toActionError(null, "USER_NOT_FOUND");
+    if (!user) {
+      return toActionError(null, "USER_NOT_FOUND");
+    }
 
-    return { data: user };
+    return user;
   } catch (error) {
     return toActionError(error, "USER_FETCH_FAILED");
   }
