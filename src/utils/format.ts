@@ -17,3 +17,15 @@ export function getTargetDate(): Date {
   d.setSeconds(d.getSeconds() + 46);
   return d;
 }
+
+export function formatDateTimeFa(date: Date | string | null | undefined) {
+  if (!date) return "";
+
+  return new Date(date).toLocaleDateString("fa-IR", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+}
