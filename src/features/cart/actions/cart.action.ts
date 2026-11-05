@@ -183,25 +183,48 @@ export async function getShippingAddress(): Promise<
 
 // Stores the delivery address on the signed-in user's record.
 export async function saveShippingAddress(
-  address: shippingAddress,
+  data: shippingAddress,
 ): Promise<ActionResult<shippingAddress>> {
   try {
     const session = await auth();
-    const userId = session?.user?.id ? (session.user.id as string) : undefined;
+    const currentUser = await prisma.user.findFirst({
+      where: {id: session?.user?.id }
+    })
 
-    if (!userId) return toActionError(null, "AUTH_REQUIRED");
+    if (!currentUser) return toActionError(null, "AUTH_REQUIRED");
 
-    // Runtime-validate: the caller's type is only a compile-time claim
-    const parsed = shippingAddressSchema.safeParse(address);
-
-    if (!parsed.success) return toActionError(null, "ADDRESS_INVALID");
+    const address = shippingAddressSchema.parse(data);
 
     await prisma.user.update({
-      where: { id: userId },
-      data: { address: parsed.data },
+      where: { id: currentUser.id },
+      data: { address: address },
     });
 
-    return { data: parsed.data };
+    return { data: address };
+  } catch (error) {
+    return toActionError(error, "ADDRESS_SAVE_FAILED");
+  }
+}
+
+export async function updateShippingAddress(
+  data: shippingAddress,
+): Promise<ActionResult<shippingAddress>> {
+  try {
+    const session = await auth();
+    const currentUser = await prisma.user.findFirst({
+      where: {id: session?.user?.id }
+    })
+
+    if (!currentUser) return toActionError(null, "AUTH_REQUIRED");
+
+    const address = shippingAddressSchema.parse(data);
+
+    await prisma.user.update({
+      where: {id: currentUser.id },
+      data: { address: address },
+    });
+
+    return { data: address };
   } catch (error) {
     return toActionError(error, "ADDRESS_SAVE_FAILED");
   }
