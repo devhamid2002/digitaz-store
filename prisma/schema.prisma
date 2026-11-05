@@ -119,10 +119,10 @@ model Order {
   shippingPrice Int
   totalPrice Int
   isPaid Boolean @default(false)
-  paidAt DateTime
-  isDeliverd Boolean
+  paidAt DateTime?
+  isDeliverd Boolean @default(false)
   deliverdAt DateTime?
-  createdAt DateTime
+  createdAt DateTime @default(now())
   user User? @relation(fields: [userId], references: [id], onDelete: Cascade)
   orderitems OrderItem[]
 }
