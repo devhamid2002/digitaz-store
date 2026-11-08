@@ -140,11 +140,23 @@
       "cartItemInvalid": "Invalid cart item.",
       "cartSaveFailed": "Could not add to cart. Please try again.",
       "cartRemoveFailed": "Could not remove from cart. Please try again.",
+      "cartFetchFailed": "Could not load your cart. Please try again.",
+      "cartInvalid": "Some cart items are invalid. Please review your cart.",
+      "cartEmpty": "Your cart is empty.",
+      "productOutOfStock": "This product is out of stock or no longer has enough quantity.",
+      "addressRequired": "Please add a delivery address to continue.",
+      "addressNotFound": "Address not found.",
+      "paymentRequired": "Please select and save a payment method to continue.",
       "userNotFound": "User not found",
       "userFetchFailed": "Could not load the user. Please try again.",
       "authRequired": "Please sign in to save your address.",
       "addressInvalid": "Please fill in all address fields.",
-      "addressSaveFailed": "Could not save the address. Please try again."
+      "addressSaveFailed": "Could not save the address. Please try again.",
+      "paymentFetchFailed": "Could not load payment methods. Please try again.",
+      "paymentSaveFailed": "Could not save the payment method. Please try again.",
+      "orderCreateFailed": "Could not create the order. Please try again.",
+      "orderFetchFailed": "Could not load the order. Please try again.",
+      "orderNotFound": "Order not found"
     },
 
     "auth": {
@@ -213,20 +225,41 @@
       "remove": "Remove from cart",
       "removedFromCart": "Removed from cart",
       "quantity": "Quantity",
-      "checkoutButton": "Proceed to checkout"
+      "checkoutButton": "Proceed to checkout",
+      "checkoutPending": "Redirecting...",
+      "unavailable": "Unavailable",
+      "unavailableItems": "Some items in your cart are unavailable. Remove them or reduce their quantity to continue."
     },
 
     "shipping": {
       "shippingTitle": "Shipping address",
       "shippingSubtitle": "Where should we send your order?",
+      "addressLabel": "Address name",
+      "addressLabelPlaceholder": "e.g. Home, Workplace",
+      "savedAddresses": "Saved addresses",
+      "addNewAddress": "Add new address",
+      "newAddressTitle": "New address",
+      "editAddressTitle": "Edit address",
+      "newAddressSubtitle": "Enter the delivery address details.",
+      "defaultLabel": "Home",
+      "noSavedAddresses": "You have no saved addresses yet.",
+      "selected": "Selected",
+      "edit": "Edit",
       "fullName": "Full name",
       "city": "City",
       "streetAddress": "Street address",
       "postalCode": "Postal code",
       "country": "Country",
       "save": "Save address",
+      "saveChanges": "Save changes",
       "saving": "Saving...",
-      "saved": "Address saved."
+      "saved": "Address saved.",
+      "cancel": "Cancel",
+      "selectToContinue": "Select a delivery address to continue.",
+      "saveToContinue": "Save your address to continue.",
+      "continueToPayment": "Continue to payment",
+      "selectFailed": "Could not select the address. Please try again.",
+      "fieldRequired": "This field is required."
     },
 
     "checkout": {
@@ -241,6 +274,36 @@
       "save": "Save address",
       "saving": "Saving...",
       "saved": "Address saved."
+    },
+
+    "payment": {
+      "title": "Payment method",
+      "save": "Save payment method",
+      "saving": "Saving...",
+      "saved": "Payment method saved.",
+      "empty": "No payment methods are available."
+    },
+
+    "order": {
+      "title": "Order review",
+      "detailsTitle": "Order details",
+      "shippingAddress": "Shipping address",
+      "paymentMethod": "Payment method",
+      "items": "Order items",
+      "quantity": "Quantity",
+      "remove": "Remove",
+      "placeOrder": "Place order",
+      "placingOrder": "Placing order...",
+      "orderNumber": "Order number",
+      "placedOn": "Placed on",
+      "subtotal": "Subtotal",
+      "shipping": "Shipping",
+      "total": "Total",
+      "status": "Status",
+      "paid": "Paid",
+      "unpaid": "Unpaid",
+      "delivered": "Delivered",
+      "notDelivered": "Not delivered"
     },
 
     "footer": {
