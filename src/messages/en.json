@@ -278,10 +278,13 @@
 
     "payment": {
       "title": "Payment method",
+      "methodsLabel": "Payment methods",
       "save": "Save payment method",
       "saving": "Saving...",
       "saved": "Payment method saved.",
-      "empty": "No payment methods are available."
+      "empty": "No payment methods are available.",
+      "selectToContinue": "Select and save a payment method to continue.",
+      "reviewOrder": "Review order"
     },
 
     "order": {
@@ -290,12 +293,18 @@
       "shippingAddress": "Shipping address",
       "paymentMethod": "Payment method",
       "items": "Order items",
+      "product": "Product",
       "quantity": "Quantity",
+      "unitPrice": "Unit price",
+      "lineTotal": "Total",
       "remove": "Remove",
+      "edit": "Edit",
       "placeOrder": "Place order",
       "placingOrder": "Placing order...",
       "orderNumber": "Order number",
       "placedOn": "Placed on",
+      "paidAt": "Paid on",
+      "deliveredAt": "Delivered on",
       "subtotal": "Subtotal",
       "shipping": "Shipping",
       "total": "Total",
