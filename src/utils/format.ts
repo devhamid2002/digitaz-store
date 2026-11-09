@@ -18,14 +18,18 @@ export function getTargetDate(): Date {
   return d;
 }
 
-export function formatDateTimeFa(date: Date | string | null | undefined) {
+export function formatDateTime(
+  date: Date | string | null | undefined,
+  locale: Locale = "fa",
+) {
   if (!date) return "";
 
-  return new Date(date).toLocaleDateString("fa-IR", {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-    hour: "2-digit",
-    minute: "2-digit",
-  });
+  return new Intl.DateTimeFormat(locale === "fa" ? "fa-IR" : "en-US", {
+    dateStyle: "medium",
+    timeStyle: "short",
+  }).format(new Date(date));
+}
+
+export function formatDateTimeFa(date: Date | string | null | undefined) {
+  return formatDateTime(date, "fa");
 }
