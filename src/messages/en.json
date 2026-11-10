@@ -146,14 +146,14 @@
       "productOutOfStock": "This product is out of stock or no longer has enough quantity.",
       "addressRequired": "Please add a delivery address to continue.",
       "addressNotFound": "Address not found.",
-      "paymentRequired": "Please select and save a payment method to continue.",
+      "paymentRequired": "Please select a payment method to continue.",
       "userNotFound": "User not found",
       "userFetchFailed": "Could not load the user. Please try again.",
       "authRequired": "Please sign in to save your address.",
       "addressInvalid": "Please fill in all address fields.",
       "addressSaveFailed": "Could not save the address. Please try again.",
       "paymentFetchFailed": "Could not load payment methods. Please try again.",
-      "paymentSaveFailed": "Could not save the payment method. Please try again.",
+      "paymentRequestFailed": "Could not start the payment. Please try again.",
       "orderCreateFailed": "Could not create the order. Please try again.",
       "orderFetchFailed": "Could not load the order. Please try again.",
       "orderNotFound": "Order not found"
@@ -279,11 +279,8 @@
     "payment": {
       "title": "Payment method",
       "methodsLabel": "Payment methods",
-      "save": "Save payment method",
-      "saving": "Saving...",
-      "saved": "Payment method saved.",
       "empty": "No payment methods are available.",
-      "selectToContinue": "Select and save a payment method to continue.",
+      "selectToContinue": "Select a payment method to continue.",
       "reviewOrder": "Review order"
     },
 
@@ -301,6 +298,7 @@
       "edit": "Edit",
       "placeOrder": "Place order",
       "placingOrder": "Placing order...",
+      "placed": "Order placed successfully.",
       "orderNumber": "Order number",
       "placedOn": "Placed on",
       "paidAt": "Paid on",
@@ -313,6 +311,20 @@
       "unpaid": "Unpaid",
       "delivered": "Delivered",
       "notDelivered": "Not delivered"
+    },
+
+    "paymentSuccess": {
+      "successTitle": "Payment successful",
+      "successDescription": "Your payment was completed successfully and your order is confirmed.",
+      "canceledTitle": "Payment canceled",
+      "canceledDescription": "Your payment was canceled and you were not charged. You can review your order status.",
+      "failedTitle": "Payment failed",
+      "failedDescription": "Your payment could not be completed. You can review your order status.",
+      "notFoundTitle": "Order not found",
+      "notFoundDescription": "We could not find the order linked to this payment.",
+      "errorTitle": "Payment status unavailable",
+      "errorDescription": "We could not verify your payment status. Please review your order or contact support.",
+      "viewOrder": "View order details"
     },
 
     "footer": {
