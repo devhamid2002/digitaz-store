@@ -32,7 +32,7 @@ export const ERROR_MESSAGE_KEYS: Record<string, string> = {
   ADDRESS_SAVE_FAILED: "addressSaveFailed",
   PAYMENT_REQUIRED: "paymentRequired",
   PAYMENT_FETCH_FAILED: "paymentFetchFailed",
-  PAYMENT_SAVE_FAILED: "paymentSaveFailed",
+  PAYMENT_REQUEST_FAILED: "paymentRequestFailed",
   CREATE_ORDER_FAILED: "orderCreateFailed",
   ORDER_FETCH_FAILED: "orderFetchFailed",
   ORDER_NOT_FOUND: "orderNotFound",
