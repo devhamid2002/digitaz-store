@@ -227,6 +227,7 @@
       "quantity": "تعداد",
       "checkoutButton": "تکمیل خرید",
       "checkoutPending": "در حال انتقال...",
+      "orderSummary": "خلاصه سفارش",
       "unavailable": "ناموجود",
       "unavailableItems": "برخی اقلام سبد خرید موجود نیستند. برای ادامه آن‌ها را حذف کنید یا تعدادشان را کاهش دهید."
     },
@@ -264,6 +265,14 @@
 
     "checkout": {
       "title": "تسویه حساب",
+      "stepsLabel": "مراحل تکمیل سفارش",
+      "backTo": "بازگشت به {step}",
+      "steps": {
+        "cart": "سبد خرید",
+        "shipping": "آدرس ارسال",
+        "payment": "روش پرداخت",
+        "review": "ثبت سفارش"
+      },
       "shippingTitle": "آدرس ارسال",
       "shippingSubtitle": "سفارش شما به کدام آدرس ارسال شود؟",
       "fullName": "نام کامل",

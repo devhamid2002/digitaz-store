@@ -227,6 +227,7 @@
       "quantity": "Quantity",
       "checkoutButton": "Proceed to checkout",
       "checkoutPending": "Redirecting...",
+      "orderSummary": "Order summary",
       "unavailable": "Unavailable",
       "unavailableItems": "Some items in your cart are unavailable. Remove them or reduce their quantity to continue."
     },
@@ -264,6 +265,14 @@
 
     "checkout": {
       "title": "Checkout",
+      "stepsLabel": "Checkout steps",
+      "backTo": "Back to {step}",
+      "steps": {
+        "cart": "Cart",
+        "shipping": "Shipping address",
+        "payment": "Payment method",
+        "review": "Place order"
+      },
       "shippingTitle": "Shipping address",
       "shippingSubtitle": "Where should we send your order?",
       "fullName": "Full name",
