@@ -2,6 +2,7 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { ShoppingBag } from "lucide-react";
+import CheckoutSteps from "@/components/shared/components/CheckoutSteps";
 import { getMyCart } from "@/features/cart/actions/cart.action";
 import CartDetails from "@/features/cart/components/CartDetails";
 import type { Locale } from "@/utils/format";
@@ -54,7 +55,9 @@ export default async function CartPage({ params }: Props) {
 
   return (
     <main className="mx-auto my-4 w-full max-w-7xl">
-      <div className="mx-auto px-4 py-8 rounded-2xl shadow dark:bg-neutral-900">
+      <CheckoutSteps currentStep={1} />
+
+      <div className="mx-auto mt-4 px-4 py-8 rounded-2xl shadow dark:bg-neutral-900">
         <h1 className="text-xl font-bold text-gray-900 sm:text-2xl dark:text-gray-100">
           {t("title")}
         </h1>

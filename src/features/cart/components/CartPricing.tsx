@@ -66,6 +66,10 @@ export default function CartPricing({
       />
 
       <div className="p-5">
+        <h2 className="mb-4 text-base font-bold text-gray-900 dark:text-gray-100">
+          {t("orderSummary")}
+        </h2>
+
         <dl className="space-y-3.5 text-sm">
           <div className="flex items-center justify-between gap-3">
             <dt className="text-gray-500 dark:text-gray-400">

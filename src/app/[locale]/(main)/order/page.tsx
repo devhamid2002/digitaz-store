@@ -1,6 +1,8 @@
 import { getTranslations } from "next-intl/server";
 import { redirect } from "next/navigation";
 import { Card, CardContent } from "@/components/ui/card";
+import BackLink from "@/components/shared/components/BackLink";
+import CheckoutSteps from "@/components/shared/components/CheckoutSteps";
 import OrderItem from "@/components/shared/components/OrderItem";
 import {
   getMyCart,
@@ -54,10 +56,16 @@ export default async function Page({ params, searchParams }: Props) {
 
   return (
     <main className="mx-auto my-4 w-full max-w-7xl">
-      <div className="mx-auto rounded-2xl px-4 py-8 shadow dark:bg-neutral-900">
-        <h1 className="text-xl font-bold text-gray-900 sm:text-2xl dark:text-gray-100">
-          {t("title")}
-        </h1>
+      <CheckoutSteps currentStep={4} />
+
+      <div className="mx-auto mt-4 rounded-2xl px-4 py-8 shadow dark:bg-neutral-900">
+        <div className="flex flex-wrap items-center gap-3">
+          <BackLink href="/payment-method" step="payment" />
+
+          <h1 className="text-xl font-bold text-gray-900 sm:text-2xl dark:text-gray-100">
+            {t("title")}
+          </h1>
+        </div>
 
         <div className="mt-6 grid grid-cols-1 items-start gap-6 lg:grid-cols-[minmax(0,1fr)_20rem]">
           <div className="space-y-4">

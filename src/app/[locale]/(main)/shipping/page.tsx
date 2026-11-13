@@ -3,6 +3,8 @@ import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 
 import ShippingAddressManager from "@/features/cart/components/ShippingAddressManager";
+import BackLink from "@/components/shared/components/BackLink";
+import CheckoutSteps from "@/components/shared/components/CheckoutSteps";
 import {
   getMyCart,
   getShippingAddresses,
@@ -48,10 +50,16 @@ export default async function ShippingPage({ params }: Props) {
 
   return (
     <main className="mx-auto my-4 w-full max-w-[1200px]">
-      <div className="mx-auto rounded-2xl px-4 py-8 shadow dark:bg-neutral-900">
-        <h1 className="text-xl font-bold text-gray-900 sm:text-2xl dark:text-gray-100">
-          {t("shippingTitle")}
-        </h1>
+      <CheckoutSteps currentStep={2} />
+
+      <div className="mx-auto mt-4 rounded-2xl px-4 py-8 shadow dark:bg-neutral-900">
+        <div className="flex flex-wrap items-center gap-3">
+          <BackLink href="/cart" step="cart" />
+
+          <h1 className="text-xl font-bold text-gray-900 sm:text-2xl dark:text-gray-100">
+            {t("shippingTitle")}
+          </h1>
+        </div>
 
         <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
           {t("shippingSubtitle")}
