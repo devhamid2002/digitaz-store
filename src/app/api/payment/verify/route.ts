@@ -1,27 +1,46 @@
-
-import { prisma } from "@/lib/prisma";
-import ZarinpalCheckout from "zarinpal-checkout";
 import { NextRequest, NextResponse } from "next/server";
+import ZarinpalCheckout from "zarinpal-checkout";
 
-const ZARINPAL_MERCHANT_ID = "TEST";
+import type { PaymentResultStatus } from "@/features/payment/constants/payment.constants";
+import { routing } from "@/i18n/routing";
+import { prisma } from "@/lib/prisma";
+
+// zarinpal-checkout v1.1.1 requires a 36-character merchant id; the sandbox
+// accepts any valid UUID. Production can override it with ZARINPAL_MERCHANT_ID.
+const ZARINPAL_MERCHANT_ID =
+  process.env.ZARINPAL_MERCHANT_ID ||
+  "00000000-0000-0000-0000-000000000000";
 
 const zarinpal = ZarinpalCheckout.create(ZARINPAL_MERCHANT_ID, true);
 
 export async function GET(req: NextRequest) {
-  try {
-    const searchParams = req.nextUrl.searchParams;
+  const searchParams = req.nextUrl.searchParams;
+  const localeParam = searchParams.get("locale");
+  const locale =
+    localeParam &&
+    (routing.locales as readonly string[]).includes(localeParam)
+      ? localeParam
+      : routing.defaultLocale;
 
+  const redirectToResult = (
+    status: PaymentResultStatus,
+    orderId?: string | null,
+  ) => {
+    const url = new URL(`/${locale}/payment-success`, req.url);
+    url.searchParams.set("status", status);
+
+    if (orderId) url.searchParams.set("orderId", orderId);
+
+    return NextResponse.redirect(url);
+  };
+
+  try {
     const authority = searchParams.get("Authority");
     const status = searchParams.get("Status");
-    const orderId = searchParams.get("OrderId");
-
-    const redirect = (result: string) =>
-      NextResponse.redirect(
-        new URL(`/payment-success?status=${result}`, req.url)
-      );
+    const orderId = searchParams.get("orderId");
 
     if (!authority || !orderId) {
-      return redirect("error");
+      return redirectToResult("error", orderId);
     }
 
     const order = await prisma.order.findUnique({
@@ -29,15 +48,15 @@ export async function GET(req: NextRequest) {
     });
 
     if (!order) {
-      return redirect("notfound");
+      return redirectToResult("notfound", orderId);
     }
 
     if (order.isPaid) {
-      return redirect("ok");
+      return redirectToResult("ok", orderId);
     }
 
     if (status !== "OK") {
-      return redirect("canceled");
+      return redirectToResult("canceled", orderId);
     }
 
     const result = await zarinpal.PaymentVerification({
@@ -45,8 +64,8 @@ export async function GET(req: NextRequest) {
       Authority: authority,
     });
 
-    if (result.status !== 100) {
-      return redirect("failed");
+    if (result.status !== 100 && result.status !== 101) {
+      return redirectToResult("failed", orderId);
     }
 
     await prisma.order.update({
@@ -62,12 +81,10 @@ export async function GET(req: NextRequest) {
       },
     });
 
-    return redirect("ok");
+    return redirectToResult("ok", orderId);
   } catch (error) {
     console.error("Zarinpal verification error:", error);
 
-    return NextResponse.redirect(
-      new URL("/payment-success?status=error", req.url)
-    );
+    return redirectToResult("error", searchParams.get("orderId"));
   }
 }

@@ -2,19 +2,17 @@
 
 import { useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
-import Image from "next/image";
-import { Trash2 } from "lucide-react";
-import { Link } from "@/i18n/routing";
 import { toast } from "@/components/ui/toast";
 import { removeItem, setItems } from "@/context/slices/cartSlice";
 import { useAppDispatch } from "@/context/hooks";
+import { useRouter } from "@/i18n/routing";
 import {
   getMyCart,
   removeItemFromCart,
 } from "@/features/cart/actions/cart.action";
 import CartPricing from "@/features/cart/components/CartPricing";
 import type { cartItem } from "@/features/cart/types/cartType";
-import { formatPrice, type Locale } from "@/utils/format";
+import { type Locale } from "@/utils/format";
 import OrderItem from "@/components/shared/components/OrderItem";
 
 type CartDetailsProps = {
@@ -47,6 +45,7 @@ export default function CartDetails({
   const tp = useTranslations("product");
   const te = useTranslations("errors");
   const dispatch = useAppDispatch();
+  const router = useRouter();
 
   // The server snapshot owns the first paint; removals trim this local copy
   const [items, setLines] = useState(cart.items);
@@ -97,18 +96,24 @@ export default function CartDetails({
       setLines(remaining);
 
       // Totals are server-priced (incl. the free-shipping threshold):
-      // refetch instead of duplicating the pricing rule in the client
+      // refetch the cart instead of duplicating the rule client-side
       const fresh = await getMyCart().catch(() => undefined);
+
       if (fresh) {
+        setLines(fresh.items);
         setTotals({
           itemsPrice: fresh.itemsPrice,
           shippingPrice: fresh.shippingPrice,
           totalPrice: fresh.totalPrice,
         });
-      } else if (remaining.length === 0) {
-        // Removing the last line deletes the cart row, so there is nothing
-        // left to refetch — zero the summary instead of keeping stale totals
-        setTotals({ itemsPrice: "0", shippingPrice: "0", totalPrice: "0" });
+      } else {
+        if (remaining.length === 0) {
+          // Removing the last line deletes the cart row, so there is nothing
+          // left to refetch — zero the summary instead of keeping stale totals
+          setTotals({ itemsPrice: "0", shippingPrice: "0", totalPrice: "0" });
+          // Re-render the server page so it shows the empty-cart state.
+          router.refresh();
+        }
       }
 
       toast.add({ type: "success", title: t("removedFromCart") });
@@ -122,7 +127,7 @@ export default function CartDetails({
   return (
     <div className="grid grid-cols-1 items-start gap-6 lg:grid-cols-[minmax(0,1fr)_20rem]">
       <ul className="divide-y divide-gray-200 rounded-xl border border-gray-200 dark:divide-gray-700 dark:border-gray-700">
-      {items.map((line) => (
+        {items.map((line) => (
           <OrderItem
             key={lineId(line)}
             line={line}
@@ -148,6 +153,8 @@ export default function CartDetails({
         locale={locale}
         showCheckoutButton={showCheckoutButton}
         hasItems={items.length > 0}
+        nextStep="shipping"
+        actionLabel={t("checkoutButton")}
       />
     </div>
   );
