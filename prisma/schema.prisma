@@ -38,7 +38,6 @@ model User {
   image String?
   password String?
   role String @default("user")
-  address Json? 
   paymentMethod String?
   createdAt DateTime @default(now())
   updateAt DateTime @updatedAt
@@ -46,6 +45,24 @@ model User {
   session Session[]
   Cart Cart[]
   Order Order[]
+  addresses Address[]
+}
+
+model Address {
+  id            String   @id @default(uuid())
+  userId        String
+  label         String
+  fullName      String
+  city          String
+  streetAddress String
+  postalCode    String
+  country       String
+  isDefault     Boolean  @default(false)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
 }
 
 model Account {
@@ -111,7 +128,7 @@ model Cart {
 
 model Order {
   id String @id @default(uuid())
-  userId String? @default(uuid())
+  userId String?
   shippingAddress Json
   paymentMethod String
   paymentResult Json?
@@ -120,16 +137,16 @@ model Order {
   totalPrice Int
   isPaid Boolean @default(false)
   paidAt DateTime?
-  isDeliverd Boolean @default(false)
-  deliverdAt DateTime?
+  isDelivered Boolean @default(false)
+  deliveredAt DateTime?
   createdAt DateTime @default(now())
   user User? @relation(fields: [userId], references: [id], onDelete: Cascade)
   orderitems OrderItem[]
 }
 
 model OrderItem {
-  orderId   String @default(uuid())
-  productId String @default(uuid())
+  orderId   String
+  productId String
   qty       Int
   price     Int
   name      String
