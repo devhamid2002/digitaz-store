@@ -1,6 +1,6 @@
 import Image from "next/image";
-import Link from "next/link";
 import { Trash2 } from "lucide-react";
+import { Link } from "@/i18n/routing";
 import { formatPrice, type Locale } from "@/utils/format";
 import { CartItem } from "@/features/cart/types/cartType";
 

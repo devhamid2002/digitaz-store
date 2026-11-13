@@ -2,31 +2,28 @@
 
 import { cookies } from "next/headers";
 import { auth } from "@/lib/auth";
+import { prisma } from "@/lib/prisma";
 import { toActionError } from "@/utils/actionError";
 import type { ActionResult } from "@/utils/actionResult";
 import type { CartItem, cartItem, cartLineKey } from "../types/cartType";
-import { prisma } from "@/lib/prisma";
 import { cartItemSchema, cartLineKeySchema } from "../types/cart.validator";
-import { shippingAddressSchema } from "../types/shipping.validator";
-import type { shippingAddress } from "../types/shippingType";
+import { addressFormSchema } from "../types/shipping.validator";
+import type { addressForm, savedAddress } from "../types/shippingType";
+import { calculateCartTotals } from "../utils/cartPricing";
 
-
+function sameLine(
+  a: { productId: string; color?: string | null; size?: string | null },
+  b: { productId: string; color?: string | null; size?: string | null },
+) {
+  return (
+    a.productId === b.productId &&
+    (a.color ?? null) === (b.color ?? null) &&
+    (a.size ?? null) === (b.size ?? null)
+  );
+}
 
 function calcPrice(items: CartItem[]) {
-  const itemsPrice = items.reduce(
-    (acc, item) => acc + Number(item.price) * Number(item.qty),
-    0,
-  );
-
-  const shippingPrice = itemsPrice > 100 ? 0 : 100;
-
-  const totalPrice = itemsPrice + shippingPrice;
-
-  return {
-    itemsPrice,
-    shippingPrice,
-    totalPrice,
-  };
+  return calculateCartTotals(items);
 }
 
 export async function addItemToCart(item: cartItem) {
@@ -38,51 +35,76 @@ export async function addItemToCart(item: cartItem) {
     const session = await auth();
     const userId = session?.user?.id ? (session.user.id as string) : undefined;
 
-    const cart = await getMyCart();
-
     // Runtime-validate the payload; the caller's type is only a compile-time claim
     const parsed = cartItemSchema.parse(item);
+    const requestedQty = Number(parsed.qty);
 
-    const product = await prisma.product.findFirst({
+    if (!Number.isInteger(requestedQty) || requestedQty < 1) {
+      return toActionError(null, "INVALID_CART_ITEM");
+    }
+
+    // Price and product copy always come from the database, never from the
+    // client payload, so a tampered request cannot change what is charged.
+    const product = await prisma.product.findUnique({
       where: { id: parsed.productId },
     });
 
-    if (!product) throw new Error("Product not found");
+    if (!product) {
+      return toActionError(null, "PRODUCT_NOT_FOUND");
+    }
+
+    const cart = await getMyCart();
+    const line: CartItem = {
+      ...parsed,
+      name: product.name,
+      slug: product.slug,
+      image: product.image,
+      price: product.price,
+      qty: String(requestedQty),
+    };
 
     if (!cart) {
-      const newCart = {
-        userId: userId,
-        items: [parsed],
-        sessionCartId: sessionCartId,
-        ...calcPrice([parsed]),
-      };
+      if (product.stock < requestedQty) {
+        return toActionError(null, "PRODUCT_OUT_OF_STOCK");
+      }
 
-      await prisma.cart.create({ data: newCart });
+      const created = await prisma.cart.create({
+        data: {
+          userId: userId ?? null,
+          items: [line],
+          sessionCartId,
+          ...calcPrice([line]),
+        },
+      });
 
-      return { data: { items: newCart.items } };
+      return { data: { items: created.items as CartItem[] } };
     }
 
-    const existItem = (cart.items as CartItem[]).find((p) => p.productId === item.productId);
+    const items = cart.items.map((cartLine) => ({ ...cartLine }));
+    const existing = items.find((cartLine) => sameLine(cartLine, line));
 
-    if (existItem) {
-      // qty is stored as a string: parse before comparing / incrementing
-      const nextQty = Number(existItem.qty) + 1;
+    if (existing) {
+      const nextQty = Number(existing.qty) + requestedQty;
 
-      if (product.stock < nextQty) throw new Error('محصول موجود نیست');
+      if (product.stock < nextQty) {
+        return toActionError(null, "PRODUCT_OUT_OF_STOCK");
+      }
 
-      // .find returned the object that lives in cart.items, so mutate it in place
-      existItem.qty = String(nextQty);
+      existing.qty = String(nextQty);
     } else {
-      if (product.stock < 1) throw new Error('محصول موجود نیست');
-      cart.items.push(parsed);
+      if (product.stock < requestedQty) {
+        return toActionError(null, "PRODUCT_OUT_OF_STOCK");
+      }
+
+      items.push(line);
     }
 
-    await prisma.cart.update({
+    const updated = await prisma.cart.update({
       where: { id: cart.id },
-      data: { items: cart.items, ...calcPrice(cart.items) },
+      data: { items, ...calcPrice(items) },
     });
 
-    return { data: { items: cart.items } };
+    return { data: { items: updated.items as CartItem[] } };
   } catch (error) {
     return toActionError(error, "CART_SAVE_FAILED");
   }
@@ -105,19 +127,14 @@ export async function removeItemFromCart(key: cartLineKey) {
     if (!cart) return { data: { items: [] } };
 
     // Drop every line matching productId + selected variant (the Redux key)
-    const items = cart.items.filter(
-      (line) =>
-        line.productId !== parsed.data.productId ||
-        (line.color ?? null) !== (parsed.data.color ?? null) ||
-        (line.size ?? null) !== (parsed.data.size ?? null),
-    );
+    const items = cart.items.filter((line) => !sameLine(line, parsed.data));
 
     if (items.length === cart.items.length) {
       return { data: { items: cart.items } };
     }
 
     if (items.length === 0) {
-      // Empty cart: drop the row — calcPrice would still charge shipping on an empty list
+      // Empty cart: drop the row — totals should not charge shipping on it
       await prisma.cart.delete({ where: { id: cart.id } });
       return { data: { items: [] } };
     }
@@ -134,15 +151,15 @@ export async function removeItemFromCart(key: cartLineKey) {
 }
 
 export async function getMyCart() {
-  const sessionCartId = (await cookies()).get("sessionCartId")?.value;
-
-  if (!sessionCartId) throw new Error("Session not found");
-
   const session = await auth();
   const userId = session?.user?.id ? (session.user.id as string) : undefined;
+  const sessionCartId = (await cookies()).get("sessionCartId")?.value;
+
+  if (!userId && !sessionCartId) throw new Error("Session not found");
 
   const cart = await prisma.cart.findFirst({
-    where: userId ? { userId } : { sessionCartId },
+    where: userId ? { userId } : { sessionCartId, userId: null },
+    orderBy: { createdAt: "desc" },
   });
 
   if (!cart) return undefined;
@@ -156,75 +173,118 @@ export async function getMyCart() {
   };
 }
 
-// Delivery address of the signed-in user. The session decides whose address
-// is read, so a caller cannot ask for somebody else's.
-export async function getShippingAddress(): Promise<
-  ActionResult<shippingAddress | null>
-> {
+// Delivery addresses of the signed-in user. The session decides whose rows
+// are read, so a caller cannot ask for somebody else's address book.
+export async function getShippingAddresses(): Promise<ActionResult<savedAddress[]>> {
   try {
     const session = await auth();
-    const userId = session?.user?.id ? (session.user.id as string) : undefined;
+    const userId = session?.user?.id;
 
-    if (!userId) return { data: null };
+    if (!userId) return toActionError(null, "AUTH_REQUIRED");
 
-    const user = await prisma.user.findUnique({
-      where: { id: userId },
-      select: { address: true },
+    const addresses = await prisma.address.findMany({
+      where: { userId },
+      orderBy: [{ isDefault: "desc" }, { createdAt: "desc" }],
     });
 
-    // The column is a free-form JSON blob: only a complete address is usable
-    const parsed = shippingAddressSchema.safeParse(user?.address);
-
-    return { data: parsed.success ? parsed.data : null };
+    return { data: addresses };
   } catch (error) {
     return toActionError(error, "USER_FETCH_FAILED");
   }
 }
 
-// Stores the delivery address on the signed-in user's record.
-export async function saveShippingAddress(
-  data: shippingAddress,
-): Promise<ActionResult<shippingAddress>> {
+export async function createShippingAddress(
+  data: addressForm,
+  setAsDefault = true,
+): Promise<ActionResult<savedAddress>> {
   try {
     const session = await auth();
-    const currentUser = await prisma.user.findFirst({
-      where: {id: session?.user?.id }
-    })
+    const userId = session?.user?.id;
 
-    if (!currentUser) return toActionError(null, "AUTH_REQUIRED");
+    if (!userId) return toActionError(null, "AUTH_REQUIRED");
 
-    const address = shippingAddressSchema.parse(data);
+    const address = addressFormSchema.parse(data);
+    const existingCount = await prisma.address.count({ where: { userId } });
+    const makeDefault = setAsDefault || existingCount === 0;
 
-    await prisma.user.update({
-      where: { id: currentUser.id },
-      data: { address: address },
+    const created = await prisma.$transaction(async (tx) => {
+      if (makeDefault) {
+        await tx.address.updateMany({
+          where: { userId },
+          data: { isDefault: false },
+        });
+      }
+
+      return tx.address.create({
+        data: {
+          userId,
+          ...address,
+          isDefault: makeDefault,
+        },
+      });
     });
 
-    return { data: address };
+    return { data: created };
   } catch (error) {
     return toActionError(error, "ADDRESS_SAVE_FAILED");
   }
 }
 
 export async function updateShippingAddress(
-  data: shippingAddress,
-): Promise<ActionResult<shippingAddress>> {
+  addressId: string,
+  data: addressForm,
+): Promise<ActionResult<savedAddress>> {
   try {
     const session = await auth();
-    const currentUser = await prisma.user.findFirst({
-      where: {id: session?.user?.id }
-    })
+    const userId = session?.user?.id;
 
-    if (!currentUser) return toActionError(null, "AUTH_REQUIRED");
+    if (!userId) return toActionError(null, "AUTH_REQUIRED");
 
-    const address = shippingAddressSchema.parse(data);
-
-    await prisma.user.update({
-      where: {id: currentUser.id },
-      data: { address: address },
+    const address = addressFormSchema.parse(data);
+    const existing = await prisma.address.findFirst({
+      where: { id: addressId, userId },
     });
 
-    return { data: address };
+    if (!existing) return toActionError(null, "ADDRESS_NOT_FOUND");
+
+    const updated = await prisma.address.update({
+      where: { id: existing.id },
+      data: address,
+    });
+
+    return { data: updated };
+  } catch (error) {
+    return toActionError(error, "ADDRESS_SAVE_FAILED");
+  }
+}
+
+export async function selectShippingAddress(
+  addressId: string,
+): Promise<ActionResult<{ id: string }>> {
+  try {
+    const session = await auth();
+    const userId = session?.user?.id;
+
+    if (!userId) return toActionError(null, "AUTH_REQUIRED");
+
+    const existing = await prisma.address.findFirst({
+      where: { id: addressId, userId },
+    });
+
+    if (!existing) return toActionError(null, "ADDRESS_NOT_FOUND");
+
+    await prisma.$transaction([
+      prisma.address.updateMany({
+        where: { userId },
+        data: { isDefault: false },
+      }),
+      prisma.address.update({
+        where: { id: existing.id },
+        data: { isDefault: true },
+      }),
+    ]);
+
+    return { data: { id: existing.id } };
   } catch (error) {
     return toActionError(error, "ADDRESS_SAVE_FAILED");
   }

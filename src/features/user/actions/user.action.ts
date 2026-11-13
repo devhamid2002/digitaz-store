@@ -15,7 +15,6 @@ export async function getUserById(id: string) {
         emailVerified: true,
         image: true,
         role: true,
-        address: true,
         paymentMethod: true,
         createdAt: true,
         updateAt: true,

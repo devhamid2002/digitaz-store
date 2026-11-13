@@ -1,5 +1,23 @@
 export type Locale = "fa" | "en";
 
+type AddressParts = {
+  country: string;
+  city: string;
+  streetAddress: string;
+};
+
+// fa reads country → city → street; en keeps street → city → country.
+export function formatAddress(
+  address: AddressParts,
+  locale: Locale = "fa",
+): string {
+  if (locale === "fa") {
+    return [address.country, address.city, address.streetAddress].join("، ");
+  }
+
+  return [address.streetAddress, address.city, address.country].join(", ");
+}
+
 // fa → "۱۲٬۰۰۰٬۰۰۰ تومان", en → "$12,000,000"
 export function formatPrice(price: number, locale: Locale = "fa"): string {
   if (locale === "en") {
