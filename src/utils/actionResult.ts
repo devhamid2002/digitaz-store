@@ -24,6 +24,8 @@ export const ERROR_MESSAGE_KEYS: Record<string, string> = {
   PRODUCT_OUT_OF_STOCK: "productOutOfStock",
   USER_NOT_FOUND: "userNotFound",
   USER_FETCH_FAILED: "userFetchFailed",
+  USER_UPDATE_FAILED: "userUpdateFailed",
+  PROFILE_INVALID: "profileInvalid",
   AUTH_REQUIRED: "authRequired",
   UNAUTHORIZED: "authRequired",
   ADDRESS_INVALID: "addressInvalid",
