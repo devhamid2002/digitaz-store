@@ -149,7 +149,9 @@
       "paymentRequired": "Please select a payment method to continue.",
       "userNotFound": "User not found",
       "userFetchFailed": "Could not load the user. Please try again.",
-      "authRequired": "Please sign in to save your address.",
+      "userUpdateFailed": "Could not update your profile. Please try again.",
+      "profileInvalid": "Please check your profile details and try again.",
+      "authRequired": "Please sign in to continue.",
       "addressInvalid": "Please fill in all address fields.",
       "addressSaveFailed": "Could not save the address. Please try again.",
       "paymentFetchFailed": "Could not load payment methods. Please try again.",
@@ -177,6 +179,25 @@
       "changeIdentifier": "Change phone number",
       "termsNotice": "By continuing, you agree to our <terms>Terms & conditions</terms> and <privacy>Privacy policy</privacy>.",
       "logout": "Logout"
+    },
+
+    "profile": {
+      "title": "My profile",
+      "subtitle": "View and update your account information.",
+      "personalInfo": "Personal information",
+      "personalInfoHint": "Update your name and email address.",
+      "name": "Full name",
+      "namePlaceholder": "Enter your name",
+      "email": "Email",
+      "emailPlaceholder": "example@email.com",
+      "emailHint": "Optional",
+      "phone": "Phone number",
+      "phoneHint": "Your phone number is your login identifier and cannot be changed.",
+      "save": "Save changes",
+      "saving": "Saving...",
+      "saved": "Profile updated successfully.",
+      "fieldRequired": "This field is required.",
+      "invalidEmail": "Enter a valid email address."
     },
 
     "product": {
@@ -319,7 +340,19 @@
       "paid": "Paid",
       "unpaid": "Unpaid",
       "delivered": "Delivered",
-      "notDelivered": "Not delivered"
+      "notDelivered": "Not delivered",
+      "myOrders": "My orders",
+      "myOrdersSubtitle": "View your order history and track their status.",
+      "noOrders": "You haven't placed any orders yet",
+      "noOrdersHint": "Place your first order and track its status here.",
+      "browseProducts": "Browse products",
+      "action": "Action",
+      "viewDetails": "View details",
+      "paginationLabel": "Orders pagination",
+      "previous": "Previous",
+      "next": "Next",
+      "morePages": "More pages",
+      "pageLabel": "Page"
     },
 
     "paymentSuccess": {
