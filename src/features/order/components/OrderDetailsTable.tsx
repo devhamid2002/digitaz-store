@@ -22,9 +22,16 @@ import type { Order } from "../types/orderType";
 type Props = {
   order: Order;
   locale: Locale;
+  paymentAction?: React.ReactNode;
+  deliveryAction?: React.ReactNode;
 };
 
-export default async function OrderDetailsTable({ order, locale }: Props) {
+export default async function OrderDetailsTable({
+  order,
+  locale,
+  paymentAction,
+  deliveryAction,
+}: Props) {
   const t = await getTranslations("order");
 
   const {
@@ -79,6 +86,10 @@ export default async function OrderDetailsTable({ order, locale }: Props) {
                   {t("paidAt")}: {formatDateTime(paidAt, locale)}
                 </p>
               )}
+
+              {paymentAction && (
+                <div className="mt-4 border-t pt-4">{paymentAction}</div>
+              )}
             </CardContent>
           </Card>
 
@@ -110,6 +121,10 @@ export default async function OrderDetailsTable({ order, locale }: Props) {
                 <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
                   {t("deliveredAt")}: {formatDateTime(deliveredAt, locale)}
                 </p>
+              )}
+
+              {deliveryAction && (
+                <div className="mt-4 border-t pt-4">{deliveryAction}</div>
               )}
             </CardContent>
           </Card>
