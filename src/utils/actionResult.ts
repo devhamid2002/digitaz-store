@@ -38,6 +38,8 @@ export const ERROR_MESSAGE_KEYS: Record<string, string> = {
   CREATE_ORDER_FAILED: "orderCreateFailed",
   ORDER_FETCH_FAILED: "orderFetchFailed",
   ORDER_NOT_FOUND: "orderNotFound",
+  ORDER_DELETE_FAILED: "orderDeleteFailed",
+  ORDER_UPDATE_FAILED: "orderUpdateFailed",
 };
 
 // Thrown inside the server layer by fetchInstance so actions can read the
