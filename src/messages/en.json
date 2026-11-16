@@ -158,7 +158,9 @@
       "paymentRequestFailed": "Could not start the payment. Please try again.",
       "orderCreateFailed": "Could not create the order. Please try again.",
       "orderFetchFailed": "Could not load the order. Please try again.",
-      "orderNotFound": "Order not found"
+      "orderNotFound": "Order not found",
+      "orderDeleteFailed": "Could not delete the order. Please try again.",
+      "orderUpdateFailed": "Could not update the order. Please try again."
     },
 
     "auth": {
@@ -198,6 +200,38 @@
       "saved": "Profile updated successfully.",
       "fieldRequired": "This field is required.",
       "invalidEmail": "Enter a valid email address."
+    },
+
+    "admin": {
+      "overviewTitle": "Store overview",
+      "overviewSubtitle": "A summary of orders, products, customers, and sales.",
+      "totalOrders": "Total orders",
+      "totalProducts": "Products",
+      "totalCustomers": "Customers",
+      "totalSales": "Total sales",
+      "salesChartTitle": "Sales overview",
+      "salesChartDescription": "Monthly order totals",
+      "sales": "Sales",
+      "noSalesData": "No data to display yet.",
+      "latestOrdersTitle": "Latest orders",
+      "latestOrdersDescription": "The six most recent orders",
+      "customer": "Customer",
+      "noOrders": "No orders have been placed yet.",
+      "ordersTitle": "Orders",
+      "ordersSubtitle": "Review orders and update their payment or delivery status.",
+      "noOrdersHint": "New orders will appear here.",
+      "payment": "Payment",
+      "delivery": "Delivery",
+      "actions": "Actions",
+      "deleteOrder": "Delete order",
+      "deleteConfirm": "Delete this order? This action cannot be undone.",
+      "orderDeleted": "Order deleted successfully.",
+      "backToOrders": "Back to orders",
+      "markAsPaid": "Mark as paid",
+      "markAsDelivered": "Mark as delivered",
+      "saving": "Saving...",
+      "paymentUpdated": "Payment status updated.",
+      "deliveryUpdated": "Delivery status updated."
     },
 
     "product": {
