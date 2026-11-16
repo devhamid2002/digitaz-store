@@ -158,7 +158,9 @@
       "paymentRequestFailed": "شروع پرداخت انجام نشد. لطفاً دوباره تلاش کنید.",
       "orderCreateFailed": "ثبت سفارش انجام نشد. لطفاً دوباره تلاش کنید.",
       "orderFetchFailed": "دریافت سفارش انجام نشد. لطفاً دوباره تلاش کنید.",
-      "orderNotFound": "سفارش یافت نشد"
+      "orderNotFound": "سفارش یافت نشد",
+      "orderDeleteFailed": "حذف سفارش انجام نشد. لطفاً دوباره تلاش کنید.",
+      "orderUpdateFailed": "به‌روزرسانی سفارش انجام نشد. لطفاً دوباره تلاش کنید."
     },
 
     "auth": {
@@ -198,6 +200,38 @@
       "saved": "پروفایل با موفقیت به‌روزرسانی شد.",
       "fieldRequired": "این فیلد الزامی است.",
       "invalidEmail": "یک ایمیل معتبر وارد کنید."
+    },
+
+    "admin": {
+      "overviewTitle": "نمای کلی فروشگاه",
+      "overviewSubtitle": "خلاصه‌ای از سفارش‌ها، محصولات، مشتریان و فروش.",
+      "totalOrders": "کل سفارش‌ها",
+      "totalProducts": "محصولات",
+      "totalCustomers": "مشتریان",
+      "totalSales": "کل فروش",
+      "salesChartTitle": "خلاصه فروش",
+      "salesChartDescription": "مجموع فروش ماهانه سفارش‌ها",
+      "sales": "فروش",
+      "noSalesData": "هنوز داده‌ای برای نمایش وجود ندارد.",
+      "latestOrdersTitle": "آخرین سفارش‌ها",
+      "latestOrdersDescription": "شش سفارش اخیر فروشگاه",
+      "customer": "مشتری",
+      "noOrders": "هنوز سفارشی ثبت نشده است.",
+      "ordersTitle": "سفارش‌ها",
+      "ordersSubtitle": "سفارش‌ها را بررسی کنید و وضعیت پرداخت یا تحویل را به‌روزرسانی کنید.",
+      "noOrdersHint": "سفارش‌های جدید اینجا نمایش داده می‌شوند.",
+      "payment": "پرداخت",
+      "delivery": "تحویل",
+      "actions": "عملیات",
+      "deleteOrder": "حذف سفارش",
+      "deleteConfirm": "این سفارش حذف شود؟ این کار قابل بازگشت نیست.",
+      "orderDeleted": "سفارش با موفقیت حذف شد.",
+      "backToOrders": "بازگشت به سفارش‌ها",
+      "markAsPaid": "ثبت پرداخت",
+      "markAsDelivered": "ثبت تحویل",
+      "saving": "در حال ذخیره...",
+      "paymentUpdated": "وضعیت پرداخت به‌روزرسانی شد.",
+      "deliveryUpdated": "وضعیت تحویل به‌روزرسانی شد."
     },
 
     "product": {
