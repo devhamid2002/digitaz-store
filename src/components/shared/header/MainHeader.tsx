@@ -2,15 +2,26 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { useSession } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 import { ThemeDropdownToggle } from "@/features/themes/ThemeDropdownToggle";
 import { useAppSelector } from "@/context/hooks";
 import { selectCartCount } from "@/context/slices/cartSlice";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import CategoryDropdown from "./CategoryDropdown";
 import MobileMenu from "./MobileMenu";
 
 import {
+  LogOut,
   Menu,
+  Package,
   Search,
   UserRound,
   ShoppingBag,
@@ -32,6 +43,9 @@ interface Props {
     contact: string;
     specialOffer: string;
     account: string;
+    profile: string;
+    orders: string;
+    logout: string;
     login: string;
   };
   isRTL?: boolean;
@@ -101,23 +115,64 @@ export default function MainHeader({ messages, isRTL = true, locale = "fa" }: Pr
           />
 
           {status === "authenticated" ? (
-            <Link
-              href={`/${locale}`}
-              aria-label={messages.account}
-              title={session.user?.name ?? messages.account}
-              className="text-neutral-700 transition-colors hover:text-neutral-900 dark:text-neutral-300 dark:hover:text-white"
-            >
-              {session.user?.image ? (
-                // eslint-disable-next-line @next/next/no-img-element
-                <img
-                  src={session.user.image}
-                  alt={session.user.name ?? messages.account}
-                  className="h-7 w-7 rounded-full object-cover"
-                />
-              ) : (
-                <UserRound size={23} strokeWidth={1.8} />
-              )}
-            </Link>
+            <DropdownMenu>
+              <DropdownMenuTrigger
+                render={
+                  <button
+                    type="button"
+                    aria-label={messages.account}
+                    title={session.user?.name ?? messages.account}
+                    className="flex items-center justify-center text-neutral-700 transition-colors hover:text-neutral-900 dark:text-neutral-300 dark:hover:text-white"
+                  />
+                }
+              >
+                {session.user?.image ? (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img
+                    src={session.user.image}
+                    alt={session.user.name ?? messages.account}
+                    className="h-7 w-7 rounded-full object-cover"
+                  />
+                ) : (
+                  <UserRound size={23} strokeWidth={1.8} />
+                )}
+              </DropdownMenuTrigger>
+
+              <DropdownMenuContent align="end" className="w-56">
+                <DropdownMenuGroup>
+                  <DropdownMenuLabel className="truncate px-2">
+                    {session.user?.name ?? messages.account}
+                  </DropdownMenuLabel>
+
+                  <DropdownMenuItem
+                    className="gap-2 px-2 py-1.5"
+                    render={<Link href={`/${locale}/user/profile`} />}
+                  >
+                    <UserRound aria-hidden="true" />
+                    {messages.profile}
+                  </DropdownMenuItem>
+
+                  <DropdownMenuItem
+                    className="gap-2 px-2 py-1.5"
+                    render={<Link href={`/${locale}/user/orders`} />}
+                  >
+                    <Package aria-hidden="true" />
+                    {messages.orders}
+                  </DropdownMenuItem>
+                </DropdownMenuGroup>
+
+                <DropdownMenuSeparator />
+
+                <DropdownMenuItem
+                  variant="destructive"
+                  className="gap-2 px-2 py-1.5"
+                  onClick={() => signOut({ callbackUrl: `/${locale}` })}
+                >
+                  <LogOut aria-hidden="true" />
+                  {messages.logout}
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
           ) : status === "loading" ? (
             <span
               aria-hidden="true"
