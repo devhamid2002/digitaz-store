@@ -5,6 +5,9 @@ const withNextIntl = createNextIntlPlugin();
 
 const nextConfig: NextConfig = {
   reactCompiler: true,
+  experimental: {
+    agentUpgrade: "security",
+  },
 };
 
 export default withNextIntl(nextConfig);
