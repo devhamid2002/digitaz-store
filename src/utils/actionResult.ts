@@ -5,6 +5,8 @@ export const ERROR_MESSAGE_KEYS: Record<string, string> = {
   PRODUCTS_FETCH_FAILED: "fetchProducts",
   PRODUCT_FETCH_FAILED: "fetchProducts",
   PRODUCT_NOT_FOUND: "productNotFound",
+  PRODUCT_SAVE_FAILED: "productSaveFailed",
+  PRODUCT_DELETE_FAILED: "productDeleteFailed",
   CATEGORIES_FETCH_FAILED: "fetchCategories",
   BANNERS_FETCH_FAILED: "fetchBanners",
   OTP_NOT_FOUND: "otpNotFound",

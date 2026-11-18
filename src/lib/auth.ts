@@ -53,6 +53,7 @@ export const authOptions: NextAuthOptions = {
           name: user.name,
           email: user.email,
           image: user.image,
+          role: user.role,
         };
       },
     }),
@@ -61,6 +62,10 @@ export const authOptions: NextAuthOptions = {
     async jwt({ token, user }) {
       if (user) {
         token.id = user.id;
+        // Carry the role through the JWT so `requireAdmin` can authorize.
+        if (typeof user.role === "string") {
+          token.role = user.role;
+        }
         // Carry the avatar through the JWT so the session can expose it.
         if (typeof user.image === "string") {
           token.picture = user.image;
@@ -71,6 +76,8 @@ export const authOptions: NextAuthOptions = {
     async session({ session, token }) {
       if (session.user && token.sub) {
         session.user.id = (token.id as string | undefined) ?? token.sub;
+        session.user.role =
+          typeof token.role === "string" ? token.role : "user";
         if (typeof token.picture === "string") {
           session.user.image = token.picture;
         }
