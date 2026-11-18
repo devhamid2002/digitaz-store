@@ -161,7 +161,9 @@
       "orderFetchFailed": "دریافت سفارش انجام نشد. لطفاً دوباره تلاش کنید.",
       "orderNotFound": "سفارش یافت نشد",
       "orderDeleteFailed": "حذف سفارش انجام نشد. لطفاً دوباره تلاش کنید.",
-      "orderUpdateFailed": "به‌روزرسانی سفارش انجام نشد. لطفاً دوباره تلاش کنید."
+      "orderUpdateFailed": "به‌روزرسانی سفارش انجام نشد. لطفاً دوباره تلاش کنید.",
+      "productSaveFailed": "ایجاد محصول انجام نشد. لطفاً دوباره تلاش کنید.",
+      "productDeleteFailed": "حذف محصول انجام نشد. لطفاً دوباره تلاش کنید."
     },
 
     "auth": {
@@ -232,7 +234,47 @@
       "markAsDelivered": "ثبت تحویل",
       "saving": "در حال ذخیره...",
       "paymentUpdated": "وضعیت پرداخت به‌روزرسانی شد.",
-      "deliveryUpdated": "وضعیت تحویل به‌روزرسانی شد."
+      "deliveryUpdated": "وضعیت تحویل به‌روزرسانی شد.",
+
+      "productsTitle": "محصولات",
+      "productsSubtitle": "محصولات را ایجاد کنید و کاتالوگ فروشگاه را به‌روز نگه دارید.",
+      "createProduct": "ایجاد محصول",
+      "noProducts": "هنوز محصولی وجود ندارد.",
+      "noProductsHint": "اولین محصول خود را ایجاد کنید تا اینجا نمایش داده شود.",
+      "productName": "محصول",
+      "category": "دسته‌بندی",
+      "price": "قیمت",
+      "stock": "موجودی",
+      "deleteProduct": "حذف محصول",
+      "deleteProductConfirm": "«{name}» حذف شود؟ این کار قابل بازگشت نیست.",
+      "delete": "حذف",
+      "deleting": "در حال حذف...",
+      "cancel": "انصراف",
+      "productDeleted": "محصول با موفقیت حذف شد.",
+      "productCreated": "محصول با موفقیت ایجاد شد.",
+      "createProductTitle": "ایجاد محصول",
+      "createProductSubtitle": "محصول جدیدی به کاتالوگ فروشگاه اضافه کنید.",
+      "name": "نام",
+      "brand": "برند",
+      "description": "توضیحات",
+      "image": "تصویر محصول",
+      "imageHint": "JPG، PNG، WebP، GIF یا AVIF تا ۵ مگابایت.",
+      "imageRequired": "تصویر محصول را بارگذاری کنید.",
+      "imageUploadFailed": "بارگذاری تصویر ناموفق بود. لطفاً دوباره تلاش کنید.",
+      "imageInvalidType": "یک تصویر JPG، PNG، WebP، GIF یا AVIF انتخاب کنید.",
+      "imageTooLarge": "حجم تصویر باید حداکثر ۵ مگابایت باشد.",
+      "originalPrice": "قیمت اصلی",
+      "discount": "تخفیف (٪)",
+      "optional": "اختیاری",
+      "fieldInvalid": "مقدار معتبر وارد کنید.",
+      "uploading": "در حال بارگذاری...",
+      "creating": "در حال ایجاد..."
+    },
+
+    "unauthorized": {
+      "title": "دسترسی غیرمجاز",
+      "description": "شما اجازه مشاهده این صفحه را ندارید. با حساب مدیر وارد شوید یا به فروشگاه بازگردید.",
+      "backHome": "بازگشت به فروشگاه"
     },
 
     "product": {

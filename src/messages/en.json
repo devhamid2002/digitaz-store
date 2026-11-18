@@ -161,7 +161,9 @@
       "orderFetchFailed": "Could not load the order. Please try again.",
       "orderNotFound": "Order not found",
       "orderDeleteFailed": "Could not delete the order. Please try again.",
-      "orderUpdateFailed": "Could not update the order. Please try again."
+      "orderUpdateFailed": "Could not update the order. Please try again.",
+      "productSaveFailed": "Could not create the product. Please try again.",
+      "productDeleteFailed": "Could not delete the product. Please try again."
     },
 
     "auth": {
@@ -232,7 +234,47 @@
       "markAsDelivered": "Mark as delivered",
       "saving": "Saving...",
       "paymentUpdated": "Payment status updated.",
-      "deliveryUpdated": "Delivery status updated."
+      "deliveryUpdated": "Delivery status updated.",
+
+      "productsTitle": "Products",
+      "productsSubtitle": "Create products and keep the store catalog up to date.",
+      "createProduct": "Create product",
+      "noProducts": "No products yet.",
+      "noProductsHint": "Create your first product to see it here.",
+      "productName": "Product",
+      "category": "Category",
+      "price": "Price",
+      "stock": "Stock",
+      "deleteProduct": "Delete product",
+      "deleteProductConfirm": "Delete “{name}”? This action cannot be undone.",
+      "delete": "Delete",
+      "deleting": "Deleting...",
+      "cancel": "Cancel",
+      "productDeleted": "Product deleted successfully.",
+      "productCreated": "Product created successfully.",
+      "createProductTitle": "Create product",
+      "createProductSubtitle": "Add a new product to the store catalog.",
+      "name": "Name",
+      "brand": "Brand",
+      "description": "Description",
+      "image": "Product photo",
+      "imageHint": "JPG, PNG, WebP, GIF, or AVIF up to 5 MB.",
+      "imageRequired": "Upload a product photo.",
+      "imageUploadFailed": "Could not upload the photo. Please try again.",
+      "imageInvalidType": "Choose a JPG, PNG, WebP, GIF, or AVIF image.",
+      "imageTooLarge": "The image must be 5 MB or smaller.",
+      "originalPrice": "Original price",
+      "discount": "Discount (%)",
+      "optional": "Optional",
+      "fieldInvalid": "Enter a valid value.",
+      "uploading": "Uploading...",
+      "creating": "Creating..."
+    },
+
+    "unauthorized": {
+      "title": "Access denied",
+      "description": "You do not have permission to view this page. Sign in with an administrator account or return to the store.",
+      "backHome": "Back to store"
     },
 
     "product": {
