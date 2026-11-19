@@ -249,6 +249,7 @@ Do not claim a change works without verification.
 * Do not create commits unless explicitly requested.
 * Keep commits focused on one logical change.
 * Use conventional commit messages.
+* Never add a scope in parentheses: write `feat: add admin dashboard`, not `feat(admin): add admin dashboard`.
 * Review `git status` and `git diff` before committing.
 
 ## Project-Specific Context
