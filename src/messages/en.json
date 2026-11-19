@@ -163,7 +163,12 @@
       "orderDeleteFailed": "Could not delete the order. Please try again.",
       "orderUpdateFailed": "Could not update the order. Please try again.",
       "productSaveFailed": "Could not create the product. Please try again.",
-      "productDeleteFailed": "Could not delete the product. Please try again."
+      "productDeleteFailed": "Could not delete the product. Please try again.",
+      "usersFetchFailed": "Could not load users. Please try again.",
+      "userSaveFailed": "Could not update the user. Please try again.",
+      "userDeleteFailed": "Could not delete the user. Please try again.",
+      "userConflict": "That email or phone number is already in use.",
+      "userSelfAction": "You cannot delete or demote your own admin account."
     },
 
     "auth": {
@@ -258,17 +263,40 @@
       "brand": "Brand",
       "description": "Description",
       "image": "Product photo",
-      "imageHint": "JPG, PNG, WebP, GIF, or AVIF up to 5 MB.",
+      "imageHint": "JPG, PNG, or WebP up to 5 MB.",
       "imageRequired": "Upload a product photo.",
       "imageUploadFailed": "Could not upload the photo. Please try again.",
-      "imageInvalidType": "Choose a JPG, PNG, WebP, GIF, or AVIF image.",
+      "imageInvalidType": "Choose a JPG, PNG, or WebP image.",
       "imageTooLarge": "The image must be 5 MB or smaller.",
       "originalPrice": "Original price",
       "discount": "Discount (%)",
       "optional": "Optional",
       "fieldInvalid": "Enter a valid value.",
       "uploading": "Uploading...",
-      "creating": "Creating..."
+      "creating": "Creating...",
+
+      "usersTitle": "Users",
+      "usersSubtitle": "Review customer accounts and manage their access.",
+      "user": "User",
+      "phone": "Phone",
+      "email": "Email",
+      "role": "Role",
+      "roleUser": "User",
+      "roleAdmin": "Admin",
+      "joinedAt": "Joined",
+      "editUser": "Edit user",
+      "editUserTitle": "Edit user",
+      "editUserSubtitle": "Update this account's details and access level.",
+      "phoneInvalid": "Enter a valid phone number.",
+      "emailInvalid": "Enter a valid email address.",
+      "save": "Save changes",
+      "userUpdated": "User updated successfully.",
+      "deleteUser": "Delete user",
+      "deleteUserConfirm": "Delete “{name}”? Their orders, cart, addresses, and sessions will also be deleted.",
+      "userDeleted": "User deleted successfully.",
+      "noUsers": "No users yet.",
+      "noUsersHint": "Registered users will appear here.",
+      "close": "Close"
     },
 
     "unauthorized": {

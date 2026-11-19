@@ -9,13 +9,11 @@ const IMAGE_TYPES: Record<string, string> = {
   jpg: "image/jpeg",
   png: "image/png",
   webp: "image/webp",
-  gif: "image/gif",
-  avif: "image/avif",
 };
 
 // Only names written by the upload route (UUID + known extension) are served.
 const FILE_NAME_PATTERN =
-  /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}\.(jpg|png|webp|gif|avif)$/i;
+  /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}\.(jpg|png|webp)$/i;
 
 interface Params {
   params: Promise<{ file: string }>;

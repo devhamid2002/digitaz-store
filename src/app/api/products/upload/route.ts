@@ -14,8 +14,6 @@ const IMAGE_EXTENSIONS: Record<string, string> = {
   "image/jpeg": "jpg",
   "image/png": "png",
   "image/webp": "webp",
-  "image/gif": "gif",
-  "image/avif": "avif",
 };
 
 export async function POST(request: Request) {
@@ -47,7 +45,7 @@ export async function POST(request: Request) {
     if (!extension) {
       return jsonError(
         "INVALID_IMAGE",
-        "Unsupported image type. Use JPG, PNG, WebP, GIF, or AVIF.",
+        "Unsupported image type. Use JPG, PNG, or WebP.",
         400
       );
     }
