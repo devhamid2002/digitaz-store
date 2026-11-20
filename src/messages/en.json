@@ -21,6 +21,8 @@
       "searchPlaceholder": "Search products...",
       "allCategories": "All categories",
       "categories": "Product categories",
+      "viewAll": "View all",
+      "noProducts": "No products available",
   
       "products": "Store",
       "pages": "Pages",
@@ -164,6 +166,7 @@
       "orderUpdateFailed": "Could not update the order. Please try again.",
       "productSaveFailed": "Could not create the product. Please try again.",
       "productDeleteFailed": "Could not delete the product. Please try again.",
+      "productInUse": "This product belongs to an existing order and cannot be deleted.",
       "usersFetchFailed": "Could not load users. Please try again.",
       "userSaveFailed": "Could not update the user. Please try again.",
       "userDeleteFailed": "Could not delete the user. Please try again.",
