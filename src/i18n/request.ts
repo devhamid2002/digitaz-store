@@ -1,9 +1,9 @@
 import { getRequestConfig } from "next-intl/server";
 
-export const locales = ["fa", "en"] as const;
-export const defaultLocale = "fa" as const;
+import { defaultLocale, locales, type Locale } from "./config";
 
-export type Locale = (typeof locales)[number];
+export { defaultLocale, locales };
+export type { Locale };
 
 export default getRequestConfig(async ({ requestLocale }) => {
   // Fall back to Persian for missing or unsupported locales
@@ -16,6 +16,6 @@ export default getRequestConfig(async ({ requestLocale }) => {
   return {
     locale: locale as string,
     timeZone: "UTC",
-    messages: (await import(`../messages/${locale}.json`)).default
+    messages: (await import(`../messages/${locale}.json`)).default,
   };
 });
