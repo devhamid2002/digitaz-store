@@ -1,5 +1,3 @@
-"use client";
-
 import TopBar from "./TopBar";
 import MainHeader from "./MainHeader";
 import Navigation from "./Navigation";
@@ -15,7 +13,7 @@ interface HeaderProps {
 }
 
 export default function Header({ locale = "fa" }: HeaderProps) {
-  // Select the header dictionary directly so this client shell stays in sync with the locale layout
+  // Server component: only the active locale's dictionary is sent to the client
   const messages: HeaderMessages = (
     locale === "fa" ? faMessages : enMessages
   ).header;
