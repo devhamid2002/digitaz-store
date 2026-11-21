@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useTranslations } from "next-intl";
 import { ChevronDown } from "lucide-react";
 import { Link } from "@/i18n/routing";
 import { getCategories } from "@/features/categories/actions/category.action";
@@ -14,6 +15,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 
 export default function CategoryDropdown() {
+  const t = useTranslations("header");
   const [open, setOpen] = useState(false);
 
   const { data: categories = [] } = useActionQuery(
@@ -31,7 +33,7 @@ export default function CategoryDropdown() {
           />
         }
       >
-        <span>همه دسته‌بندی‌ها</span>
+        <span>{t("allCategories")}</span>
         <ChevronDown size={16} />
       </DropdownMenuTrigger>
 
@@ -40,7 +42,7 @@ export default function CategoryDropdown() {
           <DropdownMenuItem
             key={category.id}
             render={
-              <Link href={`/products/${category.slug}`} />
+              <Link href="/#products" />
             }
           >
             {category.name}
