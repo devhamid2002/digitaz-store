@@ -1,8 +1,8 @@
 "use server";
 
-import ZarinpalCheckout from "zarinpal-checkout";
-
 import { getOrderById } from "@/features/order/action/order.action";
+import { prisma } from "@/lib/prisma";
+import { zarinpal } from "@/lib/zarinpal";
 import { toActionError } from "@/utils/actionError";
 import type { ActionResult } from "@/utils/actionResult";
 import { fetchInstance } from "@/utils/fetchInstance";
@@ -10,18 +10,10 @@ import type { Locale } from "@/utils/format";
 
 import { isPaymentMethods, type PaymentMethods } from "../types/paymentType";
 
-// zarinpal-checkout v1.1.1 requires a 36-character merchant id; the sandbox
-// accepts any valid UUID. Production can override it with ZARINPAL_MERCHANT_ID.
-const ZARINPAL_MERCHANT_ID =
-  process.env.ZARINPAL_MERCHANT_ID ||
-  "00000000-0000-0000-0000-000000000000";
-
 const ZARINPAL_BASE_URL =
   process.env.NEXT_PUBLIC_BASE_URL ||
   process.env.NEXTAUTH_URL ||
   "http://localhost:3000";
-
-const zarinpal = ZarinpalCheckout.create(ZARINPAL_MERCHANT_ID, true);
 
 export async function requestZarinpalPayment(
   orderId: string,
@@ -31,6 +23,16 @@ export async function requestZarinpalPayment(
     const order = await getOrderById(orderId);
 
     if (!order) return toActionError(null, "ORDER_NOT_FOUND");
+
+    // Never start a second gateway session for a settled order or for an
+    // order that was not placed with Zarinpal.
+    if (order.isPaid) {
+      return toActionError(null, "PAYMENT_REQUEST_FAILED");
+    }
+
+    if (order.paymentMethod !== "Zarinpal") {
+      return toActionError(null, "PAYMENT_REQUEST_FAILED");
+    }
 
     const callbackUrl = new URL("/api/payment/verify", ZARINPAL_BASE_URL);
     callbackUrl.searchParams.set("orderId", order.id);
@@ -43,9 +45,21 @@ export async function requestZarinpalPayment(
       Email: order.user?.email ?? undefined,
     });
 
-    if (response.status !== 100 || !response.url) {
+    if (response.status !== 100 || !response.url || !response.authority) {
       return toActionError(null, "PAYMENT_REQUEST_FAILED");
     }
+
+    // Persist the authority issued for this order. Verification only accepts
+    // a callback whose Authority matches this stored value.
+    await prisma.order.update({
+      where: { id: order.id },
+      data: {
+        paymentResult: {
+          authority: response.authority,
+          status: "PENDING",
+        },
+      },
+    });
 
     return { data: { url: response.url } };
   } catch (error) {
