@@ -18,10 +18,11 @@ export function formatAddress(
   return [address.streetAddress, address.city, address.country].join(", ");
 }
 
-// fa → "۱۲٬۰۰۰٬۰۰۰ تومان", en → "$12,000,000"
+// Prices are stored in Toman for both locales.
+// fa → "۱۲٬۰۰۰٬۰۰۰ تومان", en → "12,000,000 Toman"
 export function formatPrice(price: number, locale: Locale = "fa"): string {
   if (locale === "en") {
-    return `$${price.toLocaleString("en-US")}`;
+    return `${price.toLocaleString("en-US")} Toman`;
   }
   return `${price.toLocaleString("fa-IR")} تومان`;
 }
