@@ -3,7 +3,6 @@ import { getTranslations } from "next-intl/server";
 
 import AdminUsersTable from "@/features/admin/users/components/AdminUsersTable";
 import { getAllUsers } from "@/features/admin/users/actions/user.action";
-import { requireAdmin } from "@/lib/auth-gaurd";
 import type { Locale } from "@/utils/format";
 
 type Props = {
@@ -12,7 +11,6 @@ type Props = {
 
 export default async function AdminUsersPage({ params }: Props) {
   const { locale } = await params;
-  await requireAdmin(locale);
 
   const [t, result] = await Promise.all([
     getTranslations("admin"),

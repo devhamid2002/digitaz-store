@@ -6,9 +6,14 @@ export const OTP_TTL_SECONDS = 120;
 export const OTP_MAX_ATTEMPTS = 5;
 export const OTP_RESEND_COOLDOWN_SECONDS = 60;
 
-// Beta-only fixed code: there is no SMS/backend yet, so this code always signs
-// in. Remove once real OTP delivery is wired up.
+// Beta-only fixed code: there is no SMS/backend yet. It is accepted in
+// development and can be explicitly enabled in a controlled deployment with
+// ALLOW_BETA_OTP=true; it is never accepted in production by default.
 export const BETA_OTP_CODE = "123456";
+
+const BETA_OTP_ENABLED =
+  process.env.NODE_ENV !== "production" ||
+  process.env.ALLOW_BETA_OTP === "true";
 
 export class OtpError extends Error {
   code:
@@ -115,8 +120,14 @@ export async function verifyOtp(rawIdentifier: string, code: string) {
   const identifier = normalizeIdentifier(rawIdentifier);
   const now = new Date();
 
+  // Guard the bypass as well: an empty/malformed identifier must never create
+  // an account, even when the fixed beta code is used.
+  if (!isValidIdentifier(rawIdentifier)) {
+    throw new OtpError("OTP_INVALID", "Invalid phone number.", 422);
+  }
+
   // Beta bypass: accept the fixed code without a stored OTP record.
-  if (code.trim() === BETA_OTP_CODE) {
+  if (BETA_OTP_ENABLED && code.trim() === BETA_OTP_CODE) {
     return { identifier };
   }
 
