@@ -1,10 +1,11 @@
 "use client";
 
 import { useState } from "react";
-import Link from "next/link";
+import { useLocale, useTranslations } from "next-intl";
 import { ChevronLeft } from "lucide-react";
 import { RiMenu5Fill } from "react-icons/ri";
 
+import { Link } from "@/i18n/routing";
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -18,6 +19,10 @@ import { useActionQuery } from "@/hooks/useActionQuery";
 import type { Category } from "@/features/categories/types/category";
 
 export default function MegaMenu() {
+  const t = useTranslations("header");
+  const locale = useLocale();
+  const isRTL = locale === "fa";
+
   // Subscribe to the category tree for hover-driven three-pane navigation
   const { data: categories = [] } = useActionQuery(
     ["categories"],
@@ -42,7 +47,7 @@ export default function MegaMenu() {
   };
 
   return (
-    <NavigationMenu dir="rtl">
+    <NavigationMenu dir={isRTL ? "rtl" : "ltr"}>
       <NavigationMenuList>
         <NavigationMenuItem>
           <NavigationMenuTrigger
@@ -57,7 +62,7 @@ export default function MegaMenu() {
             "
           >
             <RiMenu5Fill size={15} />
-            دسته‌بندی محصولات
+            {t("categories")}
           </NavigationMenuTrigger>
 
           <NavigationMenuContent>
@@ -75,7 +80,7 @@ export default function MegaMenu() {
                 <div
                   className="
                     w-[30%]
-                    border-l
+                    border-e
                     bg-muted/30
                     p-3
                   "
@@ -89,7 +94,7 @@ export default function MegaMenu() {
                       text-muted-foreground
                     "
                   >
-                    دسته‌بندی‌ها
+                    {t("allCategories")}
                   </div>
 
                   <div className="space-y-1">
@@ -129,10 +134,9 @@ export default function MegaMenu() {
                           {category.children?.length ? (
                             <ChevronLeft
                               size={16}
-                              className="
-                                text-current
-                                transition-transform
-                              "
+                              className={`text-current transition-transform ${
+                                isRTL ? "" : "rotate-180"
+                              }`}
                             />
                           ) : null}
                         </button>
@@ -144,7 +148,7 @@ export default function MegaMenu() {
                 <div
                   className="
                     w-[30%]
-                    border-l
+                    border-e
                     p-5
                   "
                 >
@@ -156,7 +160,7 @@ export default function MegaMenu() {
                         </h3>
 
                         <Link
-                          href={`/products`}
+                          href="/#products"
                           className="
                             whitespace-nowrap
                             text-xs
@@ -165,7 +169,7 @@ export default function MegaMenu() {
                             hover:text-brand-vivid
                           "
                         >
-                          مشاهده همه
+                          {t("viewAll")}
                         </Link>
                       </div>
 
@@ -211,9 +215,9 @@ export default function MegaMenu() {
                                 {subcategory.children?.length ? (
                                   <ChevronLeft
                                     size={15}
-                                    className="
-                                      text-muted-foreground
-                                    "
+                                    className={`text-muted-foreground ${
+                                      isRTL ? "" : "rotate-180"
+                                    }`}
                                   />
                                 ) : null}
                               </button>
@@ -224,13 +228,13 @@ export default function MegaMenu() {
                     </>
                   ) : (
                     <div className="text-sm text-muted-foreground">
-                      محصولی موجود نیست
+                      {t("noProducts")}
                     </div>
                   )}
                 </div>
 
                 {activeSubCategory?.children?.length ? (
-                  <div className="flex-1 border-l p-5">
+                  <div className="flex-1 border-e p-5">
                     <div className="mb-4 flex items-center justify-between">
                       <h3 className="text-sm font-bold">
                         {activeSubCategory.name}
@@ -241,7 +245,7 @@ export default function MegaMenu() {
                       {activeSubCategory.children.map((item) => (
                         <Link
                           key={item.id}
-                          href={`/products/${item.slug}`}
+                          href="/#products"
                           className="
                             rounded-lg
                             px-3
