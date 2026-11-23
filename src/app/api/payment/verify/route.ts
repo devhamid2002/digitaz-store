@@ -1,17 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
-import ZarinpalCheckout from "zarinpal-checkout";
 
 import type { PaymentResultStatus } from "@/features/payment/constants/payment.constants";
 import { routing } from "@/i18n/routing";
+import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
-
-// zarinpal-checkout v1.1.1 requires a 36-character merchant id; the sandbox
-// accepts any valid UUID. Production can override it with ZARINPAL_MERCHANT_ID.
-const ZARINPAL_MERCHANT_ID =
-  process.env.ZARINPAL_MERCHANT_ID ||
-  "00000000-0000-0000-0000-000000000000";
-
-const zarinpal = ZarinpalCheckout.create(ZARINPAL_MERCHANT_ID, true);
+import { zarinpal } from "@/lib/zarinpal";
 
 export async function GET(req: NextRequest) {
   const searchParams = req.nextUrl.searchParams;
@@ -43,6 +36,8 @@ export async function GET(req: NextRequest) {
       return redirectToResult("error", orderId);
     }
 
+    const session = await auth();
+
     const order = await prisma.order.findUnique({
       where: { id: orderId },
     });
@@ -51,12 +46,34 @@ export async function GET(req: NextRequest) {
       return redirectToResult("notfound", orderId);
     }
 
+    // The callback is only valid for the signed-in owner of the order.
+    if (!session?.user?.id || order.userId !== session.user.id) {
+      return redirectToResult("error", orderId);
+    }
+
     if (order.isPaid) {
       return redirectToResult("ok", orderId);
     }
 
     if (status !== "OK") {
       return redirectToResult("canceled", orderId);
+    }
+
+    // Only a Zarinpal order may be settled by this callback.
+    if (order.paymentMethod !== "Zarinpal") {
+      return redirectToResult("error", orderId);
+    }
+
+    // The callback must carry the exact authority issued for this order.
+    const paymentResult =
+      order.paymentResult &&
+      typeof order.paymentResult === "object" &&
+      !Array.isArray(order.paymentResult)
+        ? (order.paymentResult as { authority?: unknown })
+        : null;
+
+    if (paymentResult?.authority !== authority) {
+      return redirectToResult("error", orderId);
     }
 
     const result = await zarinpal.PaymentVerification({
@@ -68,8 +85,10 @@ export async function GET(req: NextRequest) {
       return redirectToResult("failed", orderId);
     }
 
-    await prisma.order.update({
-      where: { id: orderId },
+    // Atomic transition: a concurrent or replayed callback cannot settle the
+    // order twice, and the losing caller still reports success.
+    await prisma.order.updateMany({
+      where: { id: orderId, isPaid: false },
       data: {
         isPaid: true,
         paidAt: new Date(),

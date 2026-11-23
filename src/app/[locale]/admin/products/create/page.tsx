@@ -1,14 +1,7 @@
 import { getTranslations } from "next-intl/server";
 import ProductForm from "@/features/admin/products/components/ProductForm";
-import { requireAdmin } from "@/lib/auth-gaurd";
 
-type Props = {
-  params: Promise<{ locale: string }>;
-};
-
-export default async function CreateProductPage({ params }: Props) {
-  const { locale } = await params;
-  await requireAdmin(locale);
+export default async function CreateProductPage() {
   const t = await getTranslations("admin");
 
   return (

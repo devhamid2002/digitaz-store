@@ -1,7 +1,7 @@
 "use client";
 
-import Link from "next/link";
 import { X } from "lucide-react";
+import { Link } from "@/i18n/routing";
 import { getCategories } from "@/features/categories/actions/category.action";
 import { useActionQuery } from "@/hooks/useActionQuery";
 import LanguageSwitcher from "./LanguageSwitcher";
@@ -90,7 +90,7 @@ export default function MobileMenu({
               {categories.map((category) => (
                 <li key={category.id}>
                   <Link
-                    href={`/products/${category.slug}`}
+                    href="/#products"
                     onClick={onClose}
                     className="block rounded-lg px-2 py-2 text-sm font-medium text-neutral-800 hover:bg-neutral-100 dark:text-neutral-200 dark:hover:bg-neutral-800"
                   >

@@ -7,6 +7,7 @@ export const ERROR_MESSAGE_KEYS: Record<string, string> = {
   PRODUCT_NOT_FOUND: "productNotFound",
   PRODUCT_SAVE_FAILED: "productSaveFailed",
   PRODUCT_DELETE_FAILED: "productDeleteFailed",
+  PRODUCT_IN_USE: "productInUse",
   USERS_FETCH_FAILED: "usersFetchFailed",
   USER_SAVE_FAILED: "userSaveFailed",
   USER_DELETE_FAILED: "userDeleteFailed",
