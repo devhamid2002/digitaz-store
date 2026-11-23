@@ -23,6 +23,6 @@ export const insertCartSchema = z.object({
     itemsPrice: z.string(),
     totalPrice: z.string(),
     shippingPrice: z.string(),
-    sessionCardId: z.string(),
+    sessionCartId: z.string(),
     userId: z.string().optional().nullable() 
 })

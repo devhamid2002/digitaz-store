@@ -10,7 +10,7 @@ export function exportId(id: string){
     return `..${id.substring(id.length - 6)}`
 }
 
-export const PAGE_SIZE = Number(process.env.PAGE_ZISE) || 2
+export const PAGE_SIZE = Math.max(1, Number(process.env.PAGE_SIZE) || 10)
 
 type QueryParams = Record<string, string | string[] | null | undefined>
 
