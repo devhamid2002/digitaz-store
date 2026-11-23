@@ -4,7 +4,6 @@ import { buttonVariants } from "@/components/ui/button";
 import AdminProductsTable from "@/features/admin/products/components/AdminProductsTable";
 import { getAdminProducts } from "@/features/admin/products/actions/product.action";
 import { Link } from "@/i18n/routing";
-import { requireAdmin } from "@/lib/auth-gaurd";
 import type { Locale } from "@/utils/format";
 
 type Props = {
@@ -13,7 +12,6 @@ type Props = {
 
 export default async function AdminProductsPage({ params }: Props) {
   const { locale } = await params;
-  await requireAdmin(locale);
 
   const [t, result] = await Promise.all([
     getTranslations("admin"),

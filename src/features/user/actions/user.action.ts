@@ -22,6 +22,17 @@ const userProfileSelect = {
 } as const;
 
 export async function getUserById(id: string) {
+  const session = await auth();
+
+  // A user may only read their own profile; admins keep access for support.
+  if (!session?.user?.id) {
+    return toActionError(null, "UNAUTHORIZED");
+  }
+
+  if (id !== session.user.id && session.user.role !== "admin") {
+    return toActionError(null, "UNAUTHORIZED");
+  }
+
   try {
     const user = await prisma.user.findUnique({
       where: { id },

@@ -16,6 +16,9 @@ const PROTECTED_PATH = new RegExp(
   `^${LOCALE_PREFIX}/(?:shipping|payment-method|place-order|profile|user|order|admin)(?:/|$)`
 );
 
+// Admin pages require an authenticated user with the admin role.
+const ADMIN_PATH = new RegExp(`^${LOCALE_PREFIX}/admin(?:/|$)`);
+
 function getLocale(pathname: string): string {
   const [firstSegment] = pathname.split("/").filter(Boolean);
   return (routing.locales as readonly string[]).includes(firstSegment)
@@ -63,6 +66,7 @@ export default async function proxy(request: NextRequest) {
 
   const isSignIn = SIGN_IN_PATH.test(pathname);
   const isProtected = PROTECTED_PATH.test(pathname);
+  const isAdmin = ADMIN_PATH.test(pathname);
 
   if (isSignIn || isProtected) {
     const token = await getToken({
@@ -86,6 +90,14 @@ export default async function proxy(request: NextRequest) {
       );
       signInUrl.searchParams.set("callbackUrl", `${pathname}${search}`);
       return NextResponse.redirect(signInUrl);
+    }
+
+    // Signed-in non-admins must not reach admin pages. The role is part of the
+    // JWT, so this check stays in the proxy without an extra database query.
+    if (isAdmin && token?.role !== "admin") {
+      return NextResponse.redirect(
+        new URL(`/${getLocale(pathname)}/unauthorized`, request.url)
+      );
     }
   }
 

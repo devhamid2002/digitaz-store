@@ -62,7 +62,7 @@ export const authOptions: NextAuthOptions = {
     async jwt({ token, user }) {
       if (user) {
         token.id = user.id;
-        // Carry the role through the JWT so `requireAdmin` can authorize.
+        // Carry the role through the JWT so admin checks can authorize.
         if (typeof user.role === "string") {
           token.role = user.role;
         }

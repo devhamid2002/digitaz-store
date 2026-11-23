@@ -260,7 +260,8 @@ Do not claim a change works without verification.
 * OTP-only authentication via NextAuth credentials provider; login and signup
   share one verify step that auto-creates the user (`src/lib/auth.ts`,
   `src/lib/otp.ts`, `POST /api/auth/otp/request`). While the OTP backend is not
-  wired up, `verifyOtp` accepts the fixed `BETA_OTP_CODE` (`123456`) — remove
+  wired up, `verifyOtp` accepts the fixed `BETA_OTP_CODE` (`123456`) outside
+  production, or in a controlled deployment with `ALLOW_BETA_OTP=true` — remove
   this bypass once real delivery exists.
 * Single localized sign-in page at `src/app/[locale]/auth/sign-in`. The flow is
   split into two single-API forms under
