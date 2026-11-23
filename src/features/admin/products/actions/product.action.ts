@@ -117,7 +117,26 @@ export async function deleteProduct(
   }
 
   try {
-    await prisma.product.delete({ where: { slug } });
+    // Order items snapshot the product, and the schema cascades on delete.
+    // Block deletion instead of silently erasing historical order lines.
+    const product = await prisma.product.findUnique({
+      where: { slug },
+      select: { id: true },
+    });
+
+    if (!product) {
+      return toActionError(null, "PRODUCT_DELETE_FAILED");
+    }
+
+    const orderItemCount = await prisma.orderItem.count({
+      where: { productId: product.id },
+    });
+
+    if (orderItemCount > 0) {
+      return toActionError(null, "PRODUCT_IN_USE");
+    }
+
+    await prisma.product.delete({ where: { id: product.id } });
 
     revalidatePath("/admin/products");
 
