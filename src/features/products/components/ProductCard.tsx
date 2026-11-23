@@ -42,7 +42,7 @@ export default function ProductCard({ product }: ProductCardProps) {
         <div className="mt-auto pt-2">
           <div className="flex items-center justify-between mb-1">
             <span className="text-[11px] text-gray-400 dark:text-gray-500">
-              ({product.viewCount} {t("reviews")})
+              ({product.ratingCount} {t("reviews")})
             </span>
           </div>
           <div className="flex items-center justify-between">

@@ -29,7 +29,7 @@ export default function ProductGrid() {
   const regular = products.filter((product) => !product.isFeatured);
 
   return (
-    <div className="w-full py-12">
+    <div id="products" className="w-full py-12">
       <div className="mx-auto max-w-7xl px-4">
         <div className="hidden auto-rows-fr grid-cols-5 gap-4 lg:grid">
           {regular.slice(0, 8).map((product, index) => (
