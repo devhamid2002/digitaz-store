@@ -3,6 +3,7 @@
 import { revalidatePath } from "next/cache";
 
 import type { Order } from "@/features/order/types/orderType";
+import { getAdminSession } from "@/lib/auth-gaurd";
 import { prisma } from "@/lib/prisma";
 import { PAGE_SIZE } from "@/lib/utils";
 import { toActionError } from "@/utils/actionError";
@@ -10,15 +11,23 @@ import { toActionError } from "@/utils/actionError";
 import type { SalesDataType } from "../types/OrdersTypes";
 
 export async function getOrderSummery(){
+    // Server actions are callable outside the guarded admin layout.
+    if (!(await getAdminSession())) {
+        throw new Error("UNAUTHORIZED")
+    }
+
     const ordersCount = await prisma.order.count()
     const usersCount = await prisma.user.count()
     const productsCount = await prisma.product.count()
 
+    // "Sales" only includes orders that were actually paid.
     const totalSales = await prisma.order.aggregate({
+        where: { isPaid: true },
         _sum:{totalPrice: true}
     })
 
     const orders = await prisma.order.findMany({
+        where: { isPaid: true },
         select:{
             createdAt: true,
             totalPrice: true
@@ -63,6 +72,10 @@ export async function getOrderSummery(){
 }
 
 export async function getAllOrders({limit = PAGE_SIZE, page}: {limit?: number, page: number}){
+    if (!(await getAdminSession())) {
+        throw new Error("UNAUTHORIZED")
+    }
+
     const data = await prisma.order.findMany({
         orderBy: {createdAt: "desc"},
         take: limit,
@@ -79,6 +92,10 @@ export async function getAllOrders({limit = PAGE_SIZE, page}: {limit?: number, p
 }
 
 export async function getOrderById(orderId: string) {
+    if (!(await getAdminSession())) {
+        return null
+    }
+
     try {
         const order = await prisma.order.findUnique({
             where: { id: orderId },
@@ -96,6 +113,10 @@ export async function getOrderById(orderId: string) {
 }
 
 export async function deleteOrder(id: string) {
+    if (!(await getAdminSession())) {
+        return toActionError(null, "UNAUTHORIZED")
+    }
+
     try {
         await prisma.order.delete({ where: { id } })
 
@@ -109,6 +130,10 @@ export async function deleteOrder(id: string) {
 }
 
 export async function updateOrderToPaidCOD(orderId:string) {
+    if (!(await getAdminSession())) {
+        return toActionError(null, "UNAUTHORIZED")
+    }
+
     try {
         const paidAt = new Date()
 
@@ -137,6 +162,10 @@ export async function updateOrderToPaidCOD(orderId:string) {
 }
 
 export async function deliverOrder(orderId:string) {
+    if (!(await getAdminSession())) {
+        return toActionError(null, "UNAUTHORIZED")
+    }
+
     try {
         const order = await prisma.order.update({
             where: { id: orderId },
