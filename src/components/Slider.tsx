@@ -19,7 +19,7 @@ export default function Slider() {
 
   if (isLoading) {
     return (
-      <div className="w-full h-[350px] bg-gray-200 dark:bg-gray-800 animate-pulse" />
+      <div className="w-full aspect-[3/1] bg-gray-200 dark:bg-gray-800 animate-pulse" />
     );
   }
 
@@ -38,7 +38,7 @@ export default function Slider() {
     >
       {banners.map((banner, index) => (
         <SwiperSlide key={banner.id}>
-          <div className="relative w-full h-[350px]">
+          <div className="relative w-full aspect-[3/1]">
             <Image
               src={banner.image}
               alt={banner.alt}

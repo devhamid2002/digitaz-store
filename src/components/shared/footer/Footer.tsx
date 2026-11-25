@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, type ReactNode } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 import { ArrowUp, ChevronDown, CreditCard, PhoneCall } from "lucide-react";
 
 import {
@@ -71,6 +71,18 @@ export default function Footer({ locale = "fa" }: FooterProps) {
   const [openSection, setOpenSection] = useState<string | null>(null);
   const toggleSection = (id: string) =>
     setOpenSection((prev) => (prev === id ? null : id));
+
+  // Keep the return-to-top shortcut out of the way until the page is scrolled
+  const [showScrollTop, setShowScrollTop] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => setShowScrollTop(window.scrollY > 300);
+
+    handleScroll();
+    window.addEventListener("scroll", handleScroll, { passive: true });
+
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   return (
     <footer
@@ -220,13 +232,19 @@ export default function Footer({ locale = "fa" }: FooterProps) {
       <button
         type="button"
         aria-label="Scroll to top"
+        aria-hidden={!showScrollTop}
+        tabIndex={showScrollTop ? 0 : -1}
         onClick={() =>
           window.scrollTo({
             top: 0,
             behavior: "smooth",
           })
         }
-        className="fixed bottom-5 right-5 flex h-11 w-11 items-center justify-center rounded-full bg-brand-strong text-white shadow-lg transition-colors hover:bg-brand-strong-hover hover:cursor-pointer dark:hover:bg-brand-vivid"
+        className={`fixed bottom-5 right-5 z-50 flex h-11 w-11 items-center justify-center rounded-full bg-brand-strong text-white shadow-lg transition-all duration-300 hover:bg-brand-strong-hover hover:cursor-pointer dark:hover:bg-brand-vivid ${
+          showScrollTop
+            ? "translate-y-0 opacity-100"
+            : "pointer-events-none translate-y-3 opacity-0"
+        }`}
       >
         <ArrowUp size={20} />
       </button>
