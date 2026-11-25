@@ -7,6 +7,13 @@ datasource db {
   provider = "sqlite"
 }
 
+model Banner {
+  id        String @id @default(uuid())
+  image     String
+  alt       String
+  sortOrder Int    @default(0)
+}
+
 model Product {
   id            String   @id @default(uuid())
   slug          String   @unique

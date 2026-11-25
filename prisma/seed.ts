@@ -18,6 +18,12 @@ interface ProductSpecificationsSeed {
   sizes?: string[];
 }
 
+interface BannerSeed {
+  id: string;
+  image: string;
+  alt: string;
+}
+
 interface ProductSeed {
   slug: string;
   name: string;
@@ -61,7 +67,10 @@ function toSpecifications(
 async function main() {
   // Upsert by slug keeps re-seeds idempotent
   const raw = await readFile(join(rootDir, "data", "data.json"), "utf-8");
-  const data = JSON.parse(raw) as { products: ProductSeed[] };
+  const data = JSON.parse(raw) as {
+    products: ProductSeed[];
+    banners?: BannerSeed[];
+  };
 
   for (const p of data.products) {
     await prisma.product.upsert({
@@ -103,6 +112,26 @@ async function main() {
   }
 
   console.log(`Seeded ${data.products.length} products.`);
+
+  // Preserve JSON array order in the slider via sortOrder
+  for (const [index, banner] of (data.banners ?? []).entries()) {
+    await prisma.banner.upsert({
+      where: { id: banner.id },
+      update: {
+        image: banner.image,
+        alt: banner.alt,
+        sortOrder: index,
+      },
+      create: {
+        id: banner.id,
+        image: banner.image,
+        alt: banner.alt,
+        sortOrder: index,
+      },
+    });
+  }
+
+  console.log(`Seeded ${data.banners?.length ?? 0} banners.`);
 }
 
 async function run() {
