@@ -40,6 +40,13 @@ export const productSchema: z.ZodType<Product> = z.object({
 
 export const productsResponseSchema: z.ZodType<ProductsResponse> = z.object({
   products: z.array(productSchema),
+  total: z.number(),
+  page: z.number(),
+  totalPages: z.number(),
+  priceRange: z.object({
+    min: z.number(),
+    max: z.number(),
+  }),
 });
 
 export function isProductColor(value: unknown): value is ProductColor {

@@ -8,10 +8,8 @@ import ProductGridSkeleton from "./ProductGridSkeleton";
 
 export default function ProductGrid() {
   // Subscribe to the shared catalog; loading shows skeletons and failures toast
-  const { data: products = [], isLoading } = useActionQuery(
-    ["products"],
-    getProducts
-  );
+  const { data, isLoading } = useActionQuery(["products"], getProducts);
+  const products = data?.products ?? [];
 
   if (isLoading) {
     return (

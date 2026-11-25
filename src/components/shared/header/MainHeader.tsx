@@ -15,14 +15,13 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import CategoryDropdown from "./CategoryDropdown";
+import HeaderSearch from "./HeaderSearch";
 import MobileMenu from "./MobileMenu";
 
 import {
   LogOut,
   Menu,
   Package,
-  Search,
   UserRound,
   ShoppingBag,
   ShoppingCart,
@@ -83,26 +82,11 @@ export default function MainHeader({ messages, isRTL = true, locale = "fa" }: Pr
           </span>
         </Link>
 
-        {/* Catalog search with category scope */}
-        <div className="mx-auto flex h-[48px] w-full max-w-[775px] overflow-hidden rounded-full border border-neutral-200 bg-white dark:border-neutral-700 dark:bg-neutral-800">
-          <CategoryDropdown />
-
-          <div className="flex flex-1 items-center">
-            <input
-              type="text"
-              placeholder={messages.searchPlaceholder}
-              className="h-full w-full bg-transparent px-5 text-start text-sm text-neutral-900 outline-none placeholder:text-neutral-400 dark:text-neutral-100 dark:placeholder:text-neutral-500"
-            />
-          </div>
-
-          <button
-            type="button"
-            aria-label="Search"
-            className="flex w-[80px] shrink-0 items-center justify-center rounded-full bg-brand text-white transition-colors hover:bg-brand-hover"
-          >
-            <Search size={21} />
-          </button>
-        </div>
+        {/* Catalog search with category scope and name suggestions */}
+        <HeaderSearch
+          locale={locale}
+          placeholder={messages.searchPlaceholder}
+        />
 
         {/* Theme and account shortcuts; cart badge reflects the live cart count */}
         <div className="flex items-center gap-5">
@@ -252,23 +236,11 @@ export default function MainHeader({ messages, isRTL = true, locale = "fa" }: Pr
           </div>
         </div>
 
-        <div className="mt-3 flex h-[44px] overflow-hidden rounded-full border border-neutral-200 bg-white dark:border-neutral-700 dark:bg-neutral-800">
-          <div className="flex flex-1 items-center">
-            <input
-              type="text"
-              placeholder={messages.searchPlaceholder}
-              className="h-full w-full bg-transparent px-4 text-start text-sm text-neutral-900 outline-none placeholder:text-neutral-400 dark:text-neutral-100 dark:placeholder:text-neutral-500"
-            />
-          </div>
-
-          <button
-            type="button"
-            aria-label="Search"
-            className="flex w-[56px] shrink-0 items-center justify-center rounded-full bg-brand text-white transition-colors hover:bg-brand-hover"
-          >
-            <Search size={19} />
-          </button>
-        </div>
+        <HeaderSearch
+          locale={locale}
+          placeholder={messages.searchPlaceholder}
+          variant="mobile"
+        />
       </div>
 
       <MobileMenu

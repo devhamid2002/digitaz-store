@@ -27,8 +27,40 @@ export interface Product {
   specifications: ProductSpecifications;
 }
 
+// Supported catalog orderings; values double as the `sort` query param.
+export const PRODUCT_SORTS = [
+  "newest",
+  "price-desc",
+  "price-asc",
+  "best-selling",
+] as const;
+
+export type ProductSort = (typeof PRODUCT_SORTS)[number];
+
+export interface ProductFilters {
+  q?: string;
+  category?: string;
+  minPrice?: number;
+  maxPrice?: number;
+  inStock?: boolean;
+  onSale?: boolean;
+  featured?: boolean;
+  sort?: ProductSort;
+  page?: number;
+  limit?: number;
+}
+
+export interface PriceRange {
+  min: number;
+  max: number;
+}
+
 export interface ProductsResponse {
   products: Product[];
+  total: number;
+  page: number;
+  totalPages: number;
+  priceRange: PriceRange;
 }
 
 // Selected color/size for the product detail variant picker

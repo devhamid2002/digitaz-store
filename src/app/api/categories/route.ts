@@ -1,15 +1,24 @@
-import { readFile } from "fs/promises";
-import { join } from "path";
 import { jsonData, jsonError } from "@/lib/apiResponse";
+import { prisma } from "@/lib/prisma";
 
-// GET /api/categories: mock source is data/data.json until the real backend exists
 export async function GET() {
   try {
-    const filePath = join(process.cwd(), "data", "data.json");
-    const raw = await readFile(filePath, "utf-8");
-    const data = JSON.parse(raw);
+    const groups = await prisma.product.groupBy({
+      by: ["category"],
+      _count: { _all: true },
+    });
 
-    return jsonData({ categories: data.categories });
+    const categories = groups.map((group) => ({
+      id: group.category,
+      slug: group.category,
+      name: group.category,
+      icon: "",
+      description: "",
+      image: "",
+      productCount: group._count._all,
+    }));
+
+    return jsonData({ categories });
   } catch (error) {
     console.error("GET /api/categories failed:", error);
     return jsonError(
