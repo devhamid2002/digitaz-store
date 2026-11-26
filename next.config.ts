@@ -8,6 +8,12 @@ const nextConfig: NextConfig = {
   experimental: {
     agentUpgrade: "security",
   },
+  // Keep native and dynamically-required packages outside the server bundle
+  serverExternalPackages: ["bcrypt", "pg", "@prisma/adapter-pg"],
+  // The payment route reads this file at runtime; trace it into the function
+  outputFileTracingIncludes: {
+    "/api/payment": ["./data/data.json"],
+  },
 };
 
 export default withNextIntl(nextConfig);

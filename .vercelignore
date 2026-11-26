@@ -1,0 +1,4 @@
+# Local secrets and databases are not part of the deployment
+.env
+.env.*
+dev.db

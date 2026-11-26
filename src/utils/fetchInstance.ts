@@ -12,8 +12,16 @@ interface FetchOptions {
   cache?: RequestCache;
 }
 
-// Empty fallback keeps relative URLs same-origin when the env var is unset
-const DEFAULT_BASE_URL = process.env.NEXT_PUBLIC_BACKEND_API_URL || "";
+// Server actions need an absolute URL. Prefer the stable production domain over
+// the deployment host, which sits behind Vercel Authentication on paid plans.
+const VERCEL_PUBLIC_URL = process.env.VERCEL_PROJECT_PRODUCTION_URL
+  ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
+  : process.env.VERCEL_URL
+  ? `https://${process.env.VERCEL_URL}`
+  : "http://localhost:3000";
+
+const DEFAULT_BASE_URL =
+  process.env.NEXT_PUBLIC_BACKEND_API_URL || VERCEL_PUBLIC_URL;
 
 export async function fetchInstance<T>(
   url: string,

@@ -10,10 +10,18 @@ import type { Locale } from "@/utils/format";
 
 import { isPaymentMethods, type PaymentMethods } from "../types/paymentType";
 
+// The gateway callback is opened by the buyer's browser, so it must use the
+// public production domain rather than the (possibly protected) deployment host.
+const VERCEL_PUBLIC_URL = process.env.VERCEL_PROJECT_PRODUCTION_URL
+  ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
+  : process.env.VERCEL_URL
+  ? `https://${process.env.VERCEL_URL}`
+  : "http://localhost:3000";
+
 const ZARINPAL_BASE_URL =
   process.env.NEXT_PUBLIC_BASE_URL ||
   process.env.NEXTAUTH_URL ||
-  "http://localhost:3000";
+  VERCEL_PUBLIC_URL;
 
 export async function requestZarinpalPayment(
   orderId: string,
